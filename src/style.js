@@ -8,7 +8,7 @@ export default StyleSheet.create({
     // common css start
     container: {
         flex: 1,
-        backgroundColor: '#fff'
+        backgroundColor: '#fff',
     },
     loading: {
         position: "absolute",
@@ -62,6 +62,11 @@ export default StyleSheet.create({
     },
     TouchScreenCSS: {
         padding: 25
+    },
+    googleMapView: {
+        width: 200,
+        height: 200,
+        textColor: '#f0f'
     },
     NavBarCreditView: {
         backgroundColor: '#656565',
@@ -3121,6 +3126,13 @@ export default StyleSheet.create({
         marginTop: 15,
         marginBottom: 15
     },
+    HTMLViewContainer: {
+        flex: 1,
+        marginTop: 30,
+        color: '#f0f',
+        width: 350,
+        height: 300
+    },
     MembershipMemberName: {
         marginTop: 15,
         color: '#00A6F5',
@@ -3149,6 +3161,10 @@ export default StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
+    },
+    map: {
+        width: '100%',
+        height: '100%',
     },
     product_list_image_col: {
         alignItems: 'center',

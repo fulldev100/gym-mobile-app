@@ -65,6 +65,7 @@ import History from "./Page/App/History/history";
 
 // Simplify APP
 import myHome from "./Page/App/Home/myHome";
+import location from "./Page/App/Location/location";
 
 class AuthLoadingScreen extends Component {
   constructor() {
@@ -171,14 +172,15 @@ const DrawerNavigator = createStackNavigator(
     ProductsList: ProductsList,
     history: History,
 
-    myHome: myHome
+    myHome: myHome,
+    location: location,
 
   },
   {
     headerMode: "none",
     initialRouteName: "myHome",
     // contentComponent: CustomSideBar,
-    
+
   }
 );
 

@@ -4,7 +4,7 @@
 
 /*Demo base API link*/
 
-export const BASE_URL = "http://24hr-fitness.eu/gym/?gmgt_json_api"; // 24hr-fitness.eu
+export const BASE_URL = "http://192.168.108.79/gym/?gmgt_json_api"; // 24hr-fitness.eu
 
 
 export const ACCESSRIGTHS = "menu_accessrigths";
@@ -94,6 +94,8 @@ export const SENTMESSAGELIST = "sentbox_message_list";
 export const NUTRITIONPLAN = "nutrition_list";
 
 export const HISTORYLIST = "history_list";
+
+export const HOME_GYM = "mobile_membership_payment_list";
 
 export const PRODUCTLIST = "sales_product_list";
 

@@ -12,11 +12,19 @@ import {
 import * as SecureStore from 'expo-secure-store';
 import { Col, Row } from 'react-native-easy-grid';
 import { connect } from "react-redux";
-import { fetchProductlist, loadingStart } from "../../redux/actions/product";
+import { fetchHomelist, loadingStart } from "../../redux/actions/home";
 import { t } from '../../../../locals';
 import styleCss from '../../../style.js';
+import { WebView } from 'react-native-webview';
 
-class MyProducts extends Component {
+const buggyHtml = `
+<style>/*! elementor - v3.9.2 - 21-12-2022 */<br />
+.elementor-widget-google_maps .elementor-widget-container{overflow:hidden}.elementor-widget-google_maps iframe{height:300px}
+</style>
+<iframe title="Bidovce 316" style="width: 100%; height: 100% !important" src="https://maps.google.com/maps?q=Bidovce%20316&amp;t=m&amp;z=10&amp;output=embed&amp;iwloc=near" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" aria-label="Bidovce 316"></iframe>
+`;
+
+class MyLocation extends Component {
     constructor(props) {
         super(props);
     }
@@ -29,23 +37,21 @@ class MyProducts extends Component {
         this.props.navigation.toggleDrawer();
     };
 
-
     componentDidMount() {
-        this.productlist();
+        this.myhomedata();
     }
 
-    async productlist() {
-        const { fetchProductlist, loadingStart } = this.props;
+    async myhomedata() {
+        const { fetchHomelist, loadingStart } = this.props;
         loadingStart();
         const Id = await SecureStore.getItemAsync("id");
         const Token = await SecureStore.getItemAsync("access_token");
 
-        const auth_data = {
+        const home_data = {
             "current_user_id": Id,
             "access_token": Token,
-            "member_id": Id
         };
-        fetchProductlist(auth_data);
+        fetchHomelist(home_data);
     }
 
     _onBlurr = () => {
@@ -54,7 +60,7 @@ class MyProducts extends Component {
     }
 
     onRefresh() {
-        this.productlist();
+        this.myhomedata();
     }
 
     _onFocus = () => {
@@ -65,30 +71,44 @@ class MyProducts extends Component {
     _handleBackButtonClick = () => this.props.navigation.navigate('myHome')
     renderItem = ({ item }) => {
         return (
-            <View>
-                <TouchableOpacity onPress={() => this.props.navigation.navigate('myProductSchedule', { productData:[item], paramKey1: item.sell_id, paramKey2: item.invoice_no })}>
+            <View style={styleCss.MembershipView}>
+                <Row style={styleCss.NaveBar}>
 
-                    <Row style={styleCss.nutrition_list_row}>
-                        <Col style={styleCss.nutrition_list_col}>
-                            <Col style={styleCss.product_list_image_col}>
-                                <Image style={styleCss.nutrition_list_image}
-                                    // source={require('../../../images/Date-blue-512.png')}
-                                    source={{uri: item.product_image}}
-                                />
-                            </Col>
-                        </Col>
-                        <Col style={styleCss.nutrition_list_details_col}>
-                            <Row style={styleCss.nutrition_list_details_row}>
-                                <Text style={styleCss.nutrition_list_details_label}></Text>
-                                <Text style={styleCss.nutrition_list_details_text}>{item.product_name_and_quantity}</Text>
-                            </Row>
+                    <Col style={styleCss.nutrition_list_name_col}>
+                        <Text style={styleCss.NaveText}>24hr-fitness.eu</Text>
+                    </Col>
+                    <Col style={styleCss.nutrition_list_name_col_1}>
+                    </Col>
 
-                            <Row style={styleCss.nutrition_list_details_row}>
-                                <Text style={styleCss.nutrition_list_details_label}>Amount : </Text>
-                                <Text style={styleCss.nutrition_list_details_text}>{item.paid_amount}</Text>
-                            </Row>
-                        </Col>
-                    </Row>
+                    <Col style={styleCss.AlignRightNavbar}>
+                        <View style={styleCss.NavBarCreditView}>
+                            <Text style={styleCss.NaveCreditTitleText}>Credit balance:</Text>
+                            <Text style={styleCss.NaveCreditText}>{item.amount} {item.currency_symbol}</Text>
+                        </View>
+                    </Col>
+                    <Col style={styleCss.AlignRightNavbar}>
+                        <Text style={styleCss.NaveText}>en</Text>
+                    </Col>
+                </Row>
+                <TouchableOpacity key={item} style={styleCss.TouchScreenCSS}>
+
+                    <View style={styleCss.ImageLogoContainer}>
+                        <WebView
+                            style={styleCss.HTMLViewContainer}
+                            originWhitelist={['*']}
+                            source={{ html: buggyHtml }}
+                            />
+                    </View>
+                    
+                    <Text style={styleCss.MembershipMemberName}>24Hr Fitness s.r.o.</Text>
+                    <Text style={styleCss.MembershipMemberName}>
+                        Bidovce 316
+                        04445 Bidovce
+                        Slovakia
+                    </Text>
+
+                    <Text style={styleCss.MembershipMemberEmail}>info@24hr-fitness.eu</Text>
+                    <Text style={styleCss.MembershipMemberEmail}>+421 915 841 077</Text>
 
                 </TouchableOpacity>
             </View>
@@ -102,31 +122,55 @@ class MyProducts extends Component {
         if (!loading) {
             return (
                 <View style={styleCss.containerMain}>
-                    <Row style={styleCss.NaveBar}>
-                        <Col style={styleCss.nutrition_list_name_col}>
-                            <Text style={styleCss.NaveText}>24hr-fitness.eu</Text>
-                        </Col>
-                        <Col style={styleCss.nutrition_list_name_col_1}>
-                        </Col>
-
-                        <Col style={styleCss.AlignRightNavbar}>
-                            <View style={styleCss.NavBarCreditView}>
-                                <Text style={styleCss.NaveCreditTitleText}>Credit balance:</Text>
-                                <Text style={styleCss.NaveCreditText}>0.00 €</Text>
-                            </View>
-                        </Col>
-                        <Col style={styleCss.AlignRightNavbar}>
-                            <Text style={styleCss.NaveText}>en</Text>
-                        </Col>
-                    </Row>
-
                     <FlatList
                         data={Data}
                         renderItem={this.renderItem}
-                        keyExtractor={(item) => item.sell_id}
                         style={styleCss.FlatListCss}
+                        keyExtractor={(item) => {item.invoice_id}}
                         ListEmptyComponent={
-                            <EmptyComponent title={t("Data not available")} />
+                            <>
+                            <View style={styleCss.MembershipView}>
+                                <Row style={styleCss.NaveBar}>
+
+                                    <Col style={styleCss.nutrition_list_name_col}>
+                                        <Text style={styleCss.NaveText}>24hr-fitness.eu</Text>
+                                    </Col>
+                                    <Col style={styleCss.nutrition_list_name_col_1}>
+                                    </Col>
+
+                                    <Col style={styleCss.AlignRightNavbar}>
+                                        <View style={styleCss.NavBarCreditView}>
+                                            <Text style={styleCss.NaveCreditTitleText}>Credit balance:</Text>
+                                            <Text style={styleCss.NaveCreditText}>0.00 €</Text>
+                                        </View>
+                                    </Col>
+                                    <Col style={styleCss.AlignRightNavbar}>
+                                        <Text style={styleCss.NaveText}>en</Text>
+                                    </Col>
+                                </Row>
+                                <TouchableOpacity key={1} style={styleCss.TouchScreenCSS}>
+
+                                    <View style={styleCss.ImageLogoContainer}>
+                                        <WebView
+                                            style={styleCss.HTMLViewContainer}
+                                            originWhitelist={['*']}
+                                            source={{ html: buggyHtml }}
+                                            />
+                                    </View>
+                                    
+                                    <Text style={styleCss.MembershipMemberName}>24Hr Fitness s.r.o.</Text>
+                                    <Text style={styleCss.MembershipMemberName}>
+                                        Bidovce 316
+                                        04445 Bidovce
+                                        Slovakia
+                                    </Text>
+
+                                    <Text style={styleCss.MembershipMemberEmail}>info@24hr-fitness.eu</Text>
+                                    <Text style={styleCss.MembershipMemberEmail}>+421 915 841 077</Text>
+
+                                </TouchableOpacity>
+                            </View>
+                            </>
                         }
                         refreshControl={
                             <RefreshControl
@@ -136,7 +180,6 @@ class MyProducts extends Component {
                             />
                         }
                     />
-
                     <View style={styleCss.bottomView}>
                         <View style={styleCss.bottomViewColumn}>
                             <TouchableOpacity onPress={() => this.props.navigation.navigate('myHome')} style={styleCss.message_col}>
@@ -147,11 +190,11 @@ class MyProducts extends Component {
                             </TouchableOpacity>
                         </View>
                         <View style={styleCss.bottomViewColumn}>
-                            <TouchableOpacity onPress={() => this.props.navigation.navigate('location')} style={styleCss.message_col}>
+                            <TouchableOpacity style={styleCss.message_col}>
                                 <Image style={styleCss.bottomViewColumnImg}
                                     source={require('../../../images/small_location.png')}
                                 />
-                                <Text style={styleCss.bottomViewColumnText}>Location</Text>
+                                <Text style={styleCss.bottomViewColumnTextActive}>Location</Text>
                             </TouchableOpacity>
                         </View>
                         <View style={styleCss.bottomViewColumn}>
@@ -159,11 +202,11 @@ class MyProducts extends Component {
                                 <Image style={styleCss.bottomViewColumnImg}
                                     source={require('../../../images/small_product.png')}
                                 />
-                                <Text style={styleCss.bottomViewColumnTextActive}>Product</Text>
+                                <Text style={styleCss.bottomViewColumnText}>Product</Text>
                             </TouchableOpacity>
                         </View>
                         <View style={styleCss.bottomViewColumn}>
-                            <TouchableOpacity onPress={() => this.productlist() } style={styleCss.message_col}>
+                            <TouchableOpacity onPress={() => this.myhomedata()} style={styleCss.message_col}>
                                 <Image style={styleCss.bottomViewColumnImg}
                                     source={require('../../../images/small_refresh.png')}
                                 />
@@ -192,11 +235,11 @@ class MyProducts extends Component {
                             </TouchableOpacity>
                         </View>
                         <View style={styleCss.bottomViewColumn}>
-                            <TouchableOpacity onPress={() => this.props.navigation.navigate('location')} style={styleCss.message_col}>
+                            <TouchableOpacity style={styleCss.message_col}>
                                 <Image style={styleCss.bottomViewColumnImg}
                                     source={require('../../../images/small_location.png')}
                                 />
-                                <Text style={styleCss.bottomViewColumnText}>Location</Text>
+                                <Text style={styleCss.bottomViewColumnTextActive}>Location</Text>
                             </TouchableOpacity>
                         </View>
                         <View style={styleCss.bottomViewColumn}>
@@ -204,11 +247,11 @@ class MyProducts extends Component {
                                 <Image style={styleCss.bottomViewColumnImg}
                                     source={require('../../../images/small_product.png')}
                                 />
-                                <Text style={styleCss.bottomViewColumnTextActive}>Product</Text>
+                                <Text style={styleCss.bottomViewColumnText}>Product</Text>
                             </TouchableOpacity>
                         </View>
                         <View style={styleCss.bottomViewColumn}>
-                            <TouchableOpacity onPress={() => this.productlist() } style={styleCss.message_col}>
+                            <TouchableOpacity onPress={() => this.myhomedata() } style={styleCss.message_col}>
                                 <Image style={styleCss.bottomViewColumnImg}
                                     source={require('../../../images/small_refresh.png')}
                                 />
@@ -221,8 +264,8 @@ class MyProducts extends Component {
             );
         }
     }
-
 }
+
 // empty component
 const EmptyComponent = ({ title }) => (
     <View style={styleCss.emptyContainer}>
@@ -232,14 +275,14 @@ const EmptyComponent = ({ title }) => (
 
 const mapStateToProps = (state) => {
     return {
-        Data: state.product.productData,
-        loading: state.product.loading,
+        Data: state.home.homeData,
+        loading: state.home.loading,
     };
 };
 
 const mapDispatchToProps = {
-    fetchProductlist,
+    fetchHomelist,
     loadingStart
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(MyProducts);
+export default connect(mapStateToProps, mapDispatchToProps)(MyLocation);

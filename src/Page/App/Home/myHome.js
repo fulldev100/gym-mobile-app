@@ -60,7 +60,7 @@ class Home extends Component {
             this._handleBackButtonClick);
     }
 
-    _handleBackButtonClick = () => this.props.navigation.navigate('home')
+    _handleBackButtonClick = () => this.props.navigation.navigate('myHome')
     renderItem = ({ item }) => {
         return (
             <View style={styleCss.MembershipView}>
@@ -79,9 +79,6 @@ class Home extends Component {
                         </View>
                     </Col>
                     <Col style={styleCss.AlignRightNavbar}>
-                        {/* <TouchableOpacity onPress={() => this.props.navigation.navigate('Message')} style={styleCss.message_col}>
-                            
-                        </TouchableOpacity> */}
                         <Text style={styleCss.NaveText}>en</Text>
                     </Col>
                 </Row>
@@ -158,7 +155,7 @@ class Home extends Component {
                             </TouchableOpacity>
                         </View>
                         <View style={styleCss.bottomViewColumn}>
-                            <TouchableOpacity onPress={() => this.props.navigation.navigate('Message')} style={styleCss.message_col}>
+                            <TouchableOpacity onPress={() => this.props.navigation.navigate('location')} style={styleCss.message_col}>
                                 <Image style={styleCss.bottomViewColumnImg}
                                     source={require('../../../images/small_location.png')}
                                 />
@@ -166,7 +163,7 @@ class Home extends Component {
                             </TouchableOpacity>
                         </View>
                         <View style={styleCss.bottomViewColumn}>
-                            <TouchableOpacity onPress={() => this.props.navigation.navigate('Message')} style={styleCss.message_col}>
+                            <TouchableOpacity onPress={() => this.props.navigation.navigate('products')} style={styleCss.message_col}>
                                 <Image style={styleCss.bottomViewColumnImg}
                                     source={require('../../../images/small_product.png')}
                                 />
@@ -203,7 +200,7 @@ class Home extends Component {
                             </TouchableOpacity>
                         </View>
                         <View style={styleCss.bottomViewColumn}>
-                            <TouchableOpacity onPress={() => this.props.navigation.navigate('Message')} style={styleCss.message_col}>
+                            <TouchableOpacity onPress={() => this.props.navigation.navigate('location')} style={styleCss.message_col}>
                                 <Image style={styleCss.bottomViewColumnImg}
                                     source={require('../../../images/small_location.png')}
                                 />
@@ -211,7 +208,7 @@ class Home extends Component {
                             </TouchableOpacity>
                         </View>
                         <View style={styleCss.bottomViewColumn}>
-                            <TouchableOpacity onPress={() => this.props.navigation.navigate('Message')} style={styleCss.message_col}>
+                            <TouchableOpacity onPress={() => this.props.navigation.navigate('products')} style={styleCss.message_col}>
                                 <Image style={styleCss.bottomViewColumnImg}
                                     source={require('../../../images/small_product.png')}
                                 />
@@ -238,43 +235,6 @@ class Home extends Component {
 const EmptyComponent = ({ title }) => (
     <View style={styleCss.emptyContainer}>
         <Text style={styleCss.emptyText}>{title}</Text>
-    </View>
-);
-
-const BottomBarComponent = () => (
-    <View style={styleCss.bottomView}>
-        <View style={styleCss.bottomViewColumn}>
-            <TouchableOpacity onPress={() => this.props.navigation.navigate('myHome')} style={styleCss.message_col}>
-                <Image style={styleCss.bottomViewColumnImg}
-                    source={require('../../../images/small_gym.png')}
-                />
-                <Text style={styleCss.bottomViewColumnTextActive}>Home</Text>
-            </TouchableOpacity>
-        </View>
-        <View style={styleCss.bottomViewColumn}>
-            <TouchableOpacity onPress={() => this.props.navigation.navigate('Message')} style={styleCss.message_col}>
-                <Image style={styleCss.bottomViewColumnImg}
-                    source={require('../../../images/small_location.png')}
-                />
-                <Text style={styleCss.bottomViewColumnText}>Location</Text>
-            </TouchableOpacity>
-        </View>
-        <View style={styleCss.bottomViewColumn}>
-            <TouchableOpacity onPress={() => this.props.navigation.navigate('Message')} style={styleCss.message_col}>
-                <Image style={styleCss.bottomViewColumnImg}
-                    source={require('../../../images/small_product.png')}
-                />
-                <Text style={styleCss.bottomViewColumnText}>Product</Text>
-            </TouchableOpacity>
-        </View>
-        <View style={styleCss.bottomViewColumn}>
-            <TouchableOpacity onPress={() => this.props.navigation.navigate('Message')} style={styleCss.message_col}>
-                <Image style={styleCss.bottomViewColumnImg}
-                    source={require('../../../images/small_refresh.png')}
-                />
-                <Text style={styleCss.bottomViewColumnText}>Refresh</Text>
-            </TouchableOpacity>
-        </View>
     </View>
 );
 
