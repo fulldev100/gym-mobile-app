@@ -3129,8 +3129,8 @@ export default StyleSheet.create({
         padding: 30
     },
     Membership_card_image: {
-        height: 280,
-        width: 280
+        height: 210,
+        width: 210
     },
     ProductsListTitleContainer: {
         ...Platform.select({
@@ -3192,7 +3192,7 @@ export default StyleSheet.create({
         textAlign: 'right'
     },
     MembershipCardView: {
-        marginTop: 80,
+        marginTop: 30,
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
@@ -3223,8 +3223,13 @@ export default StyleSheet.create({
         alignItems: 'flex-end',
     },
     button: {
+        backgroundColor: 'lightgray',
         width: '80%',
-        textAlign: 'right'
+        textAlign: 'right',
+        paddingLeft: 20,
+        paddingRight: 20,
+        paddingTop: 8,
+        paddingBottom: 8
     },
     buttonText: {
         color: '#656565',

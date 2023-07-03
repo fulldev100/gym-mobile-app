@@ -15,6 +15,8 @@ import { connect } from "react-redux";
 import { fetchHomelist, loadingStart } from "../../redux/actions/home";
 import { t } from '../../../../locals';
 import styleCss from '../../../style.js';
+import * as WebBrowser from 'expo-web-browser';
+
 
 class Home extends Component {
     constructor(props) {
@@ -71,7 +73,16 @@ class Home extends Component {
           ]);
           return true;
     }
-    
+
+    openBrowser = async (url) => {
+        // Check if the device supports opening URLs
+        await WebBrowser.openBrowserAsync(url);
+      };
+
+    handleOpenBrowser = () => {
+        this.openBrowser('http://24hr-fitness.eu');
+    };
+
     renderItem = ({ item }) => {
         return (
             <View style={styleCss.MembershipView}>
@@ -126,6 +137,11 @@ class Home extends Component {
                         </> :
                             <Text>{item.payment_status}</Text>
                         }
+                        <View style={styleCss.containerButton}>
+                            <TouchableOpacity style={styleCss.button} onPress={() => this.handleOpenBrowser() }>
+                                <Text style={styleCss.buttonText}>Open To Gym</Text>
+                            </TouchableOpacity>
+                        </View>
                     </View>
 
                 </TouchableOpacity>
