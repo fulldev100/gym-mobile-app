@@ -15,6 +15,7 @@ import { connect } from "react-redux";
 import { fetchProductlist, loadingStart } from "../../redux/actions/product";
 import { t } from '../../../../locals';
 import styleCss from '../../../style.js';
+import { Button } from 'react-native-paper';
 
 class MyProducts extends Component {
     constructor(props) {
@@ -65,13 +66,13 @@ class MyProducts extends Component {
     _handleBackButtonClick = () => this.props.navigation.navigate('myHome')
     renderItem = ({ item }) => {
         return (
-            <View>
+            <View style={styleCss.containterProductList}>
                 <TouchableOpacity onPress={() => this.props.navigation.navigate('myProductSchedule', { productData:[item], paramKey1: item.sell_id, paramKey2: item.invoice_no })}>
 
-                    <Row style={styleCss.nutrition_list_row}>
+                    <Row style={styleCss.product_list_row}>
                         <Col style={styleCss.nutrition_list_col}>
                             <Col style={styleCss.product_list_image_col}>
-                                <Image style={styleCss.nutrition_list_image}
+                                <Image style={styleCss.product_list_image}
                                     // source={require('../../../images/Date-blue-512.png')}
                                     source={{uri: item.product_image}}
                                 />
@@ -85,7 +86,15 @@ class MyProducts extends Component {
 
                             <Row style={styleCss.nutrition_list_details_row}>
                                 <Text style={styleCss.nutrition_list_details_label}>Amount : </Text>
-                                <Text style={styleCss.nutrition_list_details_text}>{item.paid_amount}</Text>
+                                <Text style={styleCss.nutrition_list_details_text}>{item.paid_amount} / </Text>
+
+                                <Text style={styleCss.nutrition_list_details_label}>Quantity : </Text>
+                                <Text style={styleCss.nutrition_list_details_text}>{item.quentity}</Text>
+                            </Row>
+
+                            <Row style={styleCss.nutrition_list_details_row}>
+                                <Text style={styleCss.nutrition_list_details_label}>Paid date : </Text>
+                                <Text style={styleCss.nutrition_list_details_text}>{item.created_date}</Text>
                             </Row>
                         </Col>
                     </Row>
@@ -101,7 +110,7 @@ class MyProducts extends Component {
 
         if (!loading) {
             return (
-                <View style={styleCss.containerMain}>
+                <View style={styleCss.container}>
                     <Row style={styleCss.NaveBar}>
                         <Col style={styleCss.nutrition_list_name_col}>
                             <Text style={styleCss.NaveText}>24hr-fitness.eu</Text>
@@ -117,6 +126,17 @@ class MyProducts extends Component {
                         </Col>
                         <Col style={styleCss.AlignRightNavbar}>
                             <Text style={styleCss.NaveText}>en</Text>
+                        </Col>
+                    </Row>
+
+                    <Row style={styleCss.ProductsListTitleContainer}>
+                        <Col>
+                            <Text style={styleCss.MembershipMemberName}>Paid products:</Text>
+                        </Col>
+                        <Col style={styleCss.containerButton}>
+                            <TouchableOpacity style={styleCss.button} onPress={() => this.props.navigation.navigate('ProductsList')}>
+                                <Text style={styleCss.buttonText}>View all products</Text>
+                            </TouchableOpacity>
                         </Col>
                     </Row>
 

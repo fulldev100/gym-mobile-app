@@ -109,7 +109,7 @@ class Home extends Component {
                             </Row>
                             <Image style={styleCss.Membership_card_image} source={
                                 item.card_number
-                                ? { uri: 'https://chart.googleapis.com/chart?cht=qr&chs=350x350&chl=' + item.card_number }
+                                ? { uri: 'https://chart.googleapis.com/chart?cht=qr&chs=400x400&chl=' + item.card_number }
                                 : null
                             } />
                         </> :

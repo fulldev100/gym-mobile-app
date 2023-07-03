@@ -47,7 +47,7 @@ export default StyleSheet.create({
                 alignItems: 'center',
                 paddingTop: normalize(25),
                 justifyContent: 'space-between',
-                
+                width: '100%'
             },
             android: {
                 height: normalize(60),
@@ -3083,6 +3083,21 @@ export default StyleSheet.create({
     },
     AlignRightNavbar: {
     },
+    containterProductList: {
+        flex: 1,
+        width: '100%',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    product_list_row: {
+        flex: 1,
+        borderBottomWidth: 0.4,
+        borderBottomColor: 'black',
+        height: 80,
+        minWidth: 400,
+        marginRight: '5%',
+        marginLeft: '5%'
+    },
     nutrition_list_row: {
         borderBottomWidth: 0.4,
         borderBottomColor: 'black',
@@ -3104,14 +3119,42 @@ export default StyleSheet.create({
         height: 60,
         width: 60,
     },
+    product_list_image: {
+        height: 60,
+        width: 60,
+    },
     nutrition_list_image: {
         height: 120,
         width: 120,
         padding: 30
     },
     Membership_card_image: {
-        height: 222,
-        width: 222
+        height: 280,
+        width: 280
+    },
+    ProductsListTitleContainer: {
+        ...Platform.select({
+            ios: {
+                height: normalize(75),
+                color: '#656565',
+                justifyContent: 'center',
+                alignItems: 'center',
+                paddingTop: normalize(25),
+                justifyContent: 'space-between',
+                width: '100%',
+                paddingLeft: 20
+                
+            },
+            android: {
+                height: normalize(60),
+                color: '#656565',
+                justifyContent: 'center',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                width: '100%',
+                paddingLeft: 20
+            }
+        })
     },
     MembershipTitle: {
         color: '#656565',
@@ -3173,6 +3216,21 @@ export default StyleSheet.create({
         borderRadius: 30,
         height: 60,
         width: 60,
+    },
+    containerButton: {
+        flex: 1,
+        justifyContent: 'flex-end',
+        alignItems: 'flex-end',
+    },
+    button: {
+        width: '80%',
+        textAlign: 'right'
+    },
+    buttonText: {
+        color: '#656565',
+        fontSize: 16,
+        fontWeight: 'bold',
+        textAlign: 'center',
     },
     nutrition_list_details_col: {
         justifyContent: 'center',

@@ -42,7 +42,8 @@ class productList extends Component {
             Alert.alert('Error', 'Please enter a number');
           } else {
             // Perform your desired action with the validated number
-            Alert.alert('Success', `You entered the number: ${this.state.amount_number}`);
+            //Alert.alert('Success', `You entered the number: ${this.state.amount_number}`);
+            Alert.alert('Success', `Please wait new version.`);
             
           }
       };
@@ -98,7 +99,7 @@ class productList extends Component {
             this._handleBackButtonClick);
     }
 
-    _handleBackButtonClick = () => this.props.navigation.navigate('Dashboard')
+    _handleBackButtonClick = () => this.props.navigation.navigate('myHome')
 
 
     // render item for flatlist
@@ -149,48 +150,25 @@ class productList extends Component {
             return (
 
                 <View style={styleCss.container}>
-
-                    <NavigationEvents
-                        onWillFocus={this._onFocus}
-                        onWillBlur={this._onBlurr}
-                    />
-                    <StatusBar />
+                    
                     <Row style={styleCss.NaveBar}>
-                        <Col>
-                            <TouchableOpacity onPress={() => this.props.navigation.navigate("CustomSideBar")} style={styleCss.menu_col}>
-                                <Image style={styleCss.Naveicon}
-                                    source={require('../../../images/Menu-white.png')}
-                                />
-                            </TouchableOpacity>
+                        <Col style={styleCss.nutrition_list_name_col}>
+                            <Text style={styleCss.NaveText}>24hr-fitness.eu</Text>
+                        </Col>
+                        <Col style={styleCss.nutrition_list_name_col_1}>
                         </Col>
 
-                        <Col>
-                            <TouchableOpacity onPress={() => navigate("Dashboard")} style={styleCss.back_arrow}>
-                                <Image style={styleCss.Naveicon}
-                                    source={require('../../../images/Back-Arrow-White.png')}
-                                />
-                            </TouchableOpacity>
+                        <Col style={styleCss.AlignRightNavbar}>
+                            <View style={styleCss.NavBarCreditView}>
+                                <Text style={styleCss.NaveCreditTitleText}>Credit balance:</Text>
+                                <Text style={styleCss.NaveCreditText}>0.00 €</Text>
+                            </View>
                         </Col>
-
-                        <Col style={styleCss.name_col}>
-                            <Text style={styleCss.NaveText}>{t("Product List")}</Text>
-                        </Col>
-
-                        <Col>
-                            <TouchableOpacity onPress={() => this.props.navigation.navigate('Workouts')} style={styleCss.workout_col}>
-                                <Image style={styleCss.Naveicon}
-                                    source={require('../../../images/Workout-White.png')}
-                                />
-                            </TouchableOpacity>
-                        </Col>
-                        <Col>
-                            <TouchableOpacity onPress={() => this.props.navigation.navigate('Message')} style={styleCss.message_col}>
-                                <Image style={styleCss.Naveicon}
-                                    source={require('../../../images/Message-white.png')}
-                                />
-                            </TouchableOpacity>
+                        <Col style={styleCss.AlignRightNavbar}>
+                            <Text style={styleCss.NaveText}>en</Text>
                         </Col>
                     </Row>
+
                     <View style={styleCss.mainContainer}>
                         <SafeAreaView style={styleCss.mainContainer}>
                             <FlatList
@@ -278,59 +256,88 @@ class productList extends Component {
                             </Col>
                         </SafeAreaView>
                     </View>
+
+                    <View style={styleCss.bottomView}>
+                        <View style={styleCss.bottomViewColumn}>
+                            <TouchableOpacity onPress={() => this.props.navigation.navigate('myHome')} style={styleCss.message_col}>
+                                <Image style={styleCss.bottomViewColumnImg}
+                                    source={require('../../../images/small_gym.png')}
+                                />
+                                <Text style={styleCss.bottomViewColumnText}>Home</Text>
+                            </TouchableOpacity>
+                        </View>
+                        <View style={styleCss.bottomViewColumn}>
+                            <TouchableOpacity onPress={() => this.props.navigation.navigate('location')} style={styleCss.message_col}>
+                                <Image style={styleCss.bottomViewColumnImg}
+                                    source={require('../../../images/small_location.png')}
+                                />
+                                <Text style={styleCss.bottomViewColumnText}>Location</Text>
+                            </TouchableOpacity>
+                        </View>
+                        <View style={styleCss.bottomViewColumn}>
+                            <TouchableOpacity onPress={() => this.props.navigation.navigate('products')} style={styleCss.message_col}>
+                                <Image style={styleCss.bottomViewColumnImg}
+                                    source={require('../../../images/small_product.png')}
+                                />
+                                <Text style={styleCss.bottomViewColumnTextActive}>Product</Text>
+                            </TouchableOpacity>
+                        </View>
+                        <View style={styleCss.bottomViewColumn}>
+                            <TouchableOpacity onPress={() => this.productListAction() } style={styleCss.message_col}>
+                                <Image style={styleCss.bottomViewColumnImg}
+                                    source={require('../../../images/small_refresh.png')}
+                                />
+                                <Text style={styleCss.bottomViewColumnText}>Refresh</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
                 </View>
 
             );
         } else {
             return (
-                <View style={styleCss.container}>
+                <View style={styleCss.containerMain}>
 
-                    <NavigationEvents
-                        onWillFocus={this._onFocus}
-                        onWillBlur={this._onBlurr}
-                    />
-                    <StatusBar />
-                    <Row style={styleCss.NaveBar}>
-                        <Col>
-                            <TouchableOpacity onPress={() => this.props.navigation.navigate("CustomSideBar")} style={styleCss.menu_col}>
-                                <Image style={styleCss.Naveicon}
-                                    source={require('../../../images/Menu-white.png')}
-                                />
-                            </TouchableOpacity>
-                        </Col>
-
-                        <Col>
-                            <TouchableOpacity onPress={() => navigate("products")} style={styleCss.back_arrow}>
-                                <Image style={styleCss.Naveicon}
-                                    source={require('../../../images/Back-Arrow-White.png')}
-                                />
-                            </TouchableOpacity>
-                        </Col>
-
-                        <Col style={styleCss.name_col}>
-                            <Text style={styleCss.NaveText}>{t("Product List")}</Text>
-                        </Col>
-
-                        <Col>
-                            <TouchableOpacity onPress={() => this.props.navigation.navigate('Workouts')} style={styleCss.workout_col}>
-                                <Image style={styleCss.Naveicon}
-                                    source={require('../../../images/Workout-White.png')}
-                                />
-                            </TouchableOpacity>
-                        </Col>
-                        <Col>
-                            <TouchableOpacity onPress={() => this.props.navigation.navigate('Message')} style={styleCss.message_col}>
-                                <Image style={styleCss.Naveicon}
-                                    source={require('../../../images/Message-white.png')}
-                                />
-                            </TouchableOpacity>
-                        </Col>
-                    </Row>
                     <ActivityIndicator
                         style={styleCss.loading}
                         size="large"
                         color="#102b46"
                     />
+
+                    <View style={styleCss.bottomView}>
+                        <View style={styleCss.bottomViewColumn}>
+                            <TouchableOpacity onPress={() => this.props.navigation.navigate('myHome')} style={styleCss.message_col}>
+                                <Image style={styleCss.bottomViewColumnImg}
+                                    source={require('../../../images/small_gym.png')}
+                                />
+                                <Text style={styleCss.bottomViewColumnText}>Home</Text>
+                            </TouchableOpacity>
+                        </View>
+                        <View style={styleCss.bottomViewColumn}>
+                            <TouchableOpacity onPress={() => this.props.navigation.navigate('location')} style={styleCss.message_col}>
+                                <Image style={styleCss.bottomViewColumnImg}
+                                    source={require('../../../images/small_location.png')}
+                                />
+                                <Text style={styleCss.bottomViewColumnText}>Location</Text>
+                            </TouchableOpacity>
+                        </View>
+                        <View style={styleCss.bottomViewColumn}>
+                            <TouchableOpacity onPress={() => this.props.navigation.navigate('products')} style={styleCss.message_col}>
+                                <Image style={styleCss.bottomViewColumnImg}
+                                    source={require('../../../images/small_product.png')}
+                                />
+                                <Text style={styleCss.bottomViewColumnTextActive}>Product</Text>
+                            </TouchableOpacity>
+                        </View>
+                        <View style={styleCss.bottomViewColumn}>
+                            <TouchableOpacity onPress={() => this.productListAction() } style={styleCss.message_col}>
+                                <Image style={styleCss.bottomViewColumnImg}
+                                    source={require('../../../images/small_refresh.png')}
+                                />
+                                <Text style={styleCss.bottomViewColumnText}>Refresh</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
                 </View>
 
             );
