@@ -63,6 +63,9 @@ import ViewProducts from "./Page/App/Products/myProducts";
 import ProductsList from "./Page/App/Products/productList";
 import History from "./Page/App/History/history";
 
+// Simplify APP
+import myHome from "./Page/App/Home/myHome";
+
 class AuthLoadingScreen extends Component {
   constructor() {
     super();
@@ -166,13 +169,16 @@ const DrawerNavigator = createStackNavigator(
     CustomSideBar: CustomSideBar,
     products: ViewProducts,
     ProductsList: ProductsList,
-    history: History
+    history: History,
+
+    myHome: myHome
 
   },
   {
     headerMode: "none",
-    initialRouteName: "Dashboard",
-    contentComponent: CustomSideBar,
+    initialRouteName: "myHome",
+    // contentComponent: CustomSideBar,
+    
   }
 );
 

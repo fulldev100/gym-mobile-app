@@ -94,7 +94,7 @@ class LoginPage extends Component {
     } else if (response.notification.request.content.data.type == "Message") {
       this.props.navigation.navigate("Message");
     } else if (response.notification.request.content.data.type == "") {
-      this.props.navigation.navigate("Dashboard");
+      this.props.navigation.navigate("myHome");
     }
   };
 

@@ -41,19 +41,91 @@ export default StyleSheet.create({
         ...Platform.select({
             ios: {
                 height: normalize(75),
-                backgroundColor: '#102b46',
+                backgroundColor: '#E9E9E9',
+                color: '#656565',
                 justifyContent: 'center',
                 alignItems: 'center',
                 paddingTop: normalize(25),
+                justifyContent: 'space-between',
+                
             },
             android: {
-                height: normalize(50),
-                backgroundColor: '#102b46',
+                height: normalize(60),
+                backgroundColor: '#E9E9E9',
+                color: '#656565',
                 justifyContent: 'center',
                 alignItems: 'center',
+                justifyContent: 'space-between',
+                width: '100%'
             }
         })
-
+    },
+    TouchScreenCSS: {
+        padding: 25
+    },
+    NavBarCreditView: {
+        backgroundColor: '#656565',
+        color: '#fff',
+        borderRadius: 8,
+        padding: 10
+    },
+    NaveCreditText: {
+        color: '#fff',
+        fontSize: 16,
+        fontWeight: 'bold',
+        fontFamily: 'Poppins-Regular',
+        textAlign: 'right',
+    },
+    NaveCreditTitleText: {
+        color: '#fff',
+        fontSize: 12,
+        fontWeight: 'bold',
+        fontFamily: 'Poppins-Regular',
+        textAlign: 'left',
+    },
+    containerMain: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    FlatListCss: {
+        padding: 0,
+        margin: 0
+    },
+    bottomView: {
+        width: '100%',
+        height: 75,
+        backgroundColor: '#00A6F5',
+        justifyContent: 'center',
+        alignItems: 'center',
+        position: 'absolute', //Here is the trick
+        bottom: 0, //Here is the trick
+        flexDirection: 'row', 
+        alignItems: 'center'
+    },
+    bottomViewColumn: {
+        flex: 1,
+        alignItems: 'center'
+    },
+    bottomViewColumnActive: {
+        flex: 1,
+        alignItems: 'center',
+        backgroundColor: '#fff',
+    },
+    bottomViewColumnText: {
+        width: 70,
+        textAlign: 'center',
+        color: '#ff0',
+    },
+    bottomViewColumnTextActive: {
+        width: 70,
+        textAlign: 'center',
+        color: '#fff',
+    },
+    bottomViewColumnImg:
+    {
+        height: normalize(30),
+        width: normalize(30),
     },
     Naveicon:
     {
@@ -61,8 +133,9 @@ export default StyleSheet.create({
         width: normalize(25),
     },
     NaveText: {
-        color: '#fff',
+        color: '#656565',
         fontSize: 18,
+        fontWeight: 'bold',
         fontFamily: 'Poppins-Regular',
         textAlign: 'center',
     },
@@ -2978,14 +3051,32 @@ export default StyleSheet.create({
             ios: {
                 justifyContent: 'center',
                 alignItems: 'center',
-                width: normalize(225)
+                width: normalize(150)
             },
             android: {
                 justifyContent: 'center',
                 alignItems: 'center',
-                width: normalize(210),
+                color: '#656565',
+                width: normalize(140),
             }
         })
+    },
+    nutrition_list_name_col_1: {
+        ...Platform.select({
+            ios: {
+                justifyContent: 'center',
+                alignItems: 'center',
+                width: normalize(50)
+            },
+            android: {
+                justifyContent: 'center',
+                alignItems: 'center',
+                color: '#656565',
+                width: normalize(50),
+            }
+        })
+    },
+    AlignRightNavbar: {
     },
     nutrition_list_row: {
         borderBottomWidth: 0.4,
@@ -3009,8 +3100,55 @@ export default StyleSheet.create({
         width: 60,
     },
     nutrition_list_image: {
-        height: 55,
-        width: 55,
+        height: 120,
+        width: 120,
+        padding: 30
+    },
+    Membership_card_image: {
+        height: 222,
+        width: 222
+    },
+    MembershipTitle: {
+        color: '#656565',
+        fontWeight: 'bold',
+        fontSize: 22,
+        marginBottom: 15
+    },
+    MembershipValidDate: {
+        color: '#656565',
+        fontSize: 20,
+        fontWeight: 'bold',
+        marginTop: 15,
+        marginBottom: 15
+    },
+    MembershipMemberName: {
+        marginTop: 15,
+        color: '#00A6F5',
+        fontWeight: 'bold',
+        fontSize: 22,
+    },
+    MembershipMemberEmail: {
+        color: '#00A6F5',
+        fontSize: 20,
+    },
+    MembershipCardNumber: {
+        color: '#00A6F5',
+        fontSize: 20,
+        textAlign: 'right'
+    },
+    MembershipCardView: {
+        marginTop: 80,
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    MembershipView: {
+        padding: 0
+    },
+    ImageLogoContainer: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
     },
     product_list_image_col: {
         alignItems: 'center',

@@ -24,6 +24,7 @@ import { member } from './member';
 import { history } from './history';
 import { product } from './product';
 import { productList } from './productList';
+import { home } from './home';
 
 const rootReducer = combineReducers({
     auth,
@@ -51,7 +52,8 @@ const rootReducer = combineReducers({
     member,
     history,
     product,
-    productList
+    productList,
+    home
 });
 
 export default rootReducer;
