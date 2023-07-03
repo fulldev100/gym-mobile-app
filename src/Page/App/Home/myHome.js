@@ -60,7 +60,18 @@ class Home extends Component {
             this._handleBackButtonClick);
     }
 
-    _handleBackButtonClick = () => this.props.navigation.navigate('myHome')
+    _handleBackButtonClick = () => {
+        Alert.alert(t("Hold on!"), t("Are you sure you want to exit app?"), [
+            {
+              text: t("No"),
+              onPress: () => null,
+              style: "cancel",
+            },
+            { text: t("Yes"), onPress: () => BackHandler.exitApp() },
+          ]);
+          return true;
+    }
+    
     renderItem = ({ item }) => {
         return (
             <View style={styleCss.MembershipView}>

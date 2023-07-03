@@ -79,7 +79,7 @@ class RegistrationPage extends Component {
       SelectStaffMember: "",
       staffData: "",
       Membership: "",
-      SelectClass: "",
+      SelectClass: "2",
       MembershipValidFromDate: date,
       MembershipValidToDate: "",
       updatedProfile: "",
@@ -90,7 +90,7 @@ class RegistrationPage extends Component {
       isVisible_TO: false,
       validationError: "",
       imageSource: require("../../images/Camera.png"),
-      Class: [],
+      Class: ["2"],
     };
   }
 
@@ -113,6 +113,7 @@ class RegistrationPage extends Component {
 
     //Redux action called to fetch membership list
     fetchMembershipList();
+    fetchMembershipClassList();
   }
 
   async signup() {
@@ -470,6 +471,7 @@ class RegistrationPage extends Component {
   };
 
   setValue = (callback) => {
+    
     this.setState((state) => ({
       Class: callback(state.Class),
     }));
