@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
-import { SafeAreaView, Modal, BackHandler, TouchableHighlight, ActivityIndicator, RefreshControl, Alert, Text, Button, TextInput, View, Image, FlatList, TouchableOpacity, StatusBar, ScrollView, } from 'react-native';
+import { SafeAreaView, Modal, BackHandler, TouchableHighlight, ActivityIndicator, RefreshControl, Alert, Text, Button, TextInput, View, Image, FlatList, TouchableOpacity, StatusBar, ScrollView } from 'react-native';
 import { Col, Row } from 'react-native-easy-grid';
 import * as SecureStore from 'expo-secure-store';
-import { NavigationEvents } from 'react-navigation';
 import { connect } from "react-redux";
 import { fetchProductlist, loadingStart, viewProduct } from "../../redux/actions/productList";
 import { t } from '../../../../locals';
 import styleCss from '../../../style';
 import Paypal from '../../../util/Paypal';
+import { Logoutmember } from "../../redux/actions/auth";
+
 // import { PayPal} from 'react-native-paypal';
 // import { WebView } from 'react-native-webview';
 
@@ -64,6 +65,32 @@ class productList extends Component {
 
     componentDidMount() {
         this.productListAction();
+    }
+
+    logout = async () => {
+        Alert.alert(t("Gym App"), t("Are you sure you want to exit app?"), [
+          {
+            text: t("No"),
+            onPress: () => this.productListAction(),
+            style: "cancel",
+          },
+          { text: t("Yes"), onPress: () => this.memberLogout()},
+        ]);
+        // await SecureStore.deleteItemAsync("userid");
+        // await SecureStore.deleteItemAsync("access_token");
+      };
+    
+    async memberLogout() {
+        const { Logoutmember, loadingStart } = this.props;
+        const { navigate } = this.props.navigation;
+        loadingStart();
+        const Id = await SecureStore.getItemAsync("id");
+        const Token = await SecureStore.getItemAsync("access_token");
+        const userData = {
+            "current_user_id": Id,
+            "access_token": Token,
+        };
+        Logoutmember(userData, navigate);
     }
 
     async productListAction() {
@@ -152,6 +179,14 @@ class productList extends Component {
                 <View style={styleCss.container}>
                     
                     <Row style={styleCss.NaveBar}>
+
+                        <Col>
+                            <TouchableOpacity style={styleCss.logout_image} onPress={() => this.logout() }>
+                                <Image style={styleCss.logout_image}
+                                    source={require('../../../images/Logout-white.png')}
+                                />
+                            </TouchableOpacity>
+                        </Col>
                         <Col style={styleCss.nutrition_list_name_col}>
                             <Text style={styleCss.NaveText}>24hr-fitness.eu</Text>
                         </Col>
@@ -176,7 +211,33 @@ class productList extends Component {
                                 keyExtractor={(item) => item.product_id}
                                 renderItem={this.renderItem}
                                 ListEmptyComponent={
+                                    <>
+                                    <Row style={styleCss.NaveBar}>
+                                        <Col>
+                                            <TouchableOpacity style={styleCss.logout_image} onPress={() => this.logout() }>
+                                                <Image style={styleCss.logout_image}
+                                                    source={require('../../../images/Logout-white.png')}
+                                                />
+                                            </TouchableOpacity>
+                                        </Col>
+                                        <Col style={styleCss.nutrition_list_name_col}>
+                                            <Text style={styleCss.NaveText}>24hr-fitness.eu</Text>
+                                        </Col>
+                                        <Col style={styleCss.nutrition_list_name_col_1}>
+                                        </Col>
+
+                                        <Col style={styleCss.AlignRightNavbar}>
+                                            <View style={styleCss.NavBarCreditView}>
+                                                <Text style={styleCss.NaveCreditTitleText}>Credit balance:</Text>
+                                                <Text style={styleCss.NaveCreditText}>0.00 €</Text>
+                                            </View>
+                                        </Col>
+                                        <Col style={styleCss.AlignRightNavbar}>
+                                            <Text style={styleCss.NaveText}>en</Text>
+                                        </Col>
+                                    </Row>
                                     <EmptyComponent title={t("Data not available")} />
+                                    </>
                                 }
                                 refreshControl={
                                     <RefreshControl
@@ -363,6 +424,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = {
     fetchProductlist,
     // viewProduct,
+    Logoutmember,
     loadingStart
 };
 

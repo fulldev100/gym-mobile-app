@@ -8,11 +8,13 @@ import {
     Image,
     FlatList,
     TouchableOpacity,
+    Alert,
 } from 'react-native';
 import * as SecureStore from 'expo-secure-store';
 import { Col, Row } from 'react-native-easy-grid';
 import { connect } from "react-redux";
 import { fetchHomelist, loadingStart } from "../../redux/actions/home";
+import { Logoutmember } from "../../redux/actions/auth";
 import { t } from '../../../../locals';
 import styleCss from '../../../style.js';
 import { WebView } from 'react-native-webview';
@@ -33,6 +35,31 @@ class MyLocation extends Component {
             headerShown: false,
         };
     };
+    logout = async () => {
+        Alert.alert(t("Gym App"), t("Are you sure you want to exit app?"), [
+          {
+            text: t("No"),
+            onPress: () => this.myhomedata(),
+            style: "cancel",
+          },
+          { text: t("Yes"), onPress: () => this.memberLogout()},
+        ]);
+        // await SecureStore.deleteItemAsync("userid");
+        // await SecureStore.deleteItemAsync("access_token");
+      };
+    
+    async memberLogout() {
+        const { Logoutmember, loadingStart } = this.props;
+        const { navigate } = this.props.navigation;
+        loadingStart();
+        const Id = await SecureStore.getItemAsync("id");
+        const Token = await SecureStore.getItemAsync("access_token");
+        const userData = {
+            "current_user_id": Id,
+            "access_token": Token,
+        };
+        Logoutmember(userData, navigate);
+    }
     toggleDrawer = ({ navigation }) => {
         this.props.navigation.toggleDrawer();
     };
@@ -73,6 +100,13 @@ class MyLocation extends Component {
         return (
             <View style={styleCss.MembershipView}>
                 <Row style={styleCss.NaveBar}>
+                    <Col>
+                        <TouchableOpacity style={styleCss.logout_image} onPress={() => this.logout() }>
+                            <Image style={styleCss.logout_image}
+                                source={require('../../../images/Logout-white.png')}
+                            />
+                        </TouchableOpacity>
+                    </Col>
 
                     <Col style={styleCss.nutrition_list_name_col}>
                         <Text style={styleCss.NaveText}>24hr-fitness.eu</Text>
@@ -131,7 +165,13 @@ class MyLocation extends Component {
                             <>
                             <View style={styleCss.MembershipView}>
                                 <Row style={styleCss.NaveBar}>
-
+                                    <Col>
+                                        <TouchableOpacity style={styleCss.logout_image} onPress={() => this.logout() }>
+                                            <Image style={styleCss.logout_image}
+                                                source={require('../../../images/Logout-white.png')}
+                                            />
+                                        </TouchableOpacity>
+                                    </Col>
                                     <Col style={styleCss.nutrition_list_name_col}>
                                         <Text style={styleCss.NaveText}>24hr-fitness.eu</Text>
                                     </Col>
@@ -266,13 +306,6 @@ class MyLocation extends Component {
     }
 }
 
-// empty component
-const EmptyComponent = ({ title }) => (
-    <View style={styleCss.emptyContainer}>
-        <Text style={styleCss.emptyText}>{title}</Text>
-    </View>
-);
-
 const mapStateToProps = (state) => {
     return {
         Data: state.home.homeData,
@@ -282,6 +315,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
     fetchHomelist,
+    Logoutmember,
     loadingStart
 };
 

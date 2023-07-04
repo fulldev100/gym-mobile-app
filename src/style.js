@@ -3056,13 +3056,13 @@ export default StyleSheet.create({
             ios: {
                 justifyContent: 'center',
                 alignItems: 'center',
-                width: normalize(150)
+                width: normalize(130)
             },
             android: {
                 justifyContent: 'center',
                 alignItems: 'center',
                 color: '#656565',
-                width: normalize(140),
+                width: normalize(120),
             }
         })
     },
@@ -3118,6 +3118,11 @@ export default StyleSheet.create({
         borderWidth: 1,
         height: 60,
         width: 60,
+    },
+    logout_image: {
+        height: 35,
+        width: 35,
+        paddingLeft: 10
     },
     product_list_image: {
         height: 60,
