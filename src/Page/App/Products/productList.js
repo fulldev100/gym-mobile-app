@@ -6,8 +6,9 @@ import { connect } from "react-redux";
 import { fetchProductlist, loadingStart, viewProduct } from "../../redux/actions/productList";
 import { t } from '../../../../locals';
 import styleCss from '../../../style';
-import Paypal from '../../../util/Paypal';
+//import Paypal from '../../../util/Paypal';
 import { Logoutmember } from "../../redux/actions/auth";
+import * as WebBrowser from 'expo-web-browser';
 
 // import { PayPal} from 'react-native-paypal';
 // import { WebView } from 'react-native-webview';
@@ -36,18 +37,24 @@ class productList extends Component {
             else this.setState({ amount_number: inputNumber });
         }
       };
+
+    openBrowser = async (url) => {
+        // Check if the device supports opening URLs
+        await WebBrowser.openBrowserAsync(url);
+      };
     
     handleBuyPress = async () => {
         // Handle button press event
-        if (this.state.amount_number === '') {
-            Alert.alert('Error', 'Please enter a number');
-          } else {
-            // Perform your desired action with the validated number
-            //Alert.alert('Success', `You entered the number: ${this.state.amount_number}`);
-            Alert.alert('Success', `Please wait new version.`);
+        // if (this.state.amount_number === '') {
+        //     Alert.alert('Error', 'Please enter a number');
+        //   } else {
+        //     // Perform your desired action with the validated number
+        //     //Alert.alert('Success', `You entered the number: ${this.state.amount_number}`);
+        //     Alert.alert('Success', `Please wait new version.`);
             
-          }
-      };
+        //   }
+        this.openBrowser('https://24hr-fitness.eu/products/');
+    };
 
     static navigationOptions = ({ navigation }) => {
         return {
@@ -188,17 +195,11 @@ class productList extends Component {
                             </TouchableOpacity>
                         </Col>
                         <Col style={styleCss.nutrition_list_name_col}>
-                            <Text style={styleCss.NaveText}>24hr-fitness.eu</Text>
+                            <Text style={styleCss.NaveText}></Text>
                         </Col>
                         <Col style={styleCss.nutrition_list_name_col_1}>
                         </Col>
 
-                        <Col style={styleCss.AlignRightNavbar}>
-                            <View style={styleCss.NavBarCreditView}>
-                                <Text style={styleCss.NaveCreditTitleText}>Credit balance:</Text>
-                                <Text style={styleCss.NaveCreditText}>0.00 €</Text>
-                            </View>
-                        </Col>
                         <Col style={styleCss.AlignRightNavbar}>
                             <Text style={styleCss.NaveText}>en</Text>
                         </Col>
@@ -212,30 +213,6 @@ class productList extends Component {
                                 renderItem={this.renderItem}
                                 ListEmptyComponent={
                                     <>
-                                    <Row style={styleCss.NaveBar}>
-                                        <Col>
-                                            <TouchableOpacity style={styleCss.logout_image} onPress={() => this.logout() }>
-                                                <Image style={styleCss.logout_image}
-                                                    source={require('../../../images/Logout-white.png')}
-                                                />
-                                            </TouchableOpacity>
-                                        </Col>
-                                        <Col style={styleCss.nutrition_list_name_col}>
-                                            <Text style={styleCss.NaveText}>24hr-fitness.eu</Text>
-                                        </Col>
-                                        <Col style={styleCss.nutrition_list_name_col_1}>
-                                        </Col>
-
-                                        <Col style={styleCss.AlignRightNavbar}>
-                                            <View style={styleCss.NavBarCreditView}>
-                                                <Text style={styleCss.NaveCreditTitleText}>Credit balance:</Text>
-                                                <Text style={styleCss.NaveCreditText}>0.00 €</Text>
-                                            </View>
-                                        </Col>
-                                        <Col style={styleCss.AlignRightNavbar}>
-                                            <Text style={styleCss.NaveText}>en</Text>
-                                        </Col>
-                                    </Row>
                                     <EmptyComponent title={t("Data not available")} />
                                     </>
                                 }
@@ -275,13 +252,13 @@ class productList extends Component {
                                                 <View style={styleCss.Product_amount_container}>
                                                     <Text numberOfLines={1} style={styleCss.group_name_text}>{Member_Data.product_price}</Text>
                                                    
-                                                    <TextInput
+                                                    {/* <TextInput
                                                         style={styleCss.Product_input}
                                                         onChangeText={this.handleNumberChange}
                                                         value={this.state.amount_number}
                                                         placeholder=""
                                                     >
-                                                    </TextInput>
+                                                    </TextInput> */}
 
                                                     {/* <TouchableOpacity
                                                         style={styles.addFundsButton}
@@ -297,8 +274,7 @@ class productList extends Component {
                                                         onPaymentError={(error) => console.log(error)}
                                                         onPaymentCancel={() => console.log("Payment cancelled")}
                                                         /> */}
-                                                    <Paypal></Paypal>
-                                                    <Button title="Buy" color={'#f4ba16'} style={styleCss.Product_buy_button} onPress={() => this.handleBuyPress()} />
+                                                    <Button title="Open to buy page" color={'#f4ba16'} style={styleCss.Product_buy_button} onPress={() => this.handleBuyPress()} />
                                                 </View>
                                                 <Image onLoadStart={(e) => this.setState({ ImageLoading: true })}
                                                     onLoadEnd={(e) => this.setState({ ImageLoading: false })}

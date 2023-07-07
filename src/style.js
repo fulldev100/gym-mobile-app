@@ -1357,11 +1357,15 @@ export default StyleSheet.create({
         maxHeight: 400,
         width: '100%'
     },
+    ZoomProductImage: {
+        height: '80%',
+        width: '80%'
+    },
     Product_amount_container:  {
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
-        margin: 15
+        // margin: 15
     },
     Product_input: {
         width: 40,
@@ -1417,6 +1421,21 @@ export default StyleSheet.create({
         elevation: 300,
         height: Dimensions.get('window').height,
         backgroundColor: "rgba(100,100,100, 0.8)",
+    },
+    qr_modal_main_view: {
+        shadowOffset: { width: 0, height: 1, },
+        elevation: 300,
+        height: Dimensions.get('window').height,
+        backgroundColor: "rgba(100,100,100, 0.1)",
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    zoomQRCode: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: 550,
+        height: 550,
     },
     group_modal_view: {
         height: normalize(300),

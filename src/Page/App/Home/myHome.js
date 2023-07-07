@@ -9,6 +9,7 @@ import {
     FlatList,
     TouchableOpacity,
     Alert,
+    Modal,
 } from 'react-native';
 import * as SecureStore from 'expo-secure-store';
 import { Col, Row } from 'react-native-easy-grid';
@@ -23,6 +24,11 @@ import * as WebBrowser from 'expo-web-browser';
 class Home extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            ImageLoading: false,
+            modalVisible: false,
+            cardNumber: ''
+        }
     }
     static navigationOptions = ({ navigation }) => {
         return {
@@ -32,6 +38,14 @@ class Home extends Component {
     toggleDrawer = ({ navigation }) => {
         this.props.navigation.toggleDrawer();
     };
+
+    Visible(modalVisible) {
+        this.setState({ modalVisible: false });
+    }
+
+    async setModalVisible(cardNumber) {
+        this.setState({ cardNumber: cardNumber,modalVisible: true });
+    }
 
     logout = async () => {
         Alert.alert(t("Gym App"), t("Are you sure you want to exit app?"), [
@@ -112,6 +126,7 @@ class Home extends Component {
     };
 
     renderItem = ({ item }) => {
+        const { modalVisible, cardNumber } = this.state;
         return (
             <View style={styleCss.MembershipView}>
                 <Row style={styleCss.NaveBar}>
@@ -130,7 +145,7 @@ class Home extends Component {
 
                     <Col style={styleCss.AlignRightNavbar}>
                         <View style={styleCss.NavBarCreditView}>
-                            <Text style={styleCss.NaveCreditTitleText}>Credit balance:</Text>
+                            <Text style={styleCss.NaveCreditTitleText}>Price:</Text>
                             <Text style={styleCss.NaveCreditText}>{item.amount} {item.currency_symbol}</Text>
                         </View>
                     </Col>
@@ -138,7 +153,7 @@ class Home extends Component {
                         <Text style={styleCss.NaveText}>en</Text>
                     </Col>
                 </Row>
-                <TouchableOpacity key={item} style={styleCss.TouchScreenCSS}>
+                <TouchableOpacity key={item} onPress={() => this.setModalVisible(item.card_number)} style={styleCss.TouchScreenCSS}>
 
                     <Text style={styleCss.MembershipTitle}>{item.membership_title}</Text>
 
@@ -165,7 +180,7 @@ class Home extends Component {
                             </Row>
                             <Image style={styleCss.Membership_card_image} source={
                                 item.card_number
-                                ? { uri: 'https://chart.googleapis.com/chart?cht=qr&chs=400x400&chl=' + item.card_number }
+                                ? { uri: 'https://chart.googleapis.com/chart?cht=qr&chs=300x300&chl=' + item.card_number }
                                 : null
                             } />
                         </> :
@@ -173,9 +188,43 @@ class Home extends Component {
                         }
                         <View style={styleCss.containerButton}>
                             <TouchableOpacity style={styleCss.button} onPress={() => this.handleOpenBrowser() }>
-                                <Text style={styleCss.buttonText}>Open To Gym</Text>
+                                <Text style={styleCss.buttonText}>Open to buy page</Text>
                             </TouchableOpacity>
                         </View>
+
+                        <Modal
+                        animationType="slide"
+                        transparent={true}
+                        visible={modalVisible}>
+
+                        <View style={styleCss.qr_modal_main_view}>
+
+                            <View style={styleCss.SubImageContainer}>
+                        
+                                <View key={1} style={styleCss.SubImageContainer}>
+                                    
+                                    <TouchableOpacity onPress={() => { this.Visible(!modalVisible) }} style={styleCss.zoomQRCode}>
+                                        <Image onLoadStart={(e) => this.setState({ ImageLoading: true })}
+                                            onLoadEnd={(e) => this.setState({ ImageLoading: false })}
+                                            source={
+                                                item.card_number
+                                                ? { uri: 'https://chart.googleapis.com/chart?cht=qr&chs=300x300&chl=' + item.card_number }
+                                                : null
+                                            }
+                                            style={styleCss.ZoomProductImage} />
+                                    </TouchableOpacity>
+                                    
+                                    <ActivityIndicator
+                                        style={styleCss.loading}
+                                        animating={this.state.ImageLoading}
+                                        // size="small"
+                                        color="#102b46"
+                                    />
+                                </View>
+                            </View>
+                        </View>
+                    </Modal>
+
                     </View>
 
                 </TouchableOpacity>
@@ -183,7 +232,7 @@ class Home extends Component {
         )
     }
     render() {
-
+        const { modalVisible, cardNumber } = this.state;
         const { navigate } = this.props.navigation;
         const { Data, loading } = this.props;
 
@@ -213,7 +262,7 @@ class Home extends Component {
 
                                 <Col style={styleCss.AlignRightNavbar}>
                                     <View style={styleCss.NavBarCreditView}>
-                                        <Text style={styleCss.NaveCreditTitleText}>Credit balance:</Text>
+                                        <Text style={styleCss.NaveCreditTitleText}>Price:</Text>
                                         <Text style={styleCss.NaveCreditText}>0.00 €</Text>
                                     </View>
                                 </Col>
@@ -233,6 +282,7 @@ class Home extends Component {
                             />
                         }
                     />
+                    
                     <View style={styleCss.bottomView}>
                         <View style={styleCss.bottomViewColumn}>
                             <TouchableOpacity onPress={() => this.props.navigation.navigate('myHome')} style={styleCss.message_col}>

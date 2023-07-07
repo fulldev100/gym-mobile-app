@@ -148,17 +148,11 @@ class MyProducts extends Component {
                             </TouchableOpacity>
                         </Col>
                         <Col style={styleCss.nutrition_list_name_col}>
-                            <Text style={styleCss.NaveText}>24hr-fitness.eu</Text>
+                            <Text style={styleCss.NaveText}></Text>
                         </Col>
                         <Col style={styleCss.nutrition_list_name_col_1}>
                         </Col>
 
-                        <Col style={styleCss.AlignRightNavbar}>
-                            <View style={styleCss.NavBarCreditView}>
-                                <Text style={styleCss.NaveCreditTitleText}>Credit balance:</Text>
-                                <Text style={styleCss.NaveCreditText}>0.00 €</Text>
-                            </View>
-                        </Col>
                         <Col style={styleCss.AlignRightNavbar}>
                             <Text style={styleCss.NaveText}>en</Text>
                         </Col>
@@ -182,30 +176,6 @@ class MyProducts extends Component {
                         style={styleCss.FlatListCss}
                         ListEmptyComponent={
                             <>
-                            <Row style={styleCss.NaveBar}>
-                                <Col>
-                                    <TouchableOpacity style={styleCss.logout_image} onPress={() => this.logout() }>
-                                        <Image style={styleCss.logout_image}
-                                            source={require('../../../images/Logout-white.png')}
-                                        />
-                                    </TouchableOpacity>
-                                </Col>
-                                <Col style={styleCss.nutrition_list_name_col}>
-                                    <Text style={styleCss.NaveText}>24hr-fitness.eu</Text>
-                                </Col>
-                                <Col style={styleCss.nutrition_list_name_col_1}>
-                                </Col>
-
-                                <Col style={styleCss.AlignRightNavbar}>
-                                    <View style={styleCss.NavBarCreditView}>
-                                        <Text style={styleCss.NaveCreditTitleText}>Credit balance:</Text>
-                                        <Text style={styleCss.NaveCreditText}>0.00 €</Text>
-                                    </View>
-                                </Col>
-                                <Col style={styleCss.AlignRightNavbar}>
-                                    <Text style={styleCss.NaveText}>en</Text>
-                                </Col>
-                            </Row>
                             <EmptyComponent title={t("Data not available")} />
                             </>
                         }

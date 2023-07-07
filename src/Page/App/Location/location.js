@@ -109,17 +109,11 @@ class MyLocation extends Component {
                     </Col>
 
                     <Col style={styleCss.nutrition_list_name_col}>
-                        <Text style={styleCss.NaveText}>24hr-fitness.eu</Text>
+                        <Text style={styleCss.NaveText}></Text>
                     </Col>
                     <Col style={styleCss.nutrition_list_name_col_1}>
                     </Col>
 
-                    <Col style={styleCss.AlignRightNavbar}>
-                        <View style={styleCss.NavBarCreditView}>
-                            <Text style={styleCss.NaveCreditTitleText}>Credit balance:</Text>
-                            <Text style={styleCss.NaveCreditText}>{item.amount} {item.currency_symbol}</Text>
-                        </View>
-                    </Col>
                     <Col style={styleCss.AlignRightNavbar}>
                         <Text style={styleCss.NaveText}>en</Text>
                     </Col>
@@ -173,17 +167,11 @@ class MyLocation extends Component {
                                         </TouchableOpacity>
                                     </Col>
                                     <Col style={styleCss.nutrition_list_name_col}>
-                                        <Text style={styleCss.NaveText}>24hr-fitness.eu</Text>
+                                        <Text style={styleCss.NaveText}></Text>
                                     </Col>
                                     <Col style={styleCss.nutrition_list_name_col_1}>
                                     </Col>
 
-                                    <Col style={styleCss.AlignRightNavbar}>
-                                        <View style={styleCss.NavBarCreditView}>
-                                            <Text style={styleCss.NaveCreditTitleText}>Credit balance:</Text>
-                                            <Text style={styleCss.NaveCreditText}>0.00 €</Text>
-                                        </View>
-                                    </Col>
                                     <Col style={styleCss.AlignRightNavbar}>
                                         <Text style={styleCss.NaveText}>en</Text>
                                     </Col>
