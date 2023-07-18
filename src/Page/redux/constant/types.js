@@ -98,6 +98,11 @@ const PRODUCT_LIST = "PRODUCT_LIST";
 // My home
 const MY_HOME = "MY_HOME";
 
+
+// For Admin
+// --- Dashboard ---
+const ADMIN_DASHBOARD = "ADMIN_DASHBOARD";
+
 //Subscription schedule Types
 const SUBSCRIPTION_LIST = "SUBSCRIPTION_LIST";
 const LOADING_START_SUBSCRIPTION = "LOADING_START_SUBSCRIPTION";
@@ -271,5 +276,9 @@ export {
   HISTORY_LIST,
   PRODUCTGROUP_LIST,
   PRODUCT_LIST,
-  MY_HOME
+  MY_HOME,
+
+  // For admin
+  // --- dashboard ---
+  ADMIN_DASHBOARD,
 };

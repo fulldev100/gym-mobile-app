@@ -41,7 +41,6 @@ export const fetchHistorylist = (data) => dispatch => {
 
     historylistAction(data).then(responseJson => {
         if (responseJson.status == 1) {
-            console.log(responseJson)
             dispatch(historyData(responseJson));
         } else {
             dispatch(endLoading());

@@ -67,6 +67,11 @@ import History from "./Page/App/History/history";
 import myHome from "./Page/App/Home/myHome";
 import location from "./Page/App/Location/location";
 
+// For Admin
+import myAdminDashboard from "./Page/App/Admin/Home/myAdminDashboard";
+import myEntry from "./Page/App/Admin/Entry/myEntry";
+import mySale from "./Page/App/Admin/Sale/mySale";
+
 class AuthLoadingScreen extends Component {
   constructor() {
     super();
@@ -116,9 +121,11 @@ class AuthLoadingScreen extends Component {
     if (this.state.connection_status) {
       if (userToken) {
         if (role_name == "member") {
-          this.props.navigation.navigate("App");
+          this.props.navigation.navigate("myHome");
         } else if (role_name == "staff_member") {
           this.props.navigation.navigate("Staff");
+        } else if (role_name == "administrator") {
+          this.props.navigation.navigate("myAdminDashboard");
         } else {
           this.props.navigation.navigate("Auth");
         }
@@ -145,40 +152,46 @@ class AuthLoadingScreen extends Component {
 
 const DrawerNavigator = createStackNavigator(
   {
-    Dashboard: Dashboard,
-    MemberShipList: MemberShipList,
-    ActivityList: ActivityList,
-    activityvideo: activityvideo,
-    Workouts: Workouts,
-    Schedule: Schedule,
-    Booking: Booking,
-    Nutritionplan: Nutritionplan,
-    StaffMemberList: StaffMemberList,
-    Message: Message,
-    groupList: groupList,
-    AssignWorkoutsList: AssignWorkoutsList,
-    WorkoutsList: WorkoutsList,
-    memberArea: memberArea,
-    addmeasurement: addmeasurement,
-    Feespayment: Feespayment,
-    viewpayment: viewpayment,
-    viewinvoice: viewinvoice,
-    Account: Account,
-    SubscriptionHistory: SubscriptionHistory,
-    nutritionschudule: nutritionschudule,
-    Notice: Notice,
-    CustomSideBar: CustomSideBar,
+    // Dashboard: Dashboard,
+    // MemberShipList: MemberShipList,
+    // ActivityList: ActivityList,
+    // activityvideo: activityvideo,
+    // Workouts: Workouts,
+    // Schedule: Schedule,
+    // Booking: Booking,
+    // Nutritionplan: Nutritionplan,
+    // StaffMemberList: StaffMemberList,
+    // Message: Message,
+    // groupList: groupList,
+    // AssignWorkoutsList: AssignWorkoutsList,
+    // WorkoutsList: WorkoutsList,
+    // memberArea: memberArea,
+    // addmeasurement: addmeasurement,
+    // Feespayment: Feespayment,
+    // viewpayment: viewpayment,
+    // viewinvoice: viewinvoice,
+    // Account: Account,
+    // SubscriptionHistory: SubscriptionHistory,
+    // nutritionschudule: nutritionschudule,
+    // Notice: Notice,
+    // CustomSideBar: CustomSideBar,
+
+    // For normal user
     products: ViewProducts,
     ProductsList: ProductsList,
     history: History,
-
     myHome: myHome,
     location: location,
+
+    // Administrator
+    myAdminDashboard: myAdminDashboard,
+    myEntry: myEntry,
+    mySale: mySale,
 
   },
   {
     headerMode: "none",
-    initialRouteName: "myHome",
+    // initialRouteName: "myHome",
     // contentComponent: CustomSideBar,
 
   }
@@ -186,34 +199,34 @@ const DrawerNavigator = createStackNavigator(
 
 const StaffStack = createStackNavigator(
   {
-    staffDashboard: staffDashboard,
-    MemberReport: MemberReport,
-    Attendance_Scanner: Attendance_Scanner,
-    Attendance: Attendance,
-    Attendancedetails: Attendancedetails,
-    Addstaffmemberlist: Addstaffmemberlist,
-    AddMembership: AddMembership,
-    AddGroup: AddGroup,
-    AddMember: AddMember,
-    AddActivity: AddActivity,
-    AddClass: AddClass,
-    AddAssignWorkout: AddAssignWorkout,
-    AddnutritionSchedule: AddnutritionSchedule,
-    Addworkout: Addworkout,
-    Accountant: Accountant,
-    AddProduct: AddProduct,
-    AddStore: AddStore,
-    StaffMessage: StaffMessage,
-    StaffNotice: StaffNotice,
-    AddReservation: AddReservation,
-    staffaccount: staffaccount,
-    StaffSubscriptionHistory: StaffSubscriptionHistory,
-    StaffCustomSideBar:StaffCustomSideBar,
+     staffDashboard: staffDashboard,
+    // MemberReport: MemberReport,
+    // Attendance_Scanner: Attendance_Scanner,
+    // Attendance: Attendance,
+    // Attendancedetails: Attendancedetails,
+    // Addstaffmemberlist: Addstaffmemberlist,
+    // AddMembership: AddMembership,
+    // AddGroup: AddGroup,
+    // AddMember: AddMember,
+    // AddActivity: AddActivity,
+    // AddClass: AddClass,
+    // AddAssignWorkout: AddAssignWorkout,
+    // AddnutritionSchedule: AddnutritionSchedule,
+    // Addworkout: Addworkout,
+    // Accountant: Accountant,
+    // AddProduct: AddProduct,
+    // AddStore: AddStore,
+    // StaffMessage: StaffMessage,
+    // StaffNotice: StaffNotice,
+    // AddReservation: AddReservation,
+    // staffaccount: staffaccount,
+    // StaffSubscriptionHistory: StaffSubscriptionHistory,
+    // StaffCustomSideBar:StaffCustomSideBar,
   },
   {
     headerMode: "none",
     initialRouteName: "staffDashboard",
-    contentComponent: StaffCustomSideBar,
+    contentComponent: myAdminDashboard,
   }
 );
 

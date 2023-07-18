@@ -1,10 +1,9 @@
 /*Live base API link*/
 
-// export const BASE_URL = "https://3dlif.com/wordpress/wpgym/?gmgt_json_api";
 
 /*Demo base API link*/
 
-export const BASE_URL = "http://24hr-fitness.eu/gym/?gmgt_json_api"; // 24hr-fitness.eu
+export const BASE_URL = "http://192.168.108.79/gym/?gmgt_json_api"; // 24hr-fitness.eu
 
 
 export const ACCESSRIGTHS = "menu_accessrigths";
@@ -136,3 +135,6 @@ export const CLASSBOOKING = "member_class_schedule";
 export const BOOKINGCLASS = "booking_class";
 
 export const USERLOGOUT = "user_logout";
+
+// For Admin
+export const ADMIN_DASHBOARD = "admin_dashboard";

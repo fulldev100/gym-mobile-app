@@ -153,7 +153,7 @@ export const login = (data, navigate) => (dispatch) => {
       );
       SecureStore.setItemAsync("role_name", responseJson.result.role_name);
       SecureStore.setItemAsync("id", JSON.stringify(responseJson.result.id));
-      navigate(responseJson.result.role_name == "member" ? "myHome" : "staffDashboard");
+      navigate(responseJson.result.role_name == "member" ? "myHome" :(responseJson.result.role_name == "administrator"? "myAdminDashboard": "staffDashboard"));
     } else {
       dispatch(endLoading());
       navigate("Auth");

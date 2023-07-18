@@ -70,8 +70,6 @@ export default class Paypal extends Component {
                         const { id, links } = response.data
                         const approvalUrl = links.find(data => data.rel == "approval_url")
 
-                        console.log("////////////////////////////////////\n")
-                        console.log(approvalUrl)
                         this.setState({
                             paymentId: id,
                             approvalUrl: approvalUrl.href

@@ -48,7 +48,7 @@ class LoginPage extends Component {
     super(props);
     this.state = {
       email: "",
-      Password: "",
+      Password: "LC0@1EiRW)UUKhP6mz",
       visible: false,
       validationError: "",
       passwordshow: true,

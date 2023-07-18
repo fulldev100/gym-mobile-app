@@ -14,20 +14,30 @@ import {
 import * as SecureStore from 'expo-secure-store';
 import { Col, Row } from 'react-native-easy-grid';
 import { connect } from "react-redux";
-import { fetchHomelist, loadingStart } from "../../redux/actions/home";
-import { Logoutmember } from "../../redux/actions/auth";
-import { t } from '../../../../locals';
-import styleCss from '../../../style.js';
-import * as WebBrowser from 'expo-web-browser';
+import { fetchAdminDashboardlist, loadingStart } from "../../../redux/actions/adminDashboard";
+import { Logoutmember } from "../../../redux/actions/auth";
+import { t } from '../../../../../locals';
+import styleCss from '../../../../style.js';
+import SelectDropdown from 'react-native-select-dropdown';
+
+const day_region = [
+    'Today',
+    'This month',
+    'For 3 month',
+    'This year',
+    'So far',
+  ];
 
 
-class Home extends Component {
+class MyAdminDashboard extends Component {
+    
     constructor(props) {
         super(props);
         this.state = {
             ImageLoading: false,
             modalVisible: false,
-            cardNumber: ''
+            cardNumber: '',
+            date_region: 1
         }
     }
     static navigationOptions = ({ navigation }) => {
@@ -51,7 +61,7 @@ class Home extends Component {
         Alert.alert(t("Gym App"), t("Are you sure you want to exit app?"), [
           {
             text: t("No"),
-            onPress: () => this.myhomedata(),
+            onPress: () => this.myAdmindata(),
             style: "cancel",
           },
           { text: t("Yes"), onPress: () => this.memberLogout()},
@@ -74,21 +84,22 @@ class Home extends Component {
     }
 
     componentDidMount() {
-        this.myhomedata();
+        this.myAdmindata();
     }
 
-    async myhomedata() {
-        const { fetchHomelist, loadingStart } = this.props;
+    async myAdmindata() {
+        const { fetchAdminDashboardlist, loadingStart } = this.props;
         loadingStart();
+
         const Id = await SecureStore.getItemAsync("id");
         const Token = await SecureStore.getItemAsync("access_token");
 
-        console.log("----------myhome----------")
-        const home_data = {
+        const dashboard_data = {
             "current_user_id": Id,
             "access_token": Token,
+            "date_region": this.state.date_region
         };
-        fetchHomelist(home_data);
+        fetchAdminDashboardlist(dashboard_data);
     }
 
     _onBlurr = () => {
@@ -97,7 +108,7 @@ class Home extends Component {
     }
 
     onRefresh() {
-        this.myhomedata();
+        this.myAdmindata();
     }
 
     _onFocus = () => {
@@ -117,24 +128,15 @@ class Home extends Component {
           return true;
     }
 
-    openBrowser = async (url) => {
-        // Check if the device supports opening URLs
-        await WebBrowser.openBrowserAsync(url);
-      };
-
-    handleOpenBrowser = () => {
-        this.openBrowser('http://24hr-fitness.eu');
-    };
-
     renderItem = ({ item }) => {
-        const { modalVisible, cardNumber } = this.state;
+        const { modalVisible } = this.state;
         return (
             <View style={styleCss.MembershipView}>
                 <Row style={styleCss.NaveBar}>
                     <Col>
                         <TouchableOpacity style={styleCss.logout_image} onPress={() => this.logout() }>
                             <Image style={styleCss.logout_image}
-                                source={require('../../../images/Logout-white.png')}
+                                source={require('../../../../images/Logout-white.png')}
                             />
                         </TouchableOpacity>
                     </Col>
@@ -145,55 +147,93 @@ class Home extends Component {
                     </Col>
 
                     <Col style={styleCss.AlignRightNavbar}>
-                        <View style={styleCss.NavBarCreditView}>
-                            <Text style={styleCss.NaveCreditTitleText}>Price:</Text>
-                            <Text style={styleCss.NaveCreditText}>{item.amount} {item.currency_symbol}</Text>
-                        </View>
-                    </Col>
-                    <Col style={styleCss.AlignRightNavbar}>
                         <Text style={styleCss.NaveText}>en</Text>
                     </Col>
                 </Row>
-                <TouchableOpacity key={item} onPress={() => this.setModalVisible(item.card_number)} style={styleCss.TouchScreenCSS}>
-
-                    <Text style={styleCss.MembershipTitle}>{item.membership_title}</Text>
+                <TouchableOpacity key={item.day_membership_price} style={styleCss.TouchScreenCSS}>
 
                     <View style={styleCss.ImageLogoContainer}>
                         <Image style={styleCss.nutrition_list_image}
-                            source={require('../../../images/Logo.png')}
+                            source={require('../../../../images/Logo.png')}
                         />
-                        <Text style={styleCss.MembershipValidDate}>{item.membership_valid_from} To {item.membership_valid_to}</Text>
+
+                    <SelectDropdown
+                        data={day_region}
+                        defaultValueByIndex={this.state.date_region} // use default value by index or default value
+                        // defaultValue={'Canada'} // use default value by index or default value
+                        onSelect={(selectedItem, index) => {
+                            this.setState({date_region: index})
+                            this.myAdmindata()
+                        }}
+                        buttonTextAfterSelection={(selectedItem, index) => {
+                            return selectedItem;
+                        }}
+                        rowTextForSelection={(item, index) => {
+                            return item;
+                        }}
+                        buttonStyle={styleCss.dropdown2BtnStyle}
+                        buttonTextStyle={styleCss.dropdown2BtnTxtStyle}
+                        renderDropdownIcon={isOpened => {
+                            return <></>;
+                        }}
+                        dropdownIconPosition={'right'}
+                        dropdownStyle={styleCss.dropdown2DropdownStyle}
+                        rowStyle={styleCss.dropdown2RowStyle}
+                        rowTextStyle={styleCss.dropdown2RowTxtStyle}
+                    />
+
                     </View>
-                    
-                    <Text style={styleCss.MembershipMemberName}>{item.member_name}</Text>
-                    <Text style={styleCss.MembershipMemberEmail}>{item.member_email}</Text>
+
+                    <View style={styleCss.MembershipCardView}></View>
+
+                    <View style={styleCss.AdminDashboardRowView}>
+                        <View style={styleCss.AdminDashboardColumn}><Text style={styleCss.AdminDashboardSmallLabel}>Membership price:</Text></View> 
+                        <View><Text style={styleCss.MembershipMemberEmail}>€{item.total_membership_price}  </Text></View>
+                    </View>
+
+                    <View style={styleCss.AdminDashboardRowView}>
+                        <View style={styleCss.AdminDashboardColumn}><Text style={styleCss.AdminDashboardSmallLabel}>Ticket price:</Text></View>
+                        <View><Text style={styleCss.MembershipMemberEmail}>€{item.total_guest_price}  </Text></View>
+                    </View>
+
+                    <View style={styleCss.AdminDashboardRowView}>
+                        <View style={styleCss.AdminDashboardColumn}><Text style={styleCss.AdminDashboardSmallLabel}>Number of Membership Sales:</Text></View> 
+                        <View><Text style={styleCss.MembershipMemberEmail}>{item.total_membership_count}  </Text></View>
+                    </View>
+
+                    <View style={styleCss.AdminDashboardRowView}>
+                        <View style={styleCss.AdminDashboardColumn}><Text style={styleCss.AdminDashboardSmallLabel}>Number of Ticket Sales:</Text></View>
+                        <View><Text style={styleCss.MembershipMemberEmail}>{item.total_guest_count}  </Text></View>
+                    </View>
+
+                    <View style={styleCss.AdminDashboardRowView}>
+                        <View style={styleCss.AdminDashboardColumn}><Text style={styleCss.AdminDashboardSmallLabel}>Number of Membership Usage:</Text></View> 
+                        <View><Text style={styleCss.MembershipMemberEmail}>{item.total_member_in}  </Text></View>
+                    </View>
+
+                    <View style={styleCss.AdminDashboardRowView}>
+                        <View style={styleCss.AdminDashboardColumn}><Text style={styleCss.AdminDashboardSmallLabel}>Number of Ticket Usage:</Text></View>
+                        <View><Text style={styleCss.MembershipMemberEmail}>{item.total_guest_in}  </Text></View>
+                    </View>
+
+                    <View style={styleCss.AdminDashboardRowView}>
+                        <View style={styleCss.AdminDashboardColumn}><Text style={styleCss.AdminDashboardSmallLabel}>Number of Free Ticket Usage:</Text></View> 
+                        <View><Text style={styleCss.MembershipMemberEmail}>{item.total_freeticket_in}  </Text></View>
+                    </View>
+
+                    <View style={styleCss.MembershipCardView}></View>
+
+                    <View style={styleCss.AdminDashboardRowView}>
+                        <View style={styleCss.AdminDashboardColumn}><Text style={styleCss.AdminDashboardSmallLabel}>Today IN:</Text></View> 
+                        <View><Text style={styleCss.MembershipMemberEmail}>{item.day_entry_in}  </Text></View>
+                        <View style={styleCss.AdminDashboardColumn}><Text style={styleCss.AdminDashboardSmallLabel}>Today OUT:</Text></View>
+                        <View><Text style={styleCss.MembershipMemberEmail}>{item.day_entry_out}  </Text></View>
+                    </View>
 
                     <View style={styleCss.MembershipCardView}>
-                        {item.payment_status == "Fully Paid"?
-                        <>
-                            <Row>
-                                <Col>
-                                    <Text style={styleCss.MembershipMemberEmail}>Virtual Card no.:</Text>
-                                </Col>
-                                <Col>
-                                    <Text style={styleCss.MembershipCardNumber}>{item.card_number}</Text>
-                                </Col>
-                            </Row>
-                            <Image style={styleCss.Membership_card_image} source={
-                                item.card_number
-                                ? { uri: 'https://chart.googleapis.com/chart?cht=qr&chs=300x300&chl=' + item.card_number }
-                                : null
-                            } />
-                        </> :
-                            <Text>{item.payment_status}</Text>
-                        }
-                        <View style={styleCss.containerButton}>
-                            <TouchableOpacity style={styleCss.button} onPress={() => this.handleOpenBrowser() }>
-                                <Text style={styleCss.buttonText}>Open to buy page</Text>
-                            </TouchableOpacity>
-                        </View>
+                        
 
-                        <Modal
+                    <Modal
                         animationType="slide"
                         transparent={true}
                         visible={modalVisible}>
@@ -204,16 +244,7 @@ class Home extends Component {
                         
                                 <View key={1} style={styleCss.SubImageContainer}>
                                     
-                                    <TouchableOpacity onPress={() => { this.Visible(!modalVisible) }} style={styleCss.zoomQRCode}>
-                                        <Image onLoadStart={(e) => this.setState({ ImageLoading: true })}
-                                            onLoadEnd={(e) => this.setState({ ImageLoading: false })}
-                                            source={
-                                                item.card_number
-                                                ? { uri: 'https://chart.googleapis.com/chart?cht=qr&chs=300x300&chl=' + item.card_number }
-                                                : null
-                                            }
-                                            style={styleCss.ZoomProductImage} />
-                                    </TouchableOpacity>
+                                    <Text>Ok! Modal</Text>
                                     
                                     <ActivityIndicator
                                         style={styleCss.loading}
@@ -233,8 +264,6 @@ class Home extends Component {
         )
     }
     render() {
-        const { modalVisible, cardNumber } = this.state;
-        const { navigate } = this.props.navigation;
         const { Data, loading } = this.props;
 
         if (!loading) {
@@ -251,7 +280,7 @@ class Home extends Component {
                                 <Col>
                                     <TouchableOpacity style={styleCss.logout_image} onPress={() => this.logout() }>
                                         <Image style={styleCss.logout_image}
-                                            source={require('../../../images/Logout-white.png')}
+                                            source={require('../../../../images/Logout-white.png')}
                                         />
                                     </TouchableOpacity>
                                 </Col>
@@ -261,12 +290,6 @@ class Home extends Component {
                                 <Col style={styleCss.nutrition_list_name_col_1}>
                                 </Col>
 
-                                <Col style={styleCss.AlignRightNavbar}>
-                                    <View style={styleCss.NavBarCreditView}>
-                                        <Text style={styleCss.NaveCreditTitleText}>Price:</Text>
-                                        <Text style={styleCss.NaveCreditText}>0.00 €</Text>
-                                    </View>
-                                </Col>
                                 <Col style={styleCss.AlignRightNavbar}>
                                     <Text style={styleCss.NaveText}>en</Text>
                                 </Col>
@@ -286,33 +309,33 @@ class Home extends Component {
                     
                     <View style={styleCss.bottomView}>
                         <View style={styleCss.bottomViewColumn}>
-                            <TouchableOpacity onPress={() => this.props.navigation.navigate('myHome')} style={styleCss.message_col}>
+                            <TouchableOpacity onPress={() => this.props.navigation.navigate('myAdminDashboard')} style={styleCss.message_col}>
                                 <Image style={styleCss.bottomViewColumnImg}
-                                    source={require('../../../images/small_gym.png')}
+                                    source={require('../../../../images/small_gym.png')}
                                 />
-                                <Text style={styleCss.bottomViewColumnTextActive}>Home</Text>
+                                <Text style={styleCss.bottomViewColumnTextActive}>Dashboard</Text>
                             </TouchableOpacity>
                         </View>
                         <View style={styleCss.bottomViewColumn}>
-                            <TouchableOpacity onPress={() => this.props.navigation.navigate('location')} style={styleCss.message_col}>
+                            <TouchableOpacity onPress={() => this.props.navigation.navigate('myEntry')} style={styleCss.message_col}>
                                 <Image style={styleCss.bottomViewColumnImg}
-                                    source={require('../../../images/small_location.png')}
+                                    source={require('../../../../images/small_location.png')}
                                 />
-                                <Text style={styleCss.bottomViewColumnText}>Location</Text>
+                                <Text style={styleCss.bottomViewColumnText}>Entry</Text>
                             </TouchableOpacity>
                         </View>
                         <View style={styleCss.bottomViewColumn}>
-                            <TouchableOpacity onPress={() => this.props.navigation.navigate('products')} style={styleCss.message_col}>
+                            <TouchableOpacity onPress={() => this.props.navigation.navigate('mySale')} style={styleCss.message_col}>
                                 <Image style={styleCss.bottomViewColumnImg}
-                                    source={require('../../../images/small_product.png')}
+                                    source={require('../../../../images/small_product.png')}
                                 />
-                                <Text style={styleCss.bottomViewColumnText}>Product</Text>
+                                <Text style={styleCss.bottomViewColumnText}>Sale</Text>
                             </TouchableOpacity>
                         </View>
                         <View style={styleCss.bottomViewColumn}>
-                            <TouchableOpacity onPress={() => this.myhomedata()} style={styleCss.message_col}>
+                            <TouchableOpacity onPress={() => this.myAdmindata()} style={styleCss.message_col}>
                                 <Image style={styleCss.bottomViewColumnImg}
-                                    source={require('../../../images/small_refresh.png')}
+                                    source={require('../../../../images/small_refresh.png')}
                                 />
                                 <Text style={styleCss.bottomViewColumnText}>Refresh</Text>
                             </TouchableOpacity>
@@ -331,33 +354,33 @@ class Home extends Component {
                     />
                     <View style={styleCss.bottomView}>
                         <View style={styleCss.bottomViewColumn}>
-                            <TouchableOpacity onPress={() => this.props.navigation.navigate('myHome')} style={styleCss.message_col}>
+                            <TouchableOpacity onPress={() => this.props.navigation.navigate('myAdminDashboard')} style={styleCss.message_col}>
                                 <Image style={styleCss.bottomViewColumnImg}
-                                    source={require('../../../images/small_gym.png')}
+                                    source={require('../../../../images/small_gym.png')}
                                 />
-                                <Text style={styleCss.bottomViewColumnTextActive}>Home</Text>
+                                <Text style={styleCss.bottomViewColumnTextActive}>Dashboard</Text>
                             </TouchableOpacity>
                         </View>
                         <View style={styleCss.bottomViewColumn}>
-                            <TouchableOpacity onPress={() => this.props.navigation.navigate('location')} style={styleCss.message_col}>
+                            <TouchableOpacity onPress={() => this.props.navigation.navigate('myEntry')} style={styleCss.message_col}>
                                 <Image style={styleCss.bottomViewColumnImg}
-                                    source={require('../../../images/small_location.png')}
+                                    source={require('../../../../images/small_location.png')}
                                 />
-                                <Text style={styleCss.bottomViewColumnText}>Location</Text>
+                                <Text style={styleCss.bottomViewColumnText}>Entry</Text>
                             </TouchableOpacity>
                         </View>
                         <View style={styleCss.bottomViewColumn}>
-                            <TouchableOpacity onPress={() => this.props.navigation.navigate('products')} style={styleCss.message_col}>
+                            <TouchableOpacity onPress={() => this.props.navigation.navigate('mySale')} style={styleCss.message_col}>
                                 <Image style={styleCss.bottomViewColumnImg}
-                                    source={require('../../../images/small_product.png')}
+                                    source={require('../../../../images/small_product.png')}
                                 />
-                                <Text style={styleCss.bottomViewColumnText}>Product</Text>
+                                <Text style={styleCss.bottomViewColumnText}>Sale</Text>
                             </TouchableOpacity>
                         </View>
                         <View style={styleCss.bottomViewColumn}>
-                            <TouchableOpacity onPress={() => this.myhomedata() } style={styleCss.message_col}>
+                            <TouchableOpacity onPress={() => this.myAdmindata() } style={styleCss.message_col}>
                                 <Image style={styleCss.bottomViewColumnImg}
-                                    source={require('../../../images/small_refresh.png')}
+                                    source={require('../../../../images/small_refresh.png')}
                                 />
                                 <Text style={styleCss.bottomViewColumnText}>Refresh</Text>
                             </TouchableOpacity>
@@ -379,15 +402,15 @@ const EmptyComponent = ({ title }) => (
 
 const mapStateToProps = (state) => {
     return {
-        Data: state.home.homeData,
-        loading: state.home.loading,
+        Data: state.adminDashboard.adminDashboardData,
+        loading: state.adminDashboard.loading,
     };
 };
 
 const mapDispatchToProps = {
-    fetchHomelist,
+    fetchAdminDashboardlist,
     Logoutmember,
     loadingStart,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
+export default connect(mapStateToProps, mapDispatchToProps)(MyAdminDashboard);

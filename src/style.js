@@ -3113,9 +3113,8 @@ export default StyleSheet.create({
         borderBottomWidth: 0.4,
         borderBottomColor: 'black',
         height: 80,
-        minWidth: 400,
-        marginRight: '5%',
-        marginLeft: '5%'
+        marginRight: '1%',
+        marginLeft: '1%'
     },
     nutrition_list_row: {
         borderBottomWidth: 0.4,
@@ -3150,12 +3149,36 @@ export default StyleSheet.create({
     nutrition_list_image: {
         height: 120,
         width: 120,
-        padding: 30
+        padding: 30,
+        marginBottom: 20
     },
     Membership_card_image: {
         height: 210,
         width: 210
     },
+    dropdown2BtnStyle: {
+        width: '80%',
+        height: 50,
+        backgroundColor: '#444',
+        borderRadius: 8,
+        alignContent: 'center'
+      },
+    dropdown2BtnTxtStyle: {
+        color: '#FFF',
+        textAlign: 'center',
+        fontWeight: 'bold',
+      },
+    dropdown2DropdownStyle: {
+        backgroundColor: '#444',
+        borderBottomLeftRadius: 12,
+        borderBottomRightRadius: 12,
+      },
+    dropdown2RowStyle: {backgroundColor: '#444', borderBottomColor: '#C5C5C5'},
+    dropdown2RowTxtStyle: {
+        color: '#FFF',
+        textAlign: 'center',
+        fontWeight: 'bold',
+      },
     ProductsListTitleContainer: {
         ...Platform.select({
             ios: {
@@ -3206,9 +3229,44 @@ export default StyleSheet.create({
         fontWeight: 'bold',
         fontSize: 22,
     },
+    AdminDashboarLabel: {
+        marginTop: 25,
+        color: 'black',
+        fontWeight: 'bold',
+        fontSize: 22,
+    },
     MembershipMemberEmail: {
         color: '#00A6F5',
         fontSize: 20,
+    },
+    AdminDashboardSmallLabel: {
+        color: 'gray',
+        fontSize: 16,
+        fontWeight: 'bold',
+    },
+    AdminDashboardSmallLabelActive: {
+        color: '#00A6F5',
+        fontSize: 16,
+        fontWeight: 'bold',
+    },
+    AdminDashboardColumn: {
+        flex: 1, 
+        alignSelf: 'stretch'
+    },
+    AdminDateRegionBar: {
+        marginTop: 10,
+        alignItems: 'center', 
+        alignSelf: 'center'
+    },
+    AdminDateRegionBarUnder: {
+        marginLeft: '3%',
+        marginRight: '3%'
+    },
+    AdminDashboardRowView: {
+        flex: 1, 
+        alignSelf: 'stretch', 
+        flexDirection: 'row',
+        marginTop: 10
     },
     MembershipCardNumber: {
         color: '#00A6F5',
@@ -3264,7 +3322,14 @@ export default StyleSheet.create({
     nutrition_list_details_col: {
         justifyContent: 'center',
     },
+    history_list_details_col: {
+        justifyContent: 'center'
+    },
     nutrition_list_details_row: {
+        height: '30%',
+        alignItems: 'center',
+    },
+    history_list_details_row: {
         height: '30%',
         alignItems: 'center',
     },
