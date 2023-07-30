@@ -150,7 +150,7 @@ class MyAdminDashboard extends Component {
                         <Text style={styleCss.NaveText}>en</Text>
                     </Col>
                 </Row>
-                <TouchableOpacity key={item.day_membership_price} style={styleCss.TouchScreenCSS}>
+                <TouchableOpacity key={item.total_membership_price} style={styleCss.TouchScreenCSS}>
 
                     <View style={styleCss.ImageLogoContainer}>
                         <Image style={styleCss.nutrition_list_image}
@@ -230,35 +230,6 @@ class MyAdminDashboard extends Component {
                         <View><Text style={styleCss.MembershipMemberEmail}>{item.day_entry_out}  </Text></View>
                     </View>
 
-                    <View style={styleCss.MembershipCardView}>
-                        
-
-                    <Modal
-                        animationType="slide"
-                        transparent={true}
-                        visible={modalVisible}>
-
-                        <View style={styleCss.qr_modal_main_view}>
-
-                            <View style={styleCss.SubImageContainer}>
-                        
-                                <View key={1} style={styleCss.SubImageContainer}>
-                                    
-                                    <Text>Ok! Modal</Text>
-                                    
-                                    <ActivityIndicator
-                                        style={styleCss.loading}
-                                        animating={this.state.ImageLoading}
-                                        // size="small"
-                                        color="#102b46"
-                                    />
-                                </View>
-                            </View>
-                        </View>
-                    </Modal>
-
-                    </View>
-
                 </TouchableOpacity>
             </View>
         )
@@ -273,7 +244,6 @@ class MyAdminDashboard extends Component {
                         data={Data}
                         renderItem={this.renderItem}
                         style={styleCss.FlatListCss}
-                        keyExtractor={(item) => {item.invoice_id}}
                         ListEmptyComponent={
                             <>
                             <Row style={styleCss.NaveBar}>

@@ -188,13 +188,13 @@ class MyEntry extends Component {
                     }
                      </View>
                 </Row>
-                <TouchableOpacity key={item.invoice_id} style={styleCss.TouchScreenCSS}>
+                <TouchableOpacity style={styleCss.TouchScreenCSS}>
                     
                     <View>
 
                     <ScrollView> 
                     { !this.state.isMembershipView ?
-                        item.total_guest_list.map((prop, key) => {
+                        item.total_guest_list.map((prop) => {
                             return (
                                 <Row style={styleCss.product_list_row}>
                                     {/* <Col style={styleCss.nutrition_list_col}>
@@ -211,7 +211,7 @@ class MyEntry extends Component {
                                         </Row>
 
                                         <Row style={styleCss.history_list_details_row}>
-                                            <Text style={styleCss.nutrition_list_details_text}>{prop.start_date} ~ {prop.end_date}</Text>
+                                            <Text style={styleCss.nutrition_list_details_text}>{prop.start_date} ~ {prop.end_date}, {prop.payment_method}</Text>
                                         </Row>
 
                                         <Row style={styleCss.history_list_details_row}>
@@ -222,7 +222,7 @@ class MyEntry extends Component {
                             )
                         })
                         :
-                        item.total_membership_list.map((prop, key) => {
+                        item.total_membership_list.map((prop) => {
                             if (prop.paid_amount > 0)
                             return (
                                 <Row style={styleCss.product_list_row}>
@@ -242,7 +242,7 @@ class MyEntry extends Component {
                                         </Row>
 
                                         <Row style={styleCss.history_list_details_row}>
-                                            <Text style={styleCss.nutrition_list_details_text}>{prop.currency_symbol}{prop.paid_amount}   {prop.card_number} ,{prop.created_date}</Text>
+                                            <Text style={styleCss.nutrition_list_details_text}>{prop.currency_symbol}{prop.paid_amount}   {prop.card_number} ,{prop.created_date}, {prop.payment_method}</Text>
                                         </Row>
 
                                         <Row style={styleCss.history_list_details_row}>
@@ -270,7 +270,6 @@ class MyEntry extends Component {
                         data={Data}
                         renderItem={this.renderItem}
                         style={styleCss.FlatListCss}
-                        keyExtractor={(item) => {item.invoice_id}}
                         ListEmptyComponent={
                             <>
                             <Row style={styleCss.NaveBar}>

@@ -61,7 +61,8 @@ export default StyleSheet.create({
         })
     },
     TouchScreenCSS: {
-        padding: 25
+        padding: 25,
+        marginBottom: 70
     },
     googleMapView: {
         width: 200,
@@ -139,7 +140,7 @@ export default StyleSheet.create({
     },
     NaveText: {
         color: '#656565',
-        fontSize: 18,
+        fontSize: 17,
         fontWeight: 'bold',
         fontFamily: 'Poppins-Regular',
         textAlign: 'center',

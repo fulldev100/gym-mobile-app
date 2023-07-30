@@ -17,7 +17,7 @@
       "android",
       "web"
     ],
-    "version": "2.0.4",
+    "version": "3.0.1",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
@@ -32,7 +32,7 @@
       "**/*"
     ],
     "android": {
-      "versionCode": 13,
+      "versionCode": 1,
       "googleServicesFile": "./google-services.json",
       "permissions": [
         "CAMERA",

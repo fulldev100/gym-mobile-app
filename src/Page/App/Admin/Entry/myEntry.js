@@ -223,7 +223,6 @@ class MyEntry extends Component {
                         data={Data}
                         renderItem={this.renderItem}
                         style={styleCss.FlatListCss}
-                        keyExtractor={(item) => {item.invoice_id}}
                         ListEmptyComponent={
                             <>
                             <Row style={styleCss.NaveBar}>
