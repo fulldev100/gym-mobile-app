@@ -1,9 +1,8 @@
 {
-  "main": "node_modules/expo/AppEntry.js",
   "scripts": {
-    "start": "expo start",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
+    "start": "expo start --dev-client",
+    "android": "expo run:android",
+    "ios": "expo run:ios",
     "web": "expo start --web",
     "eject": "expo eject",
     "clean": "react-native clean-project",
@@ -22,7 +21,7 @@
     "axios": "^1.4.0",
     "babel-preset-es2015": "^6.24.1",
     "deprecated-react-native-prop-types": "^4.1.0",
-    "expo": "^48.0.0",
+    "expo": "~48.0.18",
     "expo-barcode-scanner": "~12.3.2",
     "expo-camera": "~13.2.1",
     "expo-constants": "~14.2.1",
@@ -44,8 +43,9 @@
     "react": "18.2.0",
     "react-dom": "^18.2.0",
     "react-moment": "^1.0.0",
-    "react-native": "0.72.0",
+    "react-native": "0.71.8",
     "react-native-alert-notification": "0.1.13",
+    "react-native-autoheight-webview": "^1.6.5",
     "react-native-barcode-mask": "^1.2.4",
     "react-native-calendar-strip": "^2.2.1",
     "react-native-calendars": "^1.1284.0",
@@ -79,12 +79,15 @@
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.4.1",
     "rn-pdf-reader-js": "^4.1.1",
-    "validate.js": "^0.13.1"
+    "validate.js": "^0.13.1",
+    "expo-splash-screen": "~0.18.2"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
     "babel-preset-expo": "9.0.2",
     "react-native-clean-project": "^3.6.4"
   },
-  "private": true
+  "private": true,
+  "name": "wpgym_react_native_app",
+  "version": "1.0.0"
 }

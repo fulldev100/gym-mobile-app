@@ -10,6 +10,7 @@ import {
     TouchableOpacity,
     Alert,
     Modal,
+    Dimensions
 } from 'react-native';
 import * as SecureStore from 'expo-secure-store';
 import { Col, Row } from 'react-native-easy-grid';
@@ -19,7 +20,7 @@ import { Logoutmember } from "../../redux/actions/auth";
 import { t } from '../../../../locals';
 import styleCss from '../../../style.js';
 import * as WebBrowser from 'expo-web-browser';
-
+import AutoHeightWebView from 'react-native-autoheight-webview';
 
 class Home extends Component {
     constructor(props) {
@@ -27,7 +28,8 @@ class Home extends Component {
         this.state = {
             ImageLoading: false,
             modalVisible: false,
-            cardNumber: ''
+            cardNumber: '',
+            isBuyNewThing: false
         }
     }
     static navigationOptions = ({ navigation }) => {
@@ -79,6 +81,8 @@ class Home extends Component {
 
     async myhomedata() {
         const { fetchHomelist, loadingStart } = this.props;
+
+        this.setState({ isBuyNewThing: false })
         loadingStart();
         const Id = await SecureStore.getItemAsync("id");
         const Token = await SecureStore.getItemAsync("access_token");
@@ -115,6 +119,10 @@ class Home extends Component {
             { text: t("Yes"), onPress: () => BackHandler.exitApp() },
           ]);
           return true;
+    }
+
+    changeKIOSKView = () => {
+        this.setState({ isBuyNewThing: !this.state.isBuyNewThing })
     }
 
     openBrowser = async (url) => {
@@ -154,6 +162,10 @@ class Home extends Component {
                         <Text style={styleCss.NaveText}>en</Text>
                     </Col>
                 </Row>
+
+                {
+                !this.state.isBuyNewThing ? 
+                
                 <TouchableOpacity key={item} onPress={() => this.setModalVisible(item.card_number)} style={styleCss.TouchScreenCSS}>
 
                     <Text style={styleCss.MembershipTitle}>{item.membership_title}</Text>
@@ -188,7 +200,7 @@ class Home extends Component {
                             <Text>{item.payment_status}</Text>
                         }
                         <View style={styleCss.containerButton}>
-                            <TouchableOpacity style={styleCss.button} onPress={() => this.handleOpenBrowser() }>
+                            <TouchableOpacity style={styleCss.button} onPress={() => this.changeKIOSKView()}>
                                 <Text style={styleCss.buttonText}>Open to buy page</Text>
                             </TouchableOpacity>
                         </View>
@@ -229,6 +241,30 @@ class Home extends Component {
                     </View>
 
                 </TouchableOpacity>
+
+                :
+
+                <AutoHeightWebView
+                    style={{ width: Dimensions.get('window').width,  marginTop: 1 }}
+                    customScript={`document.body.style.background = 'transparent';`}
+                    customStyle={`
+                    * {
+                        font-family: 'Times New Roman';
+                        font-size: 11px !important;
+                    }
+                    `}
+                    onSizeUpdated={size => {}}
+                    files={[{
+                        href: 'cssfileaddress',
+                        type: 'text/css',
+                        rel: 'stylesheet'
+                    }]}
+                    source={{ uri: "http://24hr-fitness.eu/quick-buy/" }}
+                    scalesPageToFit={true}
+                    viewportContent={'width=device-width, user-scalable=yes'}
+                />
+                    
+                }
             </View>
         )
     }
@@ -261,25 +297,51 @@ class Home extends Component {
                                 <Col style={styleCss.nutrition_list_name_col_1}>
                                 </Col>
 
-                                <Col style={styleCss.AlignRightNavbar}>
-                                    <View style={styleCss.NavBarCreditView}>
-                                        <Text style={styleCss.NaveCreditTitleText}>Price:</Text>
-                                        <Text style={styleCss.NaveCreditText}>0.00 €</Text>
-                                    </View>
+                                <Col style={styleCss.AlignRightNavbar} >
+                                    
                                 </Col>
                                 <Col style={styleCss.AlignRightNavbar}>
                                     <Text style={styleCss.NaveText}>en</Text>
                                 </Col>
                             </Row>
-                            <EmptyComponent title={t("Data not available")} />
+                            
+                            <View style={styleCss.BuyNewMembershipView} >
+                                <TouchableOpacity onPress={() => this.changeKIOSKView()}>
+                                    <Text adjustsFontSizeToFit={true} style={styleCss.BuyNowText} >{!this.state.isBuyNewThing ? 'Buy now' : 'Close'}</Text>
+                                </TouchableOpacity>
+                            </View>
+                            {
+                                this.state.isBuyNewThing ? 
+                                <AutoHeightWebView
+                                    style={{ width: Dimensions.get('window').width,  marginTop: 1 }}
+                                    customScript={`document.body.style.background = 'transparent';`}
+                                    customStyle={`
+                                    * {
+                                        font-family: 'Times New Roman';
+                                        font-size: 11px !important;
+                                    }
+                                    `}
+                                    onSizeUpdated={size => {}}
+                                    files={[{
+                                        href: 'cssfileaddress',
+                                        type: 'text/css',
+                                        rel: 'stylesheet'
+                                    }]}
+                                    source={{ uri: "http://24hr-fitness.eu/quick-buy/" }}
+                                    scalesPageToFit={true}
+                                    viewportContent={'width=device-width, user-scalable=yes'}
+                                />
+                                :
+                                <EmptyComponent title={t("Data not available")} visible={true} />
+                            }
                             </>
                             
                         }
                         refreshControl={
                             <RefreshControl
                                 colors={["#102b46"]}
-                                refreshing={loading}
-                                onRefresh={this.onRefresh.bind(this)}
+                                refreshing={false}
+                                onRefresh={() => {}}
                             />
                         }
                     />
@@ -371,8 +433,8 @@ class Home extends Component {
 }
 
 // empty component
-const EmptyComponent = ({ title }) => (
-    <View style={styleCss.emptyContainer}>
+const EmptyComponent = ({ title, visible }) => (
+    <View style={styleCss.emptyContainer} visible={visible}>
         <Text style={styleCss.emptyText}>{title}</Text>
     </View>
 );

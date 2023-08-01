@@ -75,6 +75,17 @@ export default StyleSheet.create({
         borderRadius: 8,
         padding: 10
     },
+    BuyNewMembershipView: {
+        backgroundColor: '#656565',
+        color: '#fff',
+        borderRadius: 8,
+        padding: 10,
+        justifyContent: 'center',alignItems: 'center',
+        alignSelf : "center",
+        width: 300,
+        marginTop: 10,
+        marginBottom: 5
+    },
     NaveCreditText: {
         color: '#fff',
         fontSize: 16,
@@ -88,6 +99,13 @@ export default StyleSheet.create({
         fontWeight: 'bold',
         fontFamily: 'Poppins-Regular',
         textAlign: 'left',
+    },
+    BuyNowText: {
+        color: '#fff',
+        fontSize: 13,
+        fontWeight: 'bold',
+        fontFamily: 'Poppins-Regular',
+        textAlign: 'center',
     },
     containerMain: {
         flex: 1,
@@ -3223,6 +3241,12 @@ export default StyleSheet.create({
         color: '#f0f',
         width: 350,
         height: 300
+    },
+    HTMLKIOSKViewContainer: {
+        marginTop: 10,
+        color: '#f0f',
+        width: Dimensions.get('window').width,
+        height: '100%'
     },
     MembershipMemberName: {
         marginTop: 15,
