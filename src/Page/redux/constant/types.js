@@ -97,6 +97,8 @@ const HISTORY_LIST = "HISTORY_LIST";
 const PRODUCT_LIST = "PRODUCT_LIST";
 // My home
 const MY_HOME = "MY_HOME";
+// POST MEMBERSHIP
+const POST_MEMBERSHIP = "POST_MEMBERSHIP";
 
 
 // For Admin
@@ -281,4 +283,5 @@ export {
   // For admin
   // --- dashboard ---
   ADMIN_DASHBOARD,
+  POST_MEMBERSHIP
 };

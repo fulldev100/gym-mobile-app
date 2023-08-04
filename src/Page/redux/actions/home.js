@@ -1,14 +1,19 @@
 import {
-    homeAction
+    homeAction,
+    postMembershipAction
 } from '../../../util/action.js';
 import { AlertHelper } from '../../App/AlertHelper';
 import { t } from '../../../../locals';
-import * as SecureStore from 'expo-secure-store';
 
-import { MY_HOME, LOADING_START_NUTRITION, LOADING_END_NUTRITION } from '../constant/types';
+import { POST_MEMBERSHIP, MY_HOME, LOADING_START_NUTRITION, LOADING_END_NUTRITION } from '../constant/types';
 
 const homeData = data => ({
     type: MY_HOME,
+    data,
+});
+
+const membershipData = data => ({
+    type: POST_MEMBERSHIP,
     data,
 });
 
@@ -28,6 +33,27 @@ export const fetchHomelist = (data) => dispatch => {
             dispatch(homeData(responseJson));
         } else {
 
+            dispatch(endLoading());
+
+            if (responseJson.error == "An unauthorized user") {
+            }
+            else {
+                AlertHelper.show('warn', t('Warning'), responseJson.error);
+            }
+        }
+    });
+}
+
+export const postMembership = (data) => dispatch => {
+
+    postMembershipAction(data).then(async responseJson => {
+        if (responseJson.status == 1) {
+            console.log(responseJson);
+            dispatch(endLoading());
+            dispatch(membershipData(responseJson));
+        } else {
+
+            console.log(responseJson);
             dispatch(endLoading());
 
             if (responseJson.error == "An unauthorized user") {

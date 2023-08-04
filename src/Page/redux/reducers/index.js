@@ -26,6 +26,7 @@ import { product } from './product';
 import { productList } from './productList';
 import { home } from './home';
 import { adminDashboard } from './adminDashboard';
+import { membership } from './membership';
 
 const rootReducer = combineReducers({
     auth,
@@ -55,9 +56,9 @@ const rootReducer = combineReducers({
     product,
     productList,
     home,
-
     // For Admin
-    adminDashboard
+    adminDashboard,
+    membership
 });
 
 export default rootReducer;

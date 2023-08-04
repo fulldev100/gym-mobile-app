@@ -10,17 +10,27 @@ import {
     TouchableOpacity,
     Alert,
     Modal,
+    Button,
     Dimensions
 } from 'react-native';
 import * as SecureStore from 'expo-secure-store';
 import { Col, Row } from 'react-native-easy-grid';
 import { connect } from "react-redux";
-import { fetchHomelist, loadingStart } from "../../redux/actions/home";
+import { fetchHomelist, postMembership, loadingStart } from "../../redux/actions/home";
 import { Logoutmember } from "../../redux/actions/auth";
 import { t } from '../../../../locals';
 import styleCss from '../../../style.js';
 import * as WebBrowser from 'expo-web-browser';
 import AutoHeightWebView from 'react-native-autoheight-webview';
+import { POST_MEMBERSHIP } from '../../redux/constant/types';
+
+export const membershipData = (data) => {
+    return {
+        type: POST_MEMBERSHIP,
+        data,
+      // OR map specific attributes from the data object
+    }
+  }
 
 class Home extends Component {
     constructor(props) {
@@ -29,7 +39,7 @@ class Home extends Component {
             ImageLoading: false,
             modalVisible: false,
             cardNumber: '',
-            isBuyNewThing: false
+            isBuyNewThing: true
         }
     }
     static navigationOptions = ({ navigation }) => {
@@ -41,8 +51,9 @@ class Home extends Component {
         this.props.navigation.toggleDrawer();
     };
 
-    Visible(modalVisible) {
-        this.setState({ modalVisible: false });
+    isCloseWebpay = () => {
+        this.props.membershipData({"result": ""})
+        this.myhomedata();
     }
 
     async setModalVisible(cardNumber) {
@@ -134,8 +145,31 @@ class Home extends Component {
         this.openBrowser('http://24hr-fitness.eu');
     };
 
+    handleBuyPress = async (membership_id) => {
+        
+        const { postMembership, loadingStart } = this.props;
+
+        loadingStart();
+        const Id = await SecureStore.getItemAsync("id");
+        const Token = await SecureStore.getItemAsync("access_token");
+
+        const membership_data = {
+            "current_user_id": Id,
+            "access_token": Token,
+            "membership_id": membership_id
+        };
+        postMembership(membership_data);
+
+    };
+
+    Visible = (visible) => {
+        console.log(visible)
+        this.setState({ modalVisible: false });
+    }
+
     renderItem = ({ item }) => {
-        const { modalVisible, cardNumber } = this.state;
+        const { modalVisible } = this.state;
+        const { MembershipData, paymentURL } = this.props;
         return (
             <View style={styleCss.MembershipView}>
                 <Row style={styleCss.NaveBar}>
@@ -166,7 +200,7 @@ class Home extends Component {
                 {
                 !this.state.isBuyNewThing ? 
                 
-                <TouchableOpacity key={item} onPress={() => this.setModalVisible(item.card_number)} style={styleCss.TouchScreenCSS}>
+                <TouchableOpacity key={[1]} onPress={() => this.setModalVisible(item.card_number)} style={styleCss.TouchScreenCSS}>
 
                     <Text style={styleCss.MembershipTitle}>{item.membership_title}</Text>
 
@@ -196,12 +230,13 @@ class Home extends Component {
                                 ? { uri: 'https://chart.googleapis.com/chart?cht=qr&chs=300x300&chl=' + item.card_number }
                                 : null
                             } />
+                            <Text>Click the image to zoom.</Text>
                         </> :
                             <Text>{item.payment_status}</Text>
                         }
                         <View style={styleCss.containerButton}>
                             <TouchableOpacity style={styleCss.button} onPress={() => this.changeKIOSKView()}>
-                                <Text style={styleCss.buttonText}>Open to buy page</Text>
+                                <Text style={styleCss.buttonText}>Buy new membership</Text>
                             </TouchableOpacity>
                         </View>
 
@@ -213,10 +248,23 @@ class Home extends Component {
                         <View style={styleCss.qr_modal_main_view}>
 
                             <View style={styleCss.SubImageContainer}>
-                        
-                                <View key={1} style={styleCss.SubImageContainer}>
+
+                                <Row style={styleCss.membership_modal_row}>
+                                    <Col style={styleCss.group_name_col}>
+                                        <Text numberOfLines={1} style={styleCss.group_name_text}>Take the image near the device.</Text>
+                                    </Col>
+                                    <Col style={styleCss.group_back_arrow_col}>
+                                        <TouchableOpacity onPress={() => { this.Visible(false) }} style={styleCss.group_back_arrow_text}>
+                                            <Image
+                                                style={styleCss.group_close_image}
+                                                source={require('../../../images/Close-blue-512.png')} />
+                                        </TouchableOpacity>
+                                    </Col>
+                                </Row>
+
+                                <View key={[1]} style={styleCss.SubImageContainer}>
                                     
-                                    <TouchableOpacity onPress={() => { this.Visible(!modalVisible) }} style={styleCss.zoomQRCode}>
+                                    <TouchableOpacity onPress={() => { this.Visible(false) }} style={styleCss.zoomQRCode}>
                                         <Image onLoadStart={(e) => this.setState({ ImageLoading: true })}
                                             onLoadEnd={(e) => this.setState({ ImageLoading: false })}
                                             source={
@@ -244,25 +292,87 @@ class Home extends Component {
 
                 :
 
-                <AutoHeightWebView
-                    style={{ width: Dimensions.get('window').width,  marginTop: 1 }}
-                    customScript={`document.body.style.background = 'transparent';`}
-                    customStyle={`
-                    * {
-                        font-family: 'Times New Roman';
-                        font-size: 11px !important;
-                    }
-                    `}
-                    onSizeUpdated={size => {}}
-                    files={[{
-                        href: 'cssfileaddress',
-                        type: 'text/css',
-                        rel: 'stylesheet'
-                    }]}
-                    source={{ uri: "http://24hr-fitness.eu/quick-buy/" }}
-                    scalesPageToFit={true}
-                    viewportContent={'width=device-width, user-scalable=yes'}
-                />
+                <>
+                {
+                    MembershipData ? 
+                    <>
+                    <View style={{marginBottom: 85}}>    
+                        {MembershipData.map(r => 
+                            <>
+                                <Row style={styleCss.MembershipCard}>
+                                    <Col style={styleCss.membership_list_name_col}>
+                                        <Text style={styleCss.MembershipTitleText}>{r.membership_label}</Text>
+                                        <Text style={styleCss.MemebshipSignupFeeText}>Signp fee</Text>
+
+                                        {/* <Text style={styleCss.NaveText}> {r.membership_description} </Text> */}
+
+                                        <Button title="Pay By GP Webpay" color={'#f4ba16'} style={styleCss.Product_buy_button} onPress={() => this.handleBuyPress(r.membership_id)} />
+                                    </Col>
+                                    <Col style={styleCss.nutrition_list_name_col_1}>
+                                    </Col>
+
+                                    <Col style={styleCss.MembershipTitleText}>
+                                        <Text style={styleCss.MembershipTitleText}>€{r.membership_amount}</Text>
+                                        <Text style={styleCss.MemebshipSignupFeeText}>€{r.signup_fee}</Text>
+
+                                        {/* <Text style={styleCss.NaveText}></Text> */}
+                                        <Text style={{ border: "none", boxShadow: "none" }} ></Text>
+                                    </Col>
+                                </Row>
+                            </>)
+                            }    
+                    </View>
+
+                    <Modal
+                        animationType="slide"
+                        transparent={true}
+                        visible={paymentURL != ""}>
+
+                        <View style={styleCss.group_modal_main_view}>
+
+                            <View style={styleCss.gpwebpay_modal_view}>
+                                <Row style={styleCss.membership_modal_row}>
+                                    <Col style={styleCss.group_name_col}>
+                                        <Text numberOfLines={1} style={styleCss.group_name_text}>Thanks for your funding.</Text>
+                                    </Col>
+                                    <Col style={styleCss.group_back_arrow_col}>
+                                        <TouchableOpacity onPress={() => { this.isCloseWebpay() }} style={styleCss.group_back_arrow_text}>
+                                            <Image
+                                                style={styleCss.group_close_image}
+                                                source={require('../../../images/Close-blue-512.png')} />
+                                        </TouchableOpacity>
+                                    </Col>
+                                </Row>
+
+                                <View key={[1]} style={styleCss.SubImageContainer}>
+                                    <AutoHeightWebView
+                                        style={{ width: Dimensions.get('window').width,  marginTop: 1 }}
+                                        customScript={`document.body.style.background = 'transparent';`}
+                                        customStyle={`
+                                        * {
+                                            // font-family: 'Times New Roman';
+                                            // font-size: 11px !important;
+                                        }
+                                        `}
+                                        onSizeUpdated={size => {}}
+                                        files={[{
+                                            href: 'cssfileaddress',
+                                            type: 'text/css',
+                                            rel: 'stylesheet'
+                                        }]}
+                                        source={{ uri: paymentURL }}
+                                        scalesPageToFit={true}
+                                        viewportContent={'width=device-width, user-scalable=yes'}
+                                    />
+                                </View>
+                            </View>
+                        </View>
+                    </Modal>
+                    </>
+                    :
+                    <Text>Membership not found</Text>
+                }
+                </>
                     
                 }
             </View>
@@ -271,7 +381,7 @@ class Home extends Component {
     render() {
         const { modalVisible, cardNumber } = this.state;
         const { navigate } = this.props.navigation;
-        const { Data, loading } = this.props;
+        const { Data, MembershipData, paymentURL, loading } = this.props;
 
         if (!loading) {
             return (
@@ -312,25 +422,87 @@ class Home extends Component {
                             </View>
                             {
                                 this.state.isBuyNewThing ? 
-                                <AutoHeightWebView
-                                    style={{ width: Dimensions.get('window').width,  marginTop: 1 }}
-                                    customScript={`document.body.style.background = 'transparent';`}
-                                    customStyle={`
-                                    * {
-                                        font-family: 'Times New Roman';
-                                        font-size: 11px !important;
+                                <>
+                                    {
+                                        MembershipData ? 
+                                        <>
+                                        <View style={{marginBottom: 85}}>    
+                                            {MembershipData.map(r => 
+                                                <>
+                                                    <Row style={styleCss.MembershipCard}>
+                                                        <Col style={styleCss.membership_list_name_col}>
+                                                            <Text style={styleCss.MembershipTitleText}>{r.membership_label}</Text>
+                                                            <Text style={styleCss.MemebshipSignupFeeText}>Signp fee</Text>
+
+                                                            {/* <Text style={styleCss.NaveText}> {r.membership_description} </Text> */}
+
+                                                            <Button title="Pay By GP Webpay" color={'#f4ba16'} style={styleCss.Product_buy_button} onPress={() => this.handleBuyPress(r.membership_id)} />
+                                                        </Col>
+                                                        <Col style={styleCss.nutrition_list_name_col_1}>
+                                                        </Col>
+
+                                                        <Col style={styleCss.MembershipTitleText}>
+                                                            <Text style={styleCss.MembershipTitleText}>€{r.membership_amount}</Text>
+                                                            <Text style={styleCss.MemebshipSignupFeeText}>€{r.signup_fee}</Text>
+
+                                                            {/* <Text style={styleCss.NaveText}></Text> */}
+                                                            <Text style={{ border: "none", boxShadow: "none" }} ></Text>
+                                                        </Col>
+                                                    </Row>
+                                                </>)
+                                                }    
+                                        </View>
+
+                                        <Modal
+                                            animationType="slide"
+                                            transparent={true}
+                                            visible={paymentURL != ""}>
+
+                                            <View style={styleCss.group_modal_main_view}>
+
+                                                <View style={styleCss.gpwebpay_modal_view}>
+                                                    <Row style={styleCss.membership_modal_row}>
+                                                        <Col style={styleCss.group_name_col}>
+                                                            <Text numberOfLines={1} style={styleCss.group_name_text}>Thanks for your funding.</Text>
+                                                        </Col>
+                                                        <Col style={styleCss.group_back_arrow_col}>
+                                                            <TouchableOpacity onPress={() => { this.isCloseWebpay() }} style={styleCss.group_back_arrow_text}>
+                                                                <Image
+                                                                    style={styleCss.group_close_image}
+                                                                    source={require('../../../images/Close-blue-512.png')} />
+                                                            </TouchableOpacity>
+                                                        </Col>
+                                                    </Row>
+
+                                                    <View key={[1]} style={styleCss.SubImageContainer}>
+                                                        <AutoHeightWebView
+                                                            style={{ width: Dimensions.get('window').width,  marginTop: 1 }}
+                                                            customScript={`document.body.style.background = 'transparent';`}
+                                                            customStyle={`
+                                                            * {
+                                                                // font-family: 'Times New Roman';
+                                                                // font-size: 11px !important;
+                                                            }
+                                                            `}
+                                                            onSizeUpdated={size => {}}
+                                                            files={[{
+                                                                href: 'cssfileaddress',
+                                                                type: 'text/css',
+                                                                rel: 'stylesheet'
+                                                            }]}
+                                                            source={{ uri: paymentURL }}
+                                                            scalesPageToFit={true}
+                                                            viewportContent={'width=device-width, user-scalable=yes'}
+                                                        />
+                                                    </View>
+                                                </View>
+                                            </View>
+                                        </Modal>
+                                        </>
+                                        :
+                                        <Text>Membership not found</Text>
                                     }
-                                    `}
-                                    onSizeUpdated={size => {}}
-                                    files={[{
-                                        href: 'cssfileaddress',
-                                        type: 'text/css',
-                                        rel: 'stylesheet'
-                                    }]}
-                                    source={{ uri: "http://24hr-fitness.eu/quick-buy/" }}
-                                    scalesPageToFit={true}
-                                    viewportContent={'width=device-width, user-scalable=yes'}
-                                />
+                                </>
                                 :
                                 <EmptyComponent title={t("Data not available")} visible={true} />
                             }
@@ -442,14 +614,18 @@ const EmptyComponent = ({ title, visible }) => (
 const mapStateToProps = (state) => {
     return {
         Data: state.home.homeData,
+        MembershipData: state.home.membership,
+        paymentURL: state.membership.membershipResultData,
         loading: state.home.loading,
     };
 };
 
 const mapDispatchToProps = {
     fetchHomelist,
+    postMembership,
     Logoutmember,
     loadingStart,
+    membershipData
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

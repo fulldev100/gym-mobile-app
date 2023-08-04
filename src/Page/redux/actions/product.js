@@ -25,6 +25,7 @@ export const fetchProductlist = (data) => dispatch => {
         if (responseJson.status == 1) {
           //  console.log(responseJson);
             dispatch(productData(responseJson));
+            dispatch(endLoading());
         } else {
             dispatch(endLoading());
             AlertHelper.show('warn', t('Warning'), responseJson.error);

@@ -92,6 +92,8 @@ export const HISTORYLIST = "history_list";
 
 export const HOME_GYM = "mobile_membership_payment_list";
 
+export const BUY_MEMBERSHIP = "buy_membership_in_mobile";
+
 export const PRODUCTLIST = "sales_product_list";
 
 export const PRODUCTGROUPLIST = "product_list";

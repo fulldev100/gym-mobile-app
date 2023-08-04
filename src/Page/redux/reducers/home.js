@@ -21,6 +21,7 @@ export const home = (state = initialState, action) => {
             return {
                 ...state,
                 homeData:action.data.result,
+                membership: action.data.membership,
                 loading: false,
             }
         default:

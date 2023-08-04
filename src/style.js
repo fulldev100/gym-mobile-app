@@ -60,6 +60,39 @@ export default StyleSheet.create({
             }
         })
     },
+    MembershipCard: {
+        ...Platform.select({
+            ios: {
+                height: normalize(175),
+                backgroundColor: 'transparent',
+                color: '#656565',
+                justifyContent: 'center',
+                alignSelf: 'center',
+                alignItems: 'center',
+                paddingTop: normalize(25),
+                justifyContent: 'space-between',
+                width: '80%',
+                borderColor: 'black',
+                borderRadius: 1,
+                borderWidth: 1,
+                marginTop: 10
+            },
+            android: {
+                height: normalize(150),
+                backgroundColor: 'transparent',
+                color: '#656565',
+                alignSelf: 'center',
+                justifyContent: 'center',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                width: '80%',
+                borderColor: 'black',
+                borderRadius: 1,
+                borderWidth: 1,
+                marginTop: 10
+            }
+        })
+    },
     TouchScreenCSS: {
         padding: 25,
         marginBottom: 70
@@ -159,6 +192,21 @@ export default StyleSheet.create({
     NaveText: {
         color: '#656565',
         fontSize: 17,
+        fontWeight: 'bold',
+        fontFamily: 'Poppins-Regular',
+        textAlign: 'center',
+    },
+    MemebshipSignupFeeText: {
+        color: '#656565',
+        fontSize: 17,
+        fontWeight: 'bold',
+        fontFamily: 'Poppins-Regular',
+        textAlign: 'center',
+        marginBottom: 30
+    },
+    MembershipTitleText: {
+        color: '# ',
+        fontSize: 19,
         fontWeight: 'bold',
         fontFamily: 'Poppins-Regular',
         textAlign: 'center',
@@ -1474,10 +1522,20 @@ export default StyleSheet.create({
         marginTop: normalize(160),
         paddingBottom: normalize(50)
     },
+    gpwebpay_modal_view: {
+        height: "100%",
+        width: "100%",
+        backgroundColor: 'white'
+    },
     group_modal_row: {
         height: '18%',
         borderBottomWidth: 0.5,
         borderBottomColor: '#8A8B8B',
+    },
+    membership_modal_row: {
+        height: '5%',
+        borderBottomWidth: 0.5,
+        backgroundColor: 'white'
     },
     group_name_col: {
         paddingLeft: '10%',
@@ -3104,6 +3162,23 @@ export default StyleSheet.create({
             }
         })
     },
+    membership_list_name_col: {
+        ...Platform.select({
+            ios: {
+                justifyContent: 'center',
+                alignItems: 'center',
+                width: normalize(200),
+                paddingLeft: 5
+            },
+            android: {
+                justifyContent: 'center',
+                alignItems: 'center',
+                color: '#656565',
+                width: normalize(200),
+                paddingLeft: 5
+            }
+        })
+    },
     nutrition_list_name_col_1: {
         ...Platform.select({
             ios: {
@@ -3172,6 +3247,7 @@ export default StyleSheet.create({
         marginBottom: 20
     },
     Membership_card_image: {
+        marginTop: 5,
         height: 210,
         width: 210
     },
@@ -3328,6 +3404,7 @@ export default StyleSheet.create({
         flex: 1,
         justifyContent: 'flex-end',
         alignItems: 'flex-end',
+        marginTop: 10
     },
     button: {
         backgroundColor: 'lightgray',
