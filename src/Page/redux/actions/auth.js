@@ -61,14 +61,20 @@ const endLoading = () => ({
   type: LOADING_END_SIGNUP,
 });
 
-export const Logoutmember = (data, navigate) => (dispatch) => {
-  navigate("Auth");
+export const Logoutmember = (data, navigate) => async (dispatch) => {
+  
+  await SecureStore.deleteItemAsync("access_token");
+  await SecureStore.deleteItemAsync("role_name");
+    
   dispatch(userLogout(data));
   return userLogoutAction(data).then((responseJson) => {
     if (responseJson.status == 1) {
-    } else {
+      navigate("Auth");
       dispatch(endLoading());
-      AlertHelper.show("warn", t("Warning"), responseJson.error);
+    } else {
+      navigate("Auth");
+      dispatch(endLoading());
+   //   AlertHelper.show("warn", t("Warning"), responseJson.error);
     }
   });
 };

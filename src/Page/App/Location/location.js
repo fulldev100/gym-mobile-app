@@ -97,6 +97,7 @@ class MyLocation extends Component {
 
     _handleBackButtonClick = () => this.props.navigation.navigate('myHome')
     renderItem = ({ item }) => {
+        const { Gym_name, Gym_address, Gym_map_address, Gym_alternate_phone_number, Gym_contact_number, Gym_country, Gym_email } = this.props;
         return (
             <View style={styleCss.MembershipView}>
                 <Row style={styleCss.NaveBar}>
@@ -124,19 +125,24 @@ class MyLocation extends Component {
                         <WebView
                             style={styleCss.HTMLViewContainer}
                             originWhitelist={['*']}
-                            source={{ html: buggyHtml }}
+                            source={{ html: 
+                                `
+                                <style>/*! elementor - v3.9.2 - 21-12-2022 */<br />
+                                .elementor-widget-google_maps .elementor-widget-container{overflow:hidden}.elementor-widget-google_maps iframe{height:300px}
+                                </style>
+                                <iframe title="{Gym_address}" style="width: 100%; height: 100% !important" src="https://maps.google.com/maps?q=Bidovce%20316&amp;t=m&amp;z=10&amp;output=embed&amp;iwloc=near" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" aria-label="{Gym_address}"></iframe>
+                                `
+                             }}
                             />
                     </View>
                     
-                    <Text style={styleCss.MembershipMemberName}>24Hr Fitness s.r.o.</Text>
+                    <Text style={styleCss.MembershipMemberName}>{Gym_name}</Text>
                     <Text style={styleCss.MembershipMemberName}>
-                        Bidovce 316
-                        04445 Bidovce
-                        Slovakia
+                        {Gym_address} {Gym_country}
                     </Text>
 
-                    <Text style={styleCss.MembershipMemberEmail}>info@24hr-fitness.eu</Text>
-                    <Text style={styleCss.MembershipMemberEmail}>+421 915 841 077</Text>
+                    <Text style={styleCss.MembershipMemberEmail}>{Gym_email}</Text>
+                    <Text style={styleCss.MembershipMemberEmail}>{Gym_contact_number}</Text>
 
                 </TouchableOpacity>
             </View>
@@ -145,7 +151,7 @@ class MyLocation extends Component {
     render() {
 
         const { navigate } = this.props.navigation;
-        const { Data, loading } = this.props;
+        const { Data, Gym_name, Gym_address, Gym_alternate_phone_number, Gym_contact_number, Gym_country, Gym_email, loading } = this.props;
 
         if (!loading) {
             return (
@@ -182,19 +188,24 @@ class MyLocation extends Component {
                                         <WebView
                                             style={styleCss.HTMLViewContainer}
                                             originWhitelist={['*']}
-                                            source={{ html: buggyHtml }}
+                                            source={{ html: 
+                                                `
+                                                <style>/*! elementor - v3.9.2 - 21-12-2022 */<br />
+                                                .elementor-widget-google_maps .elementor-widget-container{overflow:hidden}.elementor-widget-google_maps iframe{height:300px}
+                                                </style>
+                                                <iframe title="{Gym_address}" style="width: 100%; height: 100% !important" src="https://maps.google.com/maps?q=Bidovce%20316&amp;t=m&amp;z=10&amp;output=embed&amp;iwloc=near" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" aria-label="{Gym_address}"></iframe>
+                                                `
+                                             }}
                                             />
                                     </View>
                                     
-                                    <Text style={styleCss.MembershipMemberName}>24Hr Fitness s.r.o.</Text>
+                                    <Text style={styleCss.MembershipMemberName}>{Gym_name}</Text>
                                     <Text style={styleCss.MembershipMemberName}>
-                                        Bidovce 316
-                                        04445 Bidovce
-                                        Slovakia
+                                        {Gym_address} {Gym_country}
                                     </Text>
 
-                                    <Text style={styleCss.MembershipMemberEmail}>info@24hr-fitness.eu</Text>
-                                    <Text style={styleCss.MembershipMemberEmail}>+421 915 841 077</Text>
+                                    <Text style={styleCss.MembershipMemberEmail}>{Gym_email}</Text>
+                                    <Text style={styleCss.MembershipMemberEmail}>{Gym_contact_number}</Text>
 
                                 </TouchableOpacity>
                             </View>
@@ -297,6 +308,13 @@ class MyLocation extends Component {
 const mapStateToProps = (state) => {
     return {
         Data: state.home.homeData,
+        Gym_name: state.home.gym_name,
+        Gym_address: state.home.gym_address,
+        Gym_map_address: state.home.gym_map_address,
+        Gym_contact_number: state.home.gym_contact_number,
+        Gym_alternate_phone_number: state.home.gym_alternate_phone_number,
+        Gym_email: state.home.gym_email,
+        Gym_country: state.home.gym_country,
         loading: state.home.loading,
     };
 };

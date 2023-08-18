@@ -4,7 +4,7 @@ import {
 import { AlertHelper } from '../../App/AlertHelper';
 import { t } from '../../../../locals';
 
-import { PRODUCT_LIST, LOADING_START_NUTRITION, LOADING_END_NUTRITION } from '../constant/types';
+import { PRODUCT_LIST, LOADING_START_PRODUCT, LOADING_END_PRODUCT } from '../constant/types';
 
 const productData = data => ({
     type: PRODUCT_LIST,
@@ -12,11 +12,11 @@ const productData = data => ({
 });
 
 const startLoading = () => ({
-    type: LOADING_START_NUTRITION
+    type: LOADING_START_PRODUCT
 });
 
 const endLoading = () => ({
-    type: LOADING_END_NUTRITION
+    type: LOADING_END_PRODUCT
 });
 
 export const fetchProductlist = (data) => dispatch => {

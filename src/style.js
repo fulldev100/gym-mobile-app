@@ -1442,6 +1442,8 @@ export default StyleSheet.create({
         borderWidth: 1,
         borderBottomColor: 'gray',
         paddingHorizontal: 10,
+        height: 40,
+        margin: 12,
     },
     Product_buy_button: {
         marginLeft: 30,
@@ -3199,8 +3201,6 @@ export default StyleSheet.create({
     containterProductList: {
         flex: 1,
         width: '100%',
-        justifyContent: 'center',
-        alignItems: 'center',
     },
     product_list_row: {
         flex: 1,

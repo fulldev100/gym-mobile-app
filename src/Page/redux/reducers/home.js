@@ -22,6 +22,13 @@ export const home = (state = initialState, action) => {
                 ...state,
                 homeData:action.data.result,
                 membership: action.data.membership,
+                gym_name: action.data.gym_name,
+                gym_address: action.data.gym_address,
+                gym_map_address: action.data.gym_map_address,
+                gym_contact_number: action.data.gym_contact_number,
+                gym_alternate_phone_number: action.data.gym_alternate_phone_number,
+                gym_email: action.data.gym_email,
+                gym_country: action.data.gym_country,
                 loading: false,
             }
         default:

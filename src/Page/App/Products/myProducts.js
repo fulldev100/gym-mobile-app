@@ -95,7 +95,7 @@ class MyProducts extends Component {
     renderItem = ({ item }) => {
         return (
             <View style={styleCss.containterProductList}>
-                <TouchableOpacity onPress={() => this.props.navigation.navigate('myProductSchedule', { productData:[item], paramKey1: item.sell_id, paramKey2: item.invoice_no })}>
+                <TouchableOpacity>
 
                     <Row style={styleCss.product_list_row}>
                         <Col style={styleCss.nutrition_list_col}>

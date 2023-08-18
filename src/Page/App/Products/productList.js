@@ -1,17 +1,27 @@
 import React, { Component } from 'react';
-import { SafeAreaView, Modal, BackHandler, TouchableHighlight, ActivityIndicator, RefreshControl, Alert, Text, Button, TextInput, View, Image, FlatList, TouchableOpacity, StatusBar, ScrollView } from 'react-native';
+import { Dimensions, SafeAreaView, Modal, BackHandler, TouchableHighlight, ActivityIndicator, RefreshControl, Alert, Text, Button, TextInput, View, Image, FlatList, TouchableOpacity, StatusBar, ScrollView } from 'react-native';
 import { Col, Row } from 'react-native-easy-grid';
 import * as SecureStore from 'expo-secure-store';
-import { connect } from "react-redux";
-import { fetchProductlist, loadingStart, viewProduct } from "../../redux/actions/productList";
+import { connect, useDispatch } from "react-redux";
+import { fetchProductlist, postProduct, loadingStart, viewProduct } from "../../redux/actions/productList";
 import { t } from '../../../../locals';
 import styleCss from '../../../style';
 //import Paypal from '../../../util/Paypal';
 import { Logoutmember } from "../../redux/actions/auth";
 import * as WebBrowser from 'expo-web-browser';
+import AutoHeightWebView from 'react-native-autoheight-webview';
+import { POST_PRODUCT } from '../../redux/constant/types';
 
 // import { PayPal} from 'react-native-paypal';
 // import { WebView } from 'react-native-webview';
+
+export const productData = (data) => {
+    return {
+        type: POST_PRODUCT,
+        data,
+      // OR map specific attributes from the data object
+    }
+  }
 
 class productList extends Component {
     constructor(props) {
@@ -27,8 +37,6 @@ class productList extends Component {
 
     }
 
-    
-
     handleNumberChange = (inputNumber) => {
         const regex = /^[0-9]*$/;
         if (regex.test(inputNumber)) {
@@ -43,17 +51,22 @@ class productList extends Component {
         await WebBrowser.openBrowserAsync(url);
       };
     
-    handleBuyPress = async () => {
-        // Handle button press event
-        // if (this.state.amount_number === '') {
-        //     Alert.alert('Error', 'Please enter a number');
-        //   } else {
-        //     // Perform your desired action with the validated number
-        //     //Alert.alert('Success', `You entered the number: ${this.state.amount_number}`);
-        //     Alert.alert('Success', `Please wait new version.`);
-            
-        //   }
-        this.openBrowser('https://24hr-fitness.eu/products/');
+    handleBuyPress = async (product_id) => {
+        
+        const { postProduct, loadingStart } = this.props;
+
+        loadingStart();
+        const Id = await SecureStore.getItemAsync("id");
+        const Token = await SecureStore.getItemAsync("access_token");
+
+        const product_data = {
+            "current_user_id": Id,
+            "access_token": Token,
+            "product_id": product_id,
+            "product_quantity": this.state.amount_number
+        };
+        postProduct(product_data);
+
     };
 
     static navigationOptions = ({ navigation }) => {
@@ -100,6 +113,10 @@ class productList extends Component {
         Logoutmember(userData, navigate);
     }
 
+    isCloseWebpay = () => {
+        this.props.productData({"result": ""})
+    }
+
     async productListAction() {
 
         const { fetchProductlist, loadingStart } = this.props;
@@ -139,6 +156,7 @@ class productList extends Component {
     // render item for flatlist
     renderItem = ({ item }) => {
         const { modalVisible } = this.state;
+        const { paymentURL } = this.props;
         return (
             <View>
                 <Row style={styleCss.group_RowContainer}>
@@ -177,9 +195,9 @@ class productList extends Component {
         )
     }
     render() {
-        const { modalVisible, Member_Data, Product_name, ProductMember } = this.state;
+        const { modalVisible, Member_Data, amount_number } = this.state;
         const { navigate } = this.props.navigation;
-        const { data, loading } = this.props;
+        const { paymentURL, data, loading } = this.props;
         if (!loading) {
             return (
 
@@ -225,6 +243,51 @@ class productList extends Component {
                                 }
                             />
                             <Col>
+                            <Modal
+                                    animationType="slide"
+                                    transparent={true}
+                                    visible={paymentURL != ""}>
+
+                                    <View style={styleCss.group_modal_main_view}>
+
+                                        <View style={styleCss.gpwebpay_modal_view}>
+                                            <Row style={styleCss.membership_modal_row}>
+                                                <Col style={styleCss.group_name_col}>
+                                                    <Text numberOfLines={1} style={styleCss.group_name_text}>Thanks for your funding.</Text>
+                                                </Col>
+                                                <Col style={styleCss.group_back_arrow_col}>
+                                                    <TouchableOpacity onPress={() => { this.isCloseWebpay() }} style={styleCss.group_back_arrow_text}>
+                                                        <Image
+                                                            style={styleCss.group_close_image}
+                                                            source={require('../../../images/Close-blue-512.png')} />
+                                                    </TouchableOpacity>
+                                                </Col>
+                                            </Row>
+
+                                            <View key={[1]} style={styleCss.SubImageContainer}>
+                                                <AutoHeightWebView
+                                                    style={{ width: Dimensions.get('window').width,  marginTop: 1 }}
+                                                    customScript={`document.body.style.background = 'transparent';`}
+                                                    customStyle={`
+                                                    * {
+                                                        // font-family: 'Times New Roman';
+                                                        // font-size: 11px !important;
+                                                    }
+                                                    `}
+                                                    onSizeUpdated={size => {}}
+                                                    files={[{
+                                                        href: 'cssfileaddress',
+                                                        type: 'text/css',
+                                                        rel: 'stylesheet'
+                                                    }]}
+                                                    source={{ uri: paymentURL }}
+                                                    scalesPageToFit={true}
+                                                    viewportContent={'width=device-width, user-scalable=yes'}
+                                                />
+                                            </View>
+                                        </View>
+                                    </View>
+                            </Modal>
                                 <Modal
                                     animationType="slide"
                                     transparent={true}
@@ -235,7 +298,17 @@ class productList extends Component {
                                         <View style={styleCss.product_modal_view}>
                                             <Row style={styleCss.group_modal_row}>
                                                 <Col style={styleCss.group_name_col}>
-                                                    <Text numberOfLines={1} style={styleCss.group_name_text}></Text>
+                                                    {/* <Text numberOfLines={1} style={styleCss.group_name_text}></Text> */}
+                                                    {/* <Text numberOfLines={1} style={styleCss.group_name_text}>{Member_Data.product_name}</Text> */}
+                                                    <View style={styleCss.Product_amount_container}>
+                                                        <Text numberOfLines={1} style={styleCss.group_name_text}>{Member_Data.product_price}</Text>
+                                                        
+                                                        <TextInput
+                                                            style={styleCss.Product_input}
+                                                            onChangeText={this.handleNumberChange}
+                                                            value={this.state.amount_number} />
+                                                        <Button title="Buy" color={'#f4ba16'} style={styleCss.Product_buy_button} onPress={() => this.handleBuyPress(Member_Data.product_id)} />
+                                                    </View>
                                                 </Col>
                                                 <Col style={styleCss.group_back_arrow_col}>
                                                     <TouchableOpacity onPress={() => { this.Visible(!modalVisible) }} style={styleCss.group_back_arrow_text}>
@@ -247,39 +320,12 @@ class productList extends Component {
                                             </Row>
 
                                             <View key={1} style={styleCss.SubImageContainer}>
-                                                <Text numberOfLines={1} style={styleCss.group_name_text}>{Member_Data.product_name}</Text>
                                                 
-                                                <View style={styleCss.Product_amount_container}>
-                                                    <Text numberOfLines={1} style={styleCss.group_name_text}>{Member_Data.product_price}</Text>
-                                                   
-                                                    {/* <TextInput
-                                                        style={styleCss.Product_input}
-                                                        onChangeText={this.handleNumberChange}
-                                                        value={this.state.amount_number}
-                                                        placeholder=""
-                                                    >
-                                                    </TextInput> */}
-
-                                                    {/* <TouchableOpacity
-                                                        style={styles.addFundsButton}
-                                                        onPress={() => this.goToPaypal()}
-                                                        >
-                                                        <Text style={appStyles.textWhite}>Add Funds</Text>
-                                                    </TouchableOpacity> */}
-                                                    {/* <PayPalButton
-                                                        amount="10.00"
-                                                        currency="USD"
-                                                        clientId="ASDk6tgF5vAZDJjRY4lauMVx4brniAM6dm7CWLv4F8X8M-rCz0yX0LSSmxMzIbw93gXsQ-bYBg1sBejo"
-                                                        onPaymentSuccess={(payment) => console.log(payment)}
-                                                        onPaymentError={(error) => console.log(error)}
-                                                        onPaymentCancel={() => console.log("Payment cancelled")}
-                                                        /> */}
-                                                    <Button title="Open to buy page" color={'#f4ba16'} style={styleCss.Product_buy_button} onPress={() => this.handleBuyPress()} />
-                                                </View>
                                                 <Image onLoadStart={(e) => this.setState({ ImageLoading: true })}
                                                     onLoadEnd={(e) => this.setState({ ImageLoading: false })}
                                                     source={Member_Data.product_image ? { uri: Member_Data.product_image } : null}
-                                                     style={styleCss.SubProductImage} />
+                                                     style={styleCss.SubProductImage} />      
+                                                
                                                 <ActivityIndicator
                                                     style={styleCss.loading}
                                                     animating={this.state.ImageLoading}
@@ -394,6 +440,7 @@ const mapStateToProps = (state) => {
     return {
         data: state.productList.ProductData,
         loading: state.productList.loading,
+        paymentURL: state.productData.PostProduct
     };
 };
 
@@ -401,7 +448,9 @@ const mapDispatchToProps = {
     fetchProductlist,
     // viewProduct,
     Logoutmember,
-    loadingStart
+    loadingStart,
+    postProduct,
+    productData
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(productList);

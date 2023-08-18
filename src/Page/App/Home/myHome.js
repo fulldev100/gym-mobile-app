@@ -202,7 +202,13 @@ class Home extends Component {
                 
                 <TouchableOpacity key={[1]} onPress={() => this.setModalVisible(item.card_number)} style={styleCss.TouchScreenCSS}>
 
-                    <Text style={styleCss.MembershipTitle}>{item.membership_title}</Text>
+                    {
+                        item.payment_status == "Fully Paid"?
+                        <Text style={styleCss.MembershipTitle}>{item.membership_title}</Text>
+                        :
+                        <Text style={styleCss.MembershipTitle}>{item.membership_title} ( {item.payment_status} )</Text>
+                    }
+                    
 
                     <View style={styleCss.ImageLogoContainer}>
                         <Image style={styleCss.nutrition_list_image}
@@ -215,7 +221,6 @@ class Home extends Component {
                     <Text style={styleCss.MembershipMemberEmail}>{item.member_email}</Text>
 
                     <View style={styleCss.MembershipCardView}>
-                        {item.payment_status == "Fully Paid"?
                         <>
                             <Row>
                                 <Col>
@@ -231,9 +236,7 @@ class Home extends Component {
                                 : null
                             } />
                             <Text>Click the image to zoom.</Text>
-                        </> :
-                            <Text>{item.payment_status}</Text>
-                        }
+                        </>
                         <View style={styleCss.containerButton}>
                             <TouchableOpacity style={styleCss.button} onPress={() => this.changeKIOSKView()}>
                                 <Text style={styleCss.buttonText}>Buy new membership</Text>
@@ -241,50 +244,50 @@ class Home extends Component {
                         </View>
 
                         <Modal
-                        animationType="slide"
-                        transparent={true}
-                        visible={modalVisible}>
+                            animationType="slide"
+                            transparent={true}
+                            visible={modalVisible}>
 
-                        <View style={styleCss.qr_modal_main_view}>
+                            <View style={styleCss.qr_modal_main_view}>
 
-                            <View style={styleCss.SubImageContainer}>
+                                <View style={styleCss.SubImageContainer}>
 
-                                <Row style={styleCss.membership_modal_row}>
-                                    <Col style={styleCss.group_name_col}>
-                                        <Text numberOfLines={1} style={styleCss.group_name_text}>Take the image near the device.</Text>
-                                    </Col>
-                                    <Col style={styleCss.group_back_arrow_col}>
-                                        <TouchableOpacity onPress={() => { this.Visible(false) }} style={styleCss.group_back_arrow_text}>
-                                            <Image
-                                                style={styleCss.group_close_image}
-                                                source={require('../../../images/Close-blue-512.png')} />
+                                    <Row style={styleCss.membership_modal_row}>
+                                        <Col style={styleCss.group_name_col}>
+                                            <Text numberOfLines={1} style={styleCss.group_name_text}>Take the image near the device.</Text>
+                                        </Col>
+                                        <Col style={styleCss.group_back_arrow_col}>
+                                            <TouchableOpacity onPress={() => { this.Visible(false) }} style={styleCss.group_back_arrow_text}>
+                                                <Image
+                                                    style={styleCss.group_close_image}
+                                                    source={require('../../../images/Close-blue-512.png')} />
+                                            </TouchableOpacity>
+                                        </Col>
+                                    </Row>
+
+                                    <View key={[1]} style={styleCss.SubImageContainer}>
+                                        
+                                        <TouchableOpacity onPress={() => { this.Visible(false) }} style={styleCss.zoomQRCode}>
+                                            <Image onLoadStart={(e) => this.setState({ ImageLoading: true })}
+                                                onLoadEnd={(e) => this.setState({ ImageLoading: false })}
+                                                source={
+                                                    item.card_number
+                                                    ? { uri: 'https://chart.googleapis.com/chart?cht=qr&chs=300x300&chl=' + item.card_number }
+                                                    : null
+                                                }
+                                                style={styleCss.ZoomProductImage} />
                                         </TouchableOpacity>
-                                    </Col>
-                                </Row>
-
-                                <View key={[1]} style={styleCss.SubImageContainer}>
-                                    
-                                    <TouchableOpacity onPress={() => { this.Visible(false) }} style={styleCss.zoomQRCode}>
-                                        <Image onLoadStart={(e) => this.setState({ ImageLoading: true })}
-                                            onLoadEnd={(e) => this.setState({ ImageLoading: false })}
-                                            source={
-                                                item.card_number
-                                                ? { uri: 'https://chart.googleapis.com/chart?cht=qr&chs=300x300&chl=' + item.card_number }
-                                                : null
-                                            }
-                                            style={styleCss.ZoomProductImage} />
-                                    </TouchableOpacity>
-                                    
-                                    <ActivityIndicator
-                                        style={styleCss.loading}
-                                        animating={this.state.ImageLoading}
-                                        // size="small"
-                                        color="#102b46"
-                                    />
+                                        
+                                        <ActivityIndicator
+                                            style={styleCss.loading}
+                                            animating={this.state.ImageLoading}
+                                            // size="small"
+                                            color="#102b46"
+                                        />
+                                    </View>
                                 </View>
                             </View>
-                        </View>
-                    </Modal>
+                        </Modal>
 
                     </View>
 

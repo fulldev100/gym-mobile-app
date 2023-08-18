@@ -1,4 +1,4 @@
-import { PRODUCT_LIST, LOADING_START_NUTRITION, LOADING_END_NUTRITION } from '../constant/types';
+import { PRODUCT_LIST, LOADING_START_PRODUCT, LOADING_END_PRODUCT } from '../constant/types';
 
 const initialState = {
     loading: false,
@@ -7,12 +7,12 @@ const initialState = {
 
 export const product = (state = initialState, action) => {
     switch (action.type) {
-        case LOADING_START_NUTRITION:
+        case LOADING_START_PRODUCT:
             return {
                 ...state,
                 loading: true,
             }
-        case LOADING_END_NUTRITION:
+        case LOADING_END_PRODUCT:
             return {
                 ...state,
                 loading: false,
