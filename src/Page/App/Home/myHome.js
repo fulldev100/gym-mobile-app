@@ -18,11 +18,24 @@ import { Col, Row } from 'react-native-easy-grid';
 import { connect } from "react-redux";
 import { fetchHomelist, postMembership, loadingStart } from "../../redux/actions/home";
 import { Logoutmember } from "../../redux/actions/auth";
-import { t } from '../../../../locals';
+import { t, setLanguage } from '../../../../locals';
 import styleCss from '../../../style.js';
 import * as WebBrowser from 'expo-web-browser';
 import AutoHeightWebView from 'react-native-autoheight-webview';
 import { POST_MEMBERSHIP } from '../../redux/constant/types';
+
+import SelectDropdown from 'react-native-select-dropdown'
+
+const lang_region = [
+    {
+        value: "en",
+        label: t("England")
+    },
+    {
+        value: "sl",
+        label: t("Slovakia")
+    }
+  ];
 
 export const membershipData = (data) => {
     return {
@@ -39,7 +52,9 @@ class Home extends Component {
             ImageLoading: false,
             modalVisible: false,
             cardNumber: '',
-            isBuyNewThing: true
+            isBuyNewThing: true,
+            selectedLn: 'en',
+            lang_value: 0
         }
     }
     static navigationOptions = ({ navigation }) => {
@@ -91,6 +106,7 @@ class Home extends Component {
     }
 
     async myhomedata() {
+
         const { fetchHomelist, loadingStart } = this.props;
 
         this.setState({ isBuyNewThing: false })
@@ -183,17 +199,43 @@ class Home extends Component {
                     <Col style={styleCss.nutrition_list_name_col}>
                         <Text style={styleCss.NaveText}>24hr-fitness.eu</Text>
                     </Col>
-                    <Col style={styleCss.nutrition_list_name_col_1}>
-                    </Col>
 
                     <Col style={styleCss.AlignRightNavbar}>
                         <View style={styleCss.NavBarCreditView}>
-                            <Text style={styleCss.NaveCreditTitleText}>Price:</Text>
+                            <Text style={styleCss.NaveCreditTitleText}>{t("Price")}:</Text>
                             <Text style={styleCss.NaveCreditText}>{item.amount} {item.currency_symbol}</Text>
                         </View>
                     </Col>
                     <Col style={styleCss.AlignRightNavbar}>
-                        <Text style={styleCss.NaveText}>en</Text>
+                        <SelectDropdown
+                            data={lang_region}
+                            defaultValueByIndex={this.state.lang_value}
+                            onSelect={(selectedItem, index) => {
+                             //   console.log(selectedItem, index)
+                             //   this.setState({ selectedLn: selectedItem.value })
+                                this.setState({lang_value: index})
+                                setLanguage(selectedItem.value)
+                            }}
+                            dropdownIconPosition={'left'}
+                            buttonTextAfterSelection={(selectedItem, index) => {
+                                // text represented after item is selected
+                                // if data array is an array of objects then return selectedItem.property to render after item is selected
+                                return selectedItem.label
+                            }}
+                            rowTextForSelection={(item, index) => {
+                                // text represented for each item in dropdown
+                                // if data array is an array of objects then return item.property to represent item in dropdown
+                                return item.label
+                            }}
+                            buttonStyle={styleCss.dropdown1BtnStyle}
+                            buttonTextStyle={styleCss.dropdown1BtnTxtStyle}
+                            renderDropdownIcon={isOpened => {
+                                return <></>;
+                            }}
+                            dropdownStyle={styleCss.dropdown1DropdownStyle}
+                            rowStyle={styleCss.dropdown1RowStyle}
+                            rowTextStyle={styleCss.dropdown1RowTxtStyle}
+                        />
                     </Col>
                 </Row>
 
@@ -224,7 +266,7 @@ class Home extends Component {
                         <>
                             <Row>
                                 <Col>
-                                    <Text style={styleCss.MembershipMemberEmail}>Virtual Card no.:</Text>
+                                    <Text style={styleCss.MembershipMemberEmail}>{t("Virtual Card no")}:</Text>
                                 </Col>
                                 <Col>
                                     <Text style={styleCss.MembershipCardNumber}>{item.card_number}</Text>
@@ -235,11 +277,11 @@ class Home extends Component {
                                 ? { uri: 'https://chart.googleapis.com/chart?cht=qr&chs=300x300&chl=' + item.card_number }
                                 : null
                             } />
-                            <Text>Click the image to zoom.</Text>
+                            <Text>{t("Click the image to zoom")}</Text>
                         </>
                         <View style={styleCss.containerButton}>
                             <TouchableOpacity style={styleCss.button} onPress={() => this.changeKIOSKView()}>
-                                <Text style={styleCss.buttonText}>Buy new membership</Text>
+                                <Text style={styleCss.buttonText}>{t("Buy new membership")}</Text>
                             </TouchableOpacity>
                         </View>
 
@@ -254,7 +296,7 @@ class Home extends Component {
 
                                     <Row style={styleCss.membership_modal_row}>
                                         <Col style={styleCss.group_name_col}>
-                                            <Text numberOfLines={1} style={styleCss.group_name_text}>Take the image near the device.</Text>
+                                            <Text numberOfLines={1} style={styleCss.group_name_text}>{t("Take the image near the device")}</Text>
                                         </Col>
                                         <Col style={styleCss.group_back_arrow_col}>
                                             <TouchableOpacity onPress={() => { this.Visible(false) }} style={styleCss.group_back_arrow_text}>
@@ -305,11 +347,11 @@ class Home extends Component {
                                 <Row style={styleCss.MembershipCard}>
                                     <Col style={styleCss.membership_list_name_col}>
                                         <Text style={styleCss.MembershipTitleText}>{r.membership_label}</Text>
-                                        <Text style={styleCss.MemebshipSignupFeeText}>Signp fee</Text>
+                                        <Text style={styleCss.MemebshipSignupFeeText}>{t("Signp fee")}</Text>
 
                                         {/* <Text style={styleCss.NaveText}> {r.membership_description} </Text> */}
 
-                                        <Button title="Pay By GP Webpay" color={'#f4ba16'} style={styleCss.Product_buy_button} onPress={() => this.handleBuyPress(r.membership_id)} />
+                                        <Button title={t("Pay By GP Webpay")} color={'#f4ba16'} style={styleCss.Product_buy_button} onPress={() => this.handleBuyPress(r.membership_id)} />
                                     </Col>
                                     <Col style={styleCss.nutrition_list_name_col_1}>
                                     </Col>
@@ -336,7 +378,7 @@ class Home extends Component {
                             <View style={styleCss.gpwebpay_modal_view}>
                                 <Row style={styleCss.membership_modal_row}>
                                     <Col style={styleCss.group_name_col}>
-                                        <Text numberOfLines={1} style={styleCss.group_name_text}>Thanks for your funding.</Text>
+                                        <Text numberOfLines={1} style={styleCss.group_name_text}>{t("Thanks for your funding")}</Text>
                                     </Col>
                                     <Col style={styleCss.group_back_arrow_col}>
                                         <TouchableOpacity onPress={() => { this.isCloseWebpay() }} style={styleCss.group_back_arrow_text}>
@@ -373,7 +415,7 @@ class Home extends Component {
                     </Modal>
                     </>
                     :
-                    <Text>Membership not found</Text>
+                    <Text>{t("Membership not found")}</Text>
                 }
                 </>
                     
@@ -407,20 +449,43 @@ class Home extends Component {
                                 <Col style={styleCss.nutrition_list_name_col}>
                                     <Text style={styleCss.NaveText}>24hr-fitness.eu</Text>
                                 </Col>
-                                <Col style={styleCss.nutrition_list_name_col_1}>
-                                </Col>
 
-                                <Col style={styleCss.AlignRightNavbar} >
-                                    
-                                </Col>
                                 <Col style={styleCss.AlignRightNavbar}>
-                                    <Text style={styleCss.NaveText}>en</Text>
+                                    <SelectDropdown
+                                        data={lang_region}
+                                        defaultValueByIndex={this.state.lang_value}
+                                        onSelect={(selectedItem, index) => {
+                                        //   console.log(selectedItem, index)
+                                        //   this.setState({ selectedLn: selectedItem.value })
+                                            this.setState({lang_value: index})
+                                            setLanguage(selectedItem.value)
+                                        }}
+                                        dropdownIconPosition={'left'}
+                                        buttonTextAfterSelection={(selectedItem, index) => {
+                                            // text represented after item is selected
+                                            // if data array is an array of objects then return selectedItem.property to render after item is selected
+                                            return selectedItem.label
+                                        }}
+                                        rowTextForSelection={(item, index) => {
+                                            // text represented for each item in dropdown
+                                            // if data array is an array of objects then return item.property to represent item in dropdown
+                                            return item.label
+                                        }}
+                                        buttonStyle={styleCss.dropdown1BtnStyle}
+                                        buttonTextStyle={styleCss.dropdown1BtnTxtStyle}
+                                        renderDropdownIcon={isOpened => {
+                                            return <></>;
+                                        }}
+                                        dropdownStyle={styleCss.dropdown1DropdownStyle}
+                                        rowStyle={styleCss.dropdown1RowStyle}
+                                        rowTextStyle={styleCss.dropdown1RowTxtStyle}
+                                    />
                                 </Col>
                             </Row>
                             
                             <View style={styleCss.BuyNewMembershipView} >
                                 <TouchableOpacity onPress={() => this.changeKIOSKView()}>
-                                    <Text adjustsFontSizeToFit={true} style={styleCss.BuyNowText} >{!this.state.isBuyNewThing ? 'Buy now' : 'Close'}</Text>
+                                    <Text adjustsFontSizeToFit={true} style={styleCss.BuyNowText} >{!this.state.isBuyNewThing ? t("Buy now") : t("Close")}</Text>
                                 </TouchableOpacity>
                             </View>
                             {
@@ -439,7 +504,7 @@ class Home extends Component {
 
                                                             {/* <Text style={styleCss.NaveText}> {r.membership_description} </Text> */}
 
-                                                            <Button title="Pay By GP Webpay" color={'#f4ba16'} style={styleCss.Product_buy_button} onPress={() => this.handleBuyPress(r.membership_id)} />
+                                                            <Button title={t("Pay By GP Webpay")} color={'#f4ba16'} style={styleCss.Product_buy_button} onPress={() => this.handleBuyPress(r.membership_id)} />
                                                         </Col>
                                                         <Col style={styleCss.nutrition_list_name_col_1}>
                                                         </Col>
@@ -466,7 +531,7 @@ class Home extends Component {
                                                 <View style={styleCss.gpwebpay_modal_view}>
                                                     <Row style={styleCss.membership_modal_row}>
                                                         <Col style={styleCss.group_name_col}>
-                                                            <Text numberOfLines={1} style={styleCss.group_name_text}>Thanks for your funding.</Text>
+                                                            <Text numberOfLines={1} style={styleCss.group_name_text}>{t("Thanks for your funding")}</Text>
                                                         </Col>
                                                         <Col style={styleCss.group_back_arrow_col}>
                                                             <TouchableOpacity onPress={() => { this.isCloseWebpay() }} style={styleCss.group_back_arrow_text}>
@@ -503,7 +568,7 @@ class Home extends Component {
                                         </Modal>
                                         </>
                                         :
-                                        <Text>Membership not found</Text>
+                                        <Text>{t("Membership not found")}</Text>
                                     }
                                 </>
                                 :
@@ -527,7 +592,7 @@ class Home extends Component {
                                 <Image style={styleCss.bottomViewColumnImg}
                                     source={require('../../../images/small_gym.png')}
                                 />
-                                <Text style={styleCss.bottomViewColumnTextActive}>Home</Text>
+                                <Text style={styleCss.bottomViewColumnTextActive}>{t("Home")}</Text>
                             </TouchableOpacity>
                         </View>
                         <View style={styleCss.bottomViewColumn}>
@@ -535,7 +600,7 @@ class Home extends Component {
                                 <Image style={styleCss.bottomViewColumnImg}
                                     source={require('../../../images/small_location.png')}
                                 />
-                                <Text style={styleCss.bottomViewColumnText}>Location</Text>
+                                <Text style={styleCss.bottomViewColumnText}>{t("Location")}</Text>
                             </TouchableOpacity>
                         </View>
                         <View style={styleCss.bottomViewColumn}>
@@ -543,7 +608,7 @@ class Home extends Component {
                                 <Image style={styleCss.bottomViewColumnImg}
                                     source={require('../../../images/small_product.png')}
                                 />
-                                <Text style={styleCss.bottomViewColumnText}>Product</Text>
+                                <Text style={styleCss.bottomViewColumnText}>{t("Product")}</Text>
                             </TouchableOpacity>
                         </View>
                         <View style={styleCss.bottomViewColumn}>
@@ -551,7 +616,7 @@ class Home extends Component {
                                 <Image style={styleCss.bottomViewColumnImg}
                                     source={require('../../../images/small_refresh.png')}
                                 />
-                                <Text style={styleCss.bottomViewColumnText}>Refresh</Text>
+                                <Text style={styleCss.bottomViewColumnText}>{t("Refresh")}</Text>
                             </TouchableOpacity>
                         </View>
                     </View>
@@ -572,7 +637,7 @@ class Home extends Component {
                                 <Image style={styleCss.bottomViewColumnImg}
                                     source={require('../../../images/small_gym.png')}
                                 />
-                                <Text style={styleCss.bottomViewColumnTextActive}>Home</Text>
+                                <Text style={styleCss.bottomViewColumnTextActive}>{t("Home")}</Text>
                             </TouchableOpacity>
                         </View>
                         <View style={styleCss.bottomViewColumn}>
@@ -580,7 +645,7 @@ class Home extends Component {
                                 <Image style={styleCss.bottomViewColumnImg}
                                     source={require('../../../images/small_location.png')}
                                 />
-                                <Text style={styleCss.bottomViewColumnText}>Location</Text>
+                                <Text style={styleCss.bottomViewColumnText}>{t("Location")}</Text>
                             </TouchableOpacity>
                         </View>
                         <View style={styleCss.bottomViewColumn}>
@@ -588,7 +653,7 @@ class Home extends Component {
                                 <Image style={styleCss.bottomViewColumnImg}
                                     source={require('../../../images/small_product.png')}
                                 />
-                                <Text style={styleCss.bottomViewColumnText}>Product</Text>
+                                <Text style={styleCss.bottomViewColumnText}>{t("Product")}</Text>
                             </TouchableOpacity>
                         </View>
                         <View style={styleCss.bottomViewColumn}>
@@ -596,7 +661,7 @@ class Home extends Component {
                                 <Image style={styleCss.bottomViewColumnImg}
                                     source={require('../../../images/small_refresh.png')}
                                 />
-                                <Text style={styleCss.bottomViewColumnText}>Refresh</Text>
+                                <Text style={styleCss.bottomViewColumnText}>{t("Refresh")}</Text>
                             </TouchableOpacity>
                         </View>
                     </View>

@@ -30,6 +30,7 @@ import vi from './vi.json';
 import sv from './sv.json';
 import zh from './zh.json';
 import fi from './fi.json';
+import sl from './sl.json';
 
 // Bind to i18n
 i18n.translations = {
@@ -61,6 +62,7 @@ i18n.translations = {
 	tr,
 	vi,
 	sv,
+    sl,
 	zh
 }
 
@@ -76,6 +78,23 @@ const getLanguage = async() => {
 }
 
 getLanguage()
+
+// export module
+export function setLanguage(locale) {
+    try {
+        i18n.locale = locale
+        i18n.initAsync();
+    }  catch (error) {
+    }
+}
+
+export function getLanguageLocal() {
+    try {
+        return i18n.locale
+    }  catch (error) {
+        return "en";
+    }
+}
 
 // export module
 export function t(name) {

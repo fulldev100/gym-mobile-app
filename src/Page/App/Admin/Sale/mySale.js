@@ -16,16 +16,27 @@ import { Col, Row } from 'react-native-easy-grid';
 import { connect } from "react-redux";
 import { fetchAdminDashboardlist, loadingStart } from "../../../redux/actions/adminDashboard";
 import { Logoutmember } from "../../../redux/actions/auth";
-import { t } from '../../../../../locals';
+import { t, setLanguage } from '../../../../../locals';
 import styleCss from '../../../../style.js';
 import SelectDropdown from 'react-native-select-dropdown';
 
 const day_region = [
-    'Today',
-    'This month',
-    'For 3 month',
-    'This year',
-    'So far',
+    t("Today"),
+    t("This month"),
+    t("For 3 month"),
+    t("This year"),
+    t("So far")
+  ];
+
+  const lang_region = [
+    {
+        value: "en",
+        label: t("England")
+    },
+    {
+        value: "sl",
+        label: t("Slovakia")
+    }
   ];
 
 class MyEntry extends Component {
@@ -36,7 +47,9 @@ class MyEntry extends Component {
             modalVisible: false,
             cardNumber: '',
             isMembershipView: true,
-            date_region: 1
+            date_region: 1,
+            selectedLn: 'en',
+            lang_value: 0
         }
     }
     static navigationOptions = ({ navigation }) => {
@@ -139,11 +152,37 @@ class MyEntry extends Component {
                     <Col style={styleCss.nutrition_list_name_col}>
                         <Text style={styleCss.NaveText}>24hr-fitness.eu</Text>
                     </Col>
-                    <Col style={styleCss.nutrition_list_name_col_1}>
-                    </Col>
 
                     <Col style={styleCss.AlignRightNavbar}>
-                        <Text style={styleCss.NaveText}>en</Text>
+                        <SelectDropdown
+                            data={lang_region}
+                            defaultValueByIndex={this.state.lang_value}
+                            onSelect={(selectedItem, index) => {
+                             //   console.log(selectedItem, index)
+                             //   this.setState({ selectedLn: selectedItem.value })
+                                this.setState({lang_value: index})
+                                setLanguage(selectedItem.value)
+                            }}
+                            dropdownIconPosition={'left'}
+                            buttonTextAfterSelection={(selectedItem, index) => {
+                                // text represented after item is selected
+                                // if data array is an array of objects then return selectedItem.property to render after item is selected
+                                return selectedItem.label
+                            }}
+                            rowTextForSelection={(item, index) => {
+                                // text represented for each item in dropdown
+                                // if data array is an array of objects then return item.property to represent item in dropdown
+                                return item.label
+                            }}
+                            buttonStyle={styleCss.dropdown1BtnStyle}
+                            buttonTextStyle={styleCss.dropdown1BtnTxtStyle}
+                            renderDropdownIcon={isOpened => {
+                                return <></>;
+                            }}
+                            dropdownStyle={styleCss.dropdown1DropdownStyle}
+                            rowStyle={styleCss.dropdown1RowStyle}
+                            rowTextStyle={styleCss.dropdown1RowTxtStyle}
+                        />
                     </Col>
                 </Row>
                 <Row style={styleCss.AdminDateRegionBar}>
@@ -177,13 +216,13 @@ class MyEntry extends Component {
                     {
                         this.state.isMembershipView ?
                         <>
-                            <View style={styleCss.AdminDashboardColumn}><Text onPress={() => this.onMembershipView()} style={styleCss.AdminDashboardSmallLabelActive}>Membership</Text></View> 
-                            <View><Text onPress={() => this.onTicketView()} style={styleCss.AdminDashboardSmallLabel}>Ticket</Text></View>
+                            <View style={styleCss.AdminDashboardColumn}><Text onPress={() => this.onMembershipView()} style={styleCss.AdminDashboardSmallLabelActive}>{t("Membership")}</Text></View> 
+                            <View><Text onPress={() => this.onTicketView()} style={styleCss.AdminDashboardSmallLabel}>{t("Ticket")}</Text></View>
                         </>
                         :
                         <>
-                            <View style={styleCss.AdminDashboardColumn}><Text onPress={() => this.onMembershipView()} style={styleCss.AdminDashboardSmallLabel}>Membership</Text></View> 
-                            <View><Text onPress={() => this.onTicketView()} style={styleCss.AdminDashboardSmallLabelActive}>Ticket</Text></View>
+                            <View style={styleCss.AdminDashboardColumn}><Text onPress={() => this.onMembershipView()} style={styleCss.AdminDashboardSmallLabel}>{t("Membership")}</Text></View> 
+                            <View><Text onPress={() => this.onTicketView()} style={styleCss.AdminDashboardSmallLabelActive}>{t("Ticket")}</Text></View>
                         </>
                     }
                      </View>
@@ -215,7 +254,7 @@ class MyEntry extends Component {
                                         </Row>
 
                                         <Row style={styleCss.history_list_details_row}>
-                                            <Text style={styleCss.nutrition_list_details_text}>{prop.guest_email}, {prop.gender == "M" ? "Male" : "Female" }</Text>
+                                            <Text style={styleCss.nutrition_list_details_text}>{prop.guest_email}, {prop.gender == "M" ? t("Male") : t("Female") }</Text>
                                         </Row>
                                     </Col>
                                 </Row>
@@ -283,11 +322,37 @@ class MyEntry extends Component {
                                 <Col style={styleCss.nutrition_list_name_col}>
                                     <Text style={styleCss.NaveText}>24hr-fitness.eu</Text>
                                 </Col>
-                                <Col style={styleCss.nutrition_list_name_col_1}>
-                                </Col>
 
                                 <Col style={styleCss.AlignRightNavbar}>
-                                    <Text style={styleCss.NaveText}>en</Text>
+                                    <SelectDropdown
+                                        data={lang_region}
+                                        defaultValueByIndex={this.state.lang_value}
+                                        onSelect={(selectedItem, index) => {
+                                        //   console.log(selectedItem, index)
+                                        //   this.setState({ selectedLn: selectedItem.value })
+                                            this.setState({lang_value: index})
+                                            setLanguage(selectedItem.value)
+                                        }}
+                                        dropdownIconPosition={'left'}
+                                        buttonTextAfterSelection={(selectedItem, index) => {
+                                            // text represented after item is selected
+                                            // if data array is an array of objects then return selectedItem.property to render after item is selected
+                                            return selectedItem.label
+                                        }}
+                                        rowTextForSelection={(item, index) => {
+                                            // text represented for each item in dropdown
+                                            // if data array is an array of objects then return item.property to represent item in dropdown
+                                            return item.label
+                                        }}
+                                        buttonStyle={styleCss.dropdown1BtnStyle}
+                                        buttonTextStyle={styleCss.dropdown1BtnTxtStyle}
+                                        renderDropdownIcon={isOpened => {
+                                            return <></>;
+                                        }}
+                                        dropdownStyle={styleCss.dropdown1DropdownStyle}
+                                        rowStyle={styleCss.dropdown1RowStyle}
+                                        rowTextStyle={styleCss.dropdown1RowTxtStyle}
+                                    />
                                 </Col>
                             </Row>
                             <EmptyComponent title={t("Data not available")} />
@@ -309,7 +374,7 @@ class MyEntry extends Component {
                                 <Image style={styleCss.bottomViewColumnImg}
                                     source={require('../../../../images/small_gym.png')}
                                 />
-                                <Text style={styleCss.bottomViewColumnText}>Dashboard</Text>
+                                <Text style={styleCss.bottomViewColumnText}>{t("Dashboard")}</Text>
                             </TouchableOpacity>
                         </View>
                         <View style={styleCss.bottomViewColumn}>
@@ -317,7 +382,7 @@ class MyEntry extends Component {
                                 <Image style={styleCss.bottomViewColumnImg}
                                     source={require('../../../../images/small_location.png')}
                                 />
-                                <Text style={styleCss.bottomViewColumnText}>Entry</Text>
+                                <Text style={styleCss.bottomViewColumnText}>{t("Entry")}</Text>
                             </TouchableOpacity>
                         </View>
                         <View style={styleCss.bottomViewColumn}>
@@ -325,7 +390,7 @@ class MyEntry extends Component {
                                 <Image style={styleCss.bottomViewColumnImg}
                                     source={require('../../../../images/small_product.png')}
                                 />
-                                <Text style={styleCss.bottomViewColumnTextActive}>Sale</Text>
+                                <Text style={styleCss.bottomViewColumnTextActive}>{t("Sale")}</Text>
                             </TouchableOpacity>
                         </View>
                         <View style={styleCss.bottomViewColumn}>
@@ -333,7 +398,7 @@ class MyEntry extends Component {
                                 <Image style={styleCss.bottomViewColumnImg}
                                     source={require('../../../../images/small_refresh.png')}
                                 />
-                                <Text style={styleCss.bottomViewColumnText}>Refresh</Text>
+                                <Text style={styleCss.bottomViewColumnText}>{t("Refresh")}</Text>
                             </TouchableOpacity>
                         </View>
                     </View>
@@ -354,7 +419,7 @@ class MyEntry extends Component {
                                 <Image style={styleCss.bottomViewColumnImg}
                                     source={require('../../../../images/small_gym.png')}
                                 />
-                                <Text style={styleCss.bottomViewColumnText}>Dashboard</Text>
+                                <Text style={styleCss.bottomViewColumnText}>{t("Dashboard")}</Text>
                             </TouchableOpacity>
                         </View>
                         <View style={styleCss.bottomViewColumn}>
@@ -362,7 +427,7 @@ class MyEntry extends Component {
                                 <Image style={styleCss.bottomViewColumnImg}
                                     source={require('../../../../images/small_location.png')}
                                 />
-                                <Text style={styleCss.bottomViewColumnText}>Entry</Text>
+                                <Text style={styleCss.bottomViewColumnText}>{t("Entry")}</Text>
                             </TouchableOpacity>
                         </View>
                         <View style={styleCss.bottomViewColumn}>
@@ -370,7 +435,7 @@ class MyEntry extends Component {
                                 <Image style={styleCss.bottomViewColumnImg}
                                     source={require('../../../../images/small_product.png')}
                                 />
-                                <Text style={styleCss.bottomViewColumnTextActive}>Sale</Text>
+                                <Text style={styleCss.bottomViewColumnTextActive}>{t("Sale")}</Text>
                             </TouchableOpacity>
                         </View>
                         <View style={styleCss.bottomViewColumn}>
@@ -378,7 +443,7 @@ class MyEntry extends Component {
                                 <Image style={styleCss.bottomViewColumnImg}
                                     source={require('../../../../images/small_refresh.png')}
                                 />
-                                <Text style={styleCss.bottomViewColumnText}>Refresh</Text>
+                                <Text style={styleCss.bottomViewColumnText}>{t("Refresh")}</Text>
                             </TouchableOpacity>
                         </View>
                     </View>

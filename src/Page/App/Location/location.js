@@ -15,9 +15,10 @@ import { Col, Row } from 'react-native-easy-grid';
 import { connect } from "react-redux";
 import { fetchHomelist, loadingStart } from "../../redux/actions/home";
 import { Logoutmember } from "../../redux/actions/auth";
-import { t } from '../../../../locals';
+import { t,setLanguage } from '../../../../locals';
 import styleCss from '../../../style.js';
 import { WebView } from 'react-native-webview';
+import SelectDropdown from 'react-native-select-dropdown'
 
 const buggyHtml = `
 <style>/*! elementor - v3.9.2 - 21-12-2022 */<br />
@@ -26,9 +27,24 @@ const buggyHtml = `
 <iframe title="Bidovce 316" style="width: 100%; height: 100% !important" src="https://maps.google.com/maps?q=Bidovce%20316&amp;t=m&amp;z=10&amp;output=embed&amp;iwloc=near" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" aria-label="Bidovce 316"></iframe>
 `;
 
+const lang_region = [
+    {
+        value: "en",
+        label: t("England")
+    },
+    {
+        value: "sl",
+        label: t("Slovakia")
+    }
+  ];
+
 class MyLocation extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            selectedLn: 'en',
+            lang_value: 0
+        }
     }
     static navigationOptions = ({ navigation }) => {
         return {
@@ -108,15 +124,39 @@ class MyLocation extends Component {
                             />
                         </TouchableOpacity>
                     </Col>
-
                     <Col style={styleCss.nutrition_list_name_col}>
-                        <Text style={styleCss.NaveText}></Text>
-                    </Col>
-                    <Col style={styleCss.nutrition_list_name_col_1}>
                     </Col>
 
                     <Col style={styleCss.AlignRightNavbar}>
-                        <Text style={styleCss.NaveText}>en</Text>
+                        <SelectDropdown
+                            data={lang_region}
+                            defaultValueByIndex={this.state.lang_value}
+                            onSelect={(selectedItem, index) => {
+                            //   console.log(selectedItem, index)
+                            //   this.setState({ selectedLn: selectedItem.value })
+                                this.setState({lang_value: index})
+                                setLanguage(selectedItem.value)
+                            }}
+                            dropdownIconPosition={'left'}
+                            buttonTextAfterSelection={(selectedItem, index) => {
+                                // text represented after item is selected
+                                // if data array is an array of objects then return selectedItem.property to render after item is selected
+                                return selectedItem.label
+                            }}
+                            rowTextForSelection={(item, index) => {
+                                // text represented for each item in dropdown
+                                // if data array is an array of objects then return item.property to represent item in dropdown
+                                return item.label
+                            }}
+                            buttonStyle={styleCss.dropdown1BtnStyle}
+                            buttonTextStyle={styleCss.dropdown1BtnTxtStyle}
+                            renderDropdownIcon={isOpened => {
+                                return <></>;
+                            }}
+                            dropdownStyle={styleCss.dropdown1DropdownStyle}
+                            rowStyle={styleCss.dropdown1RowStyle}
+                            rowTextStyle={styleCss.dropdown1RowTxtStyle}
+                        />
                     </Col>
                 </Row>
                 <TouchableOpacity key={item} style={styleCss.TouchScreenCSS}>
@@ -173,13 +213,38 @@ class MyLocation extends Component {
                                         </TouchableOpacity>
                                     </Col>
                                     <Col style={styleCss.nutrition_list_name_col}>
-                                        <Text style={styleCss.NaveText}></Text>
-                                    </Col>
-                                    <Col style={styleCss.nutrition_list_name_col_1}>
                                     </Col>
 
                                     <Col style={styleCss.AlignRightNavbar}>
-                                        <Text style={styleCss.NaveText}>en</Text>
+                                        <SelectDropdown
+                                            data={lang_region}
+                                            defaultValueByIndex={this.state.lang_value}
+                                            onSelect={(selectedItem, index) => {
+                                            //   console.log(selectedItem, index)
+                                            //   this.setState({ selectedLn: selectedItem.value })
+                                                this.setState({lang_value: index})
+                                                setLanguage(selectedItem.value)
+                                            }}
+                                            dropdownIconPosition={'left'}
+                                            buttonTextAfterSelection={(selectedItem, index) => {
+                                                // text represented after item is selected
+                                                // if data array is an array of objects then return selectedItem.property to render after item is selected
+                                                return selectedItem.label
+                                            }}
+                                            rowTextForSelection={(item, index) => {
+                                                // text represented for each item in dropdown
+                                                // if data array is an array of objects then return item.property to represent item in dropdown
+                                                return item.label
+                                            }}
+                                            buttonStyle={styleCss.dropdown1BtnStyle}
+                                            buttonTextStyle={styleCss.dropdown1BtnTxtStyle}
+                                            renderDropdownIcon={isOpened => {
+                                                return <></>;
+                                            }}
+                                            dropdownStyle={styleCss.dropdown1DropdownStyle}
+                                            rowStyle={styleCss.dropdown1RowStyle}
+                                            rowTextStyle={styleCss.dropdown1RowTxtStyle}
+                                        />
                                     </Col>
                                 </Row>
                                 <TouchableOpacity key={1} style={styleCss.TouchScreenCSS}>
@@ -270,7 +335,7 @@ class MyLocation extends Component {
                                 <Image style={styleCss.bottomViewColumnImg}
                                     source={require('../../../images/small_gym.png')}
                                 />
-                                <Text style={styleCss.bottomViewColumnText}>Home</Text>
+                                <Text style={styleCss.bottomViewColumnText}>{t("Home")}</Text>
                             </TouchableOpacity>
                         </View>
                         <View style={styleCss.bottomViewColumn}>
@@ -278,7 +343,7 @@ class MyLocation extends Component {
                                 <Image style={styleCss.bottomViewColumnImg}
                                     source={require('../../../images/small_location.png')}
                                 />
-                                <Text style={styleCss.bottomViewColumnTextActive}>Location</Text>
+                                <Text style={styleCss.bottomViewColumnTextActive}>{t("Location")}</Text>
                             </TouchableOpacity>
                         </View>
                         <View style={styleCss.bottomViewColumn}>
@@ -286,7 +351,7 @@ class MyLocation extends Component {
                                 <Image style={styleCss.bottomViewColumnImg}
                                     source={require('../../../images/small_product.png')}
                                 />
-                                <Text style={styleCss.bottomViewColumnText}>Product</Text>
+                                <Text style={styleCss.bottomViewColumnText}>{t("Product")}</Text>
                             </TouchableOpacity>
                         </View>
                         <View style={styleCss.bottomViewColumn}>
@@ -294,7 +359,7 @@ class MyLocation extends Component {
                                 <Image style={styleCss.bottomViewColumnImg}
                                     source={require('../../../images/small_refresh.png')}
                                 />
-                                <Text style={styleCss.bottomViewColumnText}>Refresh</Text>
+                                <Text style={styleCss.bottomViewColumnText}>{t("Refresh")}</Text>
                             </TouchableOpacity>
                         </View>
                     </View>

@@ -15,13 +15,29 @@ import { Col, Row } from 'react-native-easy-grid';
 import { connect } from "react-redux";
 import { fetchProductlist, loadingStart } from "../../redux/actions/product";
 import { Logoutmember } from "../../redux/actions/auth";
-import { t } from '../../../../locals';
+import { t, setLanguage } from '../../../../locals';
 import styleCss from '../../../style.js';
 import { Button } from 'react-native-paper';
+import SelectDropdown from 'react-native-select-dropdown'
+
+const lang_region = [
+    {
+        value: "en",
+        label: t("England")
+    },
+    {
+        value: "sl",
+        label: t("Slovakia")
+    }
+  ];
 
 class MyProducts extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            selectedLn: 'en',
+            lang_value: 0
+        }
     }
     static navigationOptions = ({ navigation }) => {
         return {
@@ -113,15 +129,15 @@ class MyProducts extends Component {
                             </Row>
 
                             <Row style={styleCss.nutrition_list_details_row}>
-                                <Text style={styleCss.nutrition_list_details_label}>Amount : </Text>
+                                <Text style={styleCss.nutrition_list_details_label}>{t("Amount")} : </Text>
                                 <Text style={styleCss.nutrition_list_details_text}>{item.paid_amount} / </Text>
 
-                                <Text style={styleCss.nutrition_list_details_label}>Quantity : </Text>
+                                <Text style={styleCss.nutrition_list_details_label}>{t("Quantity")} : </Text>
                                 <Text style={styleCss.nutrition_list_details_text}>{item.quentity}</Text>
                             </Row>
 
                             <Row style={styleCss.nutrition_list_details_row}>
-                                <Text style={styleCss.nutrition_list_details_label}>Paid date : </Text>
+                                <Text style={styleCss.nutrition_list_details_label}>{t("Paid date")} : </Text>
                                 <Text style={styleCss.nutrition_list_details_text}>{item.created_date}</Text>
                             </Row>
                         </Col>
@@ -148,23 +164,48 @@ class MyProducts extends Component {
                             </TouchableOpacity>
                         </Col>
                         <Col style={styleCss.nutrition_list_name_col}>
-                            <Text style={styleCss.NaveText}></Text>
-                        </Col>
-                        <Col style={styleCss.nutrition_list_name_col_1}>
                         </Col>
 
                         <Col style={styleCss.AlignRightNavbar}>
-                            <Text style={styleCss.NaveText}>en</Text>
+                            <SelectDropdown
+                                data={lang_region}
+                                defaultValueByIndex={this.state.lang_value}
+                                onSelect={(selectedItem, index) => {
+                                //   console.log(selectedItem, index)
+                                //   this.setState({ selectedLn: selectedItem.value })
+                                    this.setState({lang_value: index})
+                                    setLanguage(selectedItem.value)
+                                }}
+                                dropdownIconPosition={'left'}
+                                buttonTextAfterSelection={(selectedItem, index) => {
+                                    // text represented after item is selected
+                                    // if data array is an array of objects then return selectedItem.property to render after item is selected
+                                    return selectedItem.label
+                                }}
+                                rowTextForSelection={(item, index) => {
+                                    // text represented for each item in dropdown
+                                    // if data array is an array of objects then return item.property to represent item in dropdown
+                                    return item.label
+                                }}
+                                buttonStyle={styleCss.dropdown1BtnStyle}
+                                buttonTextStyle={styleCss.dropdown1BtnTxtStyle}
+                                renderDropdownIcon={isOpened => {
+                                    return <></>;
+                                }}
+                                dropdownStyle={styleCss.dropdown1DropdownStyle}
+                                rowStyle={styleCss.dropdown1RowStyle}
+                                rowTextStyle={styleCss.dropdown1RowTxtStyle}
+                            />
                         </Col>
                     </Row>
 
                     <Row style={styleCss.ProductsListTitleContainer}>
                         <Col>
-                            <Text style={styleCss.MembershipMemberName}>Paid products:</Text>
+                            <Text style={styleCss.MembershipMemberName}>{t("Paid products")}:</Text>
                         </Col>
                         <Col style={styleCss.containerButton}>
                             <TouchableOpacity style={styleCss.button} onPress={() => this.props.navigation.navigate('ProductsList')}>
-                                <Text style={styleCss.buttonText}>View all products</Text>
+                                <Text style={styleCss.buttonText}>{t("View all products")}</Text>
                             </TouchableOpacity>
                         </Col>
                     </Row>
@@ -194,7 +235,7 @@ class MyProducts extends Component {
                                 <Image style={styleCss.bottomViewColumnImg}
                                     source={require('../../../images/small_gym.png')}
                                 />
-                                <Text style={styleCss.bottomViewColumnText}>Home</Text>
+                                <Text style={styleCss.bottomViewColumnText}>{t("Home")}</Text>
                             </TouchableOpacity>
                         </View>
                         <View style={styleCss.bottomViewColumn}>
@@ -202,7 +243,7 @@ class MyProducts extends Component {
                                 <Image style={styleCss.bottomViewColumnImg}
                                     source={require('../../../images/small_location.png')}
                                 />
-                                <Text style={styleCss.bottomViewColumnText}>Location</Text>
+                                <Text style={styleCss.bottomViewColumnText}>{t("Location")}</Text>
                             </TouchableOpacity>
                         </View>
                         <View style={styleCss.bottomViewColumn}>
@@ -210,7 +251,7 @@ class MyProducts extends Component {
                                 <Image style={styleCss.bottomViewColumnImg}
                                     source={require('../../../images/small_product.png')}
                                 />
-                                <Text style={styleCss.bottomViewColumnTextActive}>Product</Text>
+                                <Text style={styleCss.bottomViewColumnTextActive}>{t("Product")}</Text>
                             </TouchableOpacity>
                         </View>
                         <View style={styleCss.bottomViewColumn}>
@@ -218,7 +259,7 @@ class MyProducts extends Component {
                                 <Image style={styleCss.bottomViewColumnImg}
                                     source={require('../../../images/small_refresh.png')}
                                 />
-                                <Text style={styleCss.bottomViewColumnText}>Refresh</Text>
+                                <Text style={styleCss.bottomViewColumnText}>{t("Refresh")}</Text>
                             </TouchableOpacity>
                         </View>
                     </View>
@@ -239,7 +280,7 @@ class MyProducts extends Component {
                                 <Image style={styleCss.bottomViewColumnImg}
                                     source={require('../../../images/small_gym.png')}
                                 />
-                                <Text style={styleCss.bottomViewColumnText}>Home</Text>
+                                <Text style={styleCss.bottomViewColumnText}>{t("Home")}</Text>
                             </TouchableOpacity>
                         </View>
                         <View style={styleCss.bottomViewColumn}>
@@ -247,7 +288,7 @@ class MyProducts extends Component {
                                 <Image style={styleCss.bottomViewColumnImg}
                                     source={require('../../../images/small_location.png')}
                                 />
-                                <Text style={styleCss.bottomViewColumnText}>Location</Text>
+                                <Text style={styleCss.bottomViewColumnText}>{t("Location")}</Text>
                             </TouchableOpacity>
                         </View>
                         <View style={styleCss.bottomViewColumn}>
@@ -255,7 +296,7 @@ class MyProducts extends Component {
                                 <Image style={styleCss.bottomViewColumnImg}
                                     source={require('../../../images/small_product.png')}
                                 />
-                                <Text style={styleCss.bottomViewColumnTextActive}>Product</Text>
+                                <Text style={styleCss.bottomViewColumnTextActive}>{t("Product")}</Text>
                             </TouchableOpacity>
                         </View>
                         <View style={styleCss.bottomViewColumn}>
@@ -263,7 +304,7 @@ class MyProducts extends Component {
                                 <Image style={styleCss.bottomViewColumnImg}
                                     source={require('../../../images/small_refresh.png')}
                                 />
-                                <Text style={styleCss.bottomViewColumnText}>Refresh</Text>
+                                <Text style={styleCss.bottomViewColumnText}>{t("Refresh")}</Text>
                             </TouchableOpacity>
                         </View>
                     </View>

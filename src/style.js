@@ -3152,15 +3152,17 @@ export default StyleSheet.create({
     nutrition_list_name_col: {
         ...Platform.select({
             ios: {
-                justifyContent: 'center',
-                alignItems: 'center',
-                width: normalize(130)
+                flexDirection: 'row',
+                justifyContent: 'flex-start',
+                textAlign: "left",
+                width: normalize(150)
             },
             android: {
-                justifyContent: 'center',
-                alignItems: 'center',
+                flexDirection: 'row',
+                justifyContent: 'flex-start',
                 color: '#656565',
-                width: normalize(120),
+                textAlign: "left",
+                width: normalize(150),
             }
         })
     },
@@ -3186,17 +3188,19 @@ export default StyleSheet.create({
             ios: {
                 justifyContent: 'center',
                 alignItems: 'center',
-                width: normalize(50)
+                width: normalize(10)
             },
             android: {
                 justifyContent: 'center',
                 alignItems: 'center',
                 color: '#656565',
-                width: normalize(50),
+                width: normalize(10),
             }
         })
     },
     AlignRightNavbar: {
+        justifyContent: 'flex-start',
+        width: 80
     },
     containterProductList: {
         flex: 1,
@@ -3258,8 +3262,20 @@ export default StyleSheet.create({
         borderRadius: 8,
         alignContent: 'center'
       },
+    dropdown1BtnStyle: {
+        width: '100%',
+        height: 50,
+        backgroundColor: 'transparent',
+        borderRadius: 8,
+        alignContent: 'center'
+      }, 
     dropdown2BtnTxtStyle: {
         color: '#FFF',
+        textAlign: 'center',
+        fontWeight: 'bold',
+      },
+    dropdown1BtnTxtStyle: {
+        color: '#444',
         textAlign: 'center',
         fontWeight: 'bold',
       },
@@ -3268,9 +3284,20 @@ export default StyleSheet.create({
         borderBottomLeftRadius: 12,
         borderBottomRightRadius: 12,
       },
+    dropdown1DropdownStyle: {
+        backgroundColor: '#fff',
+        borderBottomLeftRadius: 12,
+        borderBottomRightRadius: 12,
+      },
     dropdown2RowStyle: {backgroundColor: '#444', borderBottomColor: '#C5C5C5'},
+    dropdown1RowStyle: {backgroundColor: 'transparent', borderBottomColor: '#C5C5C5'},
     dropdown2RowTxtStyle: {
         color: '#FFF',
+        textAlign: 'center',
+        fontWeight: 'bold',
+      },
+    dropdown1RowTxtStyle: {
+        color: '#444',
         textAlign: 'center',
         fontWeight: 'bold',
       },

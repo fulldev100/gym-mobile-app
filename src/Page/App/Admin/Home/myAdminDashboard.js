@@ -16,16 +16,27 @@ import { Col, Row } from 'react-native-easy-grid';
 import { connect } from "react-redux";
 import { fetchAdminDashboardlist, loadingStart } from "../../../redux/actions/adminDashboard";
 import { Logoutmember } from "../../../redux/actions/auth";
-import { t } from '../../../../../locals';
+import { t, setLanguage } from '../../../../../locals';
 import styleCss from '../../../../style.js';
 import SelectDropdown from 'react-native-select-dropdown';
 
+const lang_region = [
+    {
+        value: "en",
+        label: t("England")
+    },
+    {
+        value: "sl",
+        label: t("Slovakia")
+    }
+  ];
+
 const day_region = [
-    'Today',
-    'This month',
-    'For 3 month',
-    'This year',
-    'So far',
+    t("Today"),
+    t("This month"),
+    t("For 3 month"),
+    t("This year"),
+    t("So far")
   ];
 
 
@@ -37,7 +48,9 @@ class MyAdminDashboard extends Component {
             ImageLoading: false,
             modalVisible: false,
             cardNumber: '',
-            date_region: 1
+            date_region: 1,
+            selectedLn: 'en',
+            lang_value: 0
         }
     }
     static navigationOptions = ({ navigation }) => {
@@ -143,11 +156,37 @@ class MyAdminDashboard extends Component {
                     <Col style={styleCss.nutrition_list_name_col}>
                         <Text style={styleCss.NaveText}>24hr-fitness.eu</Text>
                     </Col>
-                    <Col style={styleCss.nutrition_list_name_col_1}>
-                    </Col>
 
                     <Col style={styleCss.AlignRightNavbar}>
-                        <Text style={styleCss.NaveText}>en</Text>
+                        <SelectDropdown
+                            data={lang_region}
+                            defaultValueByIndex={this.state.lang_value}
+                            onSelect={(selectedItem, index) => {
+                             //   console.log(selectedItem, index)
+                             //   this.setState({ selectedLn: selectedItem.value })
+                                this.setState({lang_value: index})
+                                setLanguage(selectedItem.value)
+                            }}
+                            dropdownIconPosition={'left'}
+                            buttonTextAfterSelection={(selectedItem, index) => {
+                                // text represented after item is selected
+                                // if data array is an array of objects then return selectedItem.property to render after item is selected
+                                return selectedItem.label
+                            }}
+                            rowTextForSelection={(item, index) => {
+                                // text represented for each item in dropdown
+                                // if data array is an array of objects then return item.property to represent item in dropdown
+                                return item.label
+                            }}
+                            buttonStyle={styleCss.dropdown1BtnStyle}
+                            buttonTextStyle={styleCss.dropdown1BtnTxtStyle}
+                            renderDropdownIcon={isOpened => {
+                                return <></>;
+                            }}
+                            dropdownStyle={styleCss.dropdown1DropdownStyle}
+                            rowStyle={styleCss.dropdown1RowStyle}
+                            rowTextStyle={styleCss.dropdown1RowTxtStyle}
+                        />
                     </Col>
                 </Row>
                 <TouchableOpacity key={item.total_membership_price} style={styleCss.TouchScreenCSS}>
@@ -187,46 +226,46 @@ class MyAdminDashboard extends Component {
                     <View style={styleCss.MembershipCardView}></View>
 
                     <View style={styleCss.AdminDashboardRowView}>
-                        <View style={styleCss.AdminDashboardColumn}><Text style={styleCss.AdminDashboardSmallLabel}>Membership price:</Text></View> 
+                        <View style={styleCss.AdminDashboardColumn}><Text style={styleCss.AdminDashboardSmallLabel}>{t("Membership price")}:</Text></View> 
                         <View><Text style={styleCss.MembershipMemberEmail}>€{item.total_membership_price}  </Text></View>
                     </View>
 
                     <View style={styleCss.AdminDashboardRowView}>
-                        <View style={styleCss.AdminDashboardColumn}><Text style={styleCss.AdminDashboardSmallLabel}>Ticket price:</Text></View>
+                        <View style={styleCss.AdminDashboardColumn}><Text style={styleCss.AdminDashboardSmallLabel}>{t("Ticket price")}:</Text></View>
                         <View><Text style={styleCss.MembershipMemberEmail}>€{item.total_guest_price}  </Text></View>
                     </View>
 
                     <View style={styleCss.AdminDashboardRowView}>
-                        <View style={styleCss.AdminDashboardColumn}><Text style={styleCss.AdminDashboardSmallLabel}>Number of Membership Sales:</Text></View> 
+                        <View style={styleCss.AdminDashboardColumn}><Text style={styleCss.AdminDashboardSmallLabel}>{t("Number of Membership Sales")}:</Text></View> 
                         <View><Text style={styleCss.MembershipMemberEmail}>{item.total_membership_count}  </Text></View>
                     </View>
 
                     <View style={styleCss.AdminDashboardRowView}>
-                        <View style={styleCss.AdminDashboardColumn}><Text style={styleCss.AdminDashboardSmallLabel}>Number of Ticket Sales:</Text></View>
+                        <View style={styleCss.AdminDashboardColumn}><Text style={styleCss.AdminDashboardSmallLabel}>{t("Number of Ticket Sales")}:</Text></View>
                         <View><Text style={styleCss.MembershipMemberEmail}>{item.total_guest_count}  </Text></View>
                     </View>
 
                     <View style={styleCss.AdminDashboardRowView}>
-                        <View style={styleCss.AdminDashboardColumn}><Text style={styleCss.AdminDashboardSmallLabel}>Number of Membership Usage:</Text></View> 
+                        <View style={styleCss.AdminDashboardColumn}><Text style={styleCss.AdminDashboardSmallLabel}>{t("Number of Membership Usage")}:</Text></View> 
                         <View><Text style={styleCss.MembershipMemberEmail}>{item.total_member_in}  </Text></View>
                     </View>
 
                     <View style={styleCss.AdminDashboardRowView}>
-                        <View style={styleCss.AdminDashboardColumn}><Text style={styleCss.AdminDashboardSmallLabel}>Number of Ticket Usage:</Text></View>
+                        <View style={styleCss.AdminDashboardColumn}><Text style={styleCss.AdminDashboardSmallLabel}>{t("Number of Ticket Usage")}:</Text></View>
                         <View><Text style={styleCss.MembershipMemberEmail}>{item.total_guest_in}  </Text></View>
                     </View>
 
                     <View style={styleCss.AdminDashboardRowView}>
-                        <View style={styleCss.AdminDashboardColumn}><Text style={styleCss.AdminDashboardSmallLabel}>Number of Free Ticket Usage:</Text></View> 
+                        <View style={styleCss.AdminDashboardColumn}><Text style={styleCss.AdminDashboardSmallLabel}>{t("Number of Free Ticket Usage")}:</Text></View> 
                         <View><Text style={styleCss.MembershipMemberEmail}>{item.total_freeticket_in}  </Text></View>
                     </View>
 
                     <View style={styleCss.MembershipCardView}></View>
 
                     <View style={styleCss.AdminDashboardRowView}>
-                        <View style={styleCss.AdminDashboardColumn}><Text style={styleCss.AdminDashboardSmallLabel}>Today IN:</Text></View> 
+                        <View style={styleCss.AdminDashboardColumn}><Text style={styleCss.AdminDashboardSmallLabel}>{t("Today IN")}:</Text></View> 
                         <View><Text style={styleCss.MembershipMemberEmail}>{item.day_entry_in}  </Text></View>
-                        <View style={styleCss.AdminDashboardColumn}><Text style={styleCss.AdminDashboardSmallLabel}>Today OUT:</Text></View>
+                        <View style={styleCss.AdminDashboardColumn}><Text style={styleCss.AdminDashboardSmallLabel}>{t("Today OUT")}:</Text></View>
                         <View><Text style={styleCss.MembershipMemberEmail}>{item.day_entry_out}  </Text></View>
                     </View>
 
@@ -257,11 +296,37 @@ class MyAdminDashboard extends Component {
                                 <Col style={styleCss.nutrition_list_name_col}>
                                     <Text style={styleCss.NaveText}>24hr-fitness.eu</Text>
                                 </Col>
-                                <Col style={styleCss.nutrition_list_name_col_1}>
-                                </Col>
 
                                 <Col style={styleCss.AlignRightNavbar}>
-                                    <Text style={styleCss.NaveText}>en</Text>
+                                    <SelectDropdown
+                                        data={lang_region}
+                                        defaultValueByIndex={this.state.lang_value}
+                                        onSelect={(selectedItem, index) => {
+                                        //   console.log(selectedItem, index)
+                                        //   this.setState({ selectedLn: selectedItem.value })
+                                            this.setState({lang_value: index})
+                                            setLanguage(selectedItem.value)
+                                        }}
+                                        dropdownIconPosition={'left'}
+                                        buttonTextAfterSelection={(selectedItem, index) => {
+                                            // text represented after item is selected
+                                            // if data array is an array of objects then return selectedItem.property to render after item is selected
+                                            return selectedItem.label
+                                        }}
+                                        rowTextForSelection={(item, index) => {
+                                            // text represented for each item in dropdown
+                                            // if data array is an array of objects then return item.property to represent item in dropdown
+                                            return item.label
+                                        }}
+                                        buttonStyle={styleCss.dropdown1BtnStyle}
+                                        buttonTextStyle={styleCss.dropdown1BtnTxtStyle}
+                                        renderDropdownIcon={isOpened => {
+                                            return <></>;
+                                        }}
+                                        dropdownStyle={styleCss.dropdown1DropdownStyle}
+                                        rowStyle={styleCss.dropdown1RowStyle}
+                                        rowTextStyle={styleCss.dropdown1RowTxtStyle}
+                                    />
                                 </Col>
                             </Row>
                             <EmptyComponent title={t("Data not available")} />
@@ -283,7 +348,7 @@ class MyAdminDashboard extends Component {
                                 <Image style={styleCss.bottomViewColumnImg}
                                     source={require('../../../../images/small_gym.png')}
                                 />
-                                <Text style={styleCss.bottomViewColumnTextActive}>Dashboard</Text>
+                                <Text style={styleCss.bottomViewColumnTextActive}>{t("Dashboard")}</Text>
                             </TouchableOpacity>
                         </View>
                         <View style={styleCss.bottomViewColumn}>
@@ -291,7 +356,7 @@ class MyAdminDashboard extends Component {
                                 <Image style={styleCss.bottomViewColumnImg}
                                     source={require('../../../../images/small_location.png')}
                                 />
-                                <Text style={styleCss.bottomViewColumnText}>Entry</Text>
+                                <Text style={styleCss.bottomViewColumnText}>{t("Entry")}</Text>
                             </TouchableOpacity>
                         </View>
                         <View style={styleCss.bottomViewColumn}>
@@ -299,7 +364,7 @@ class MyAdminDashboard extends Component {
                                 <Image style={styleCss.bottomViewColumnImg}
                                     source={require('../../../../images/small_product.png')}
                                 />
-                                <Text style={styleCss.bottomViewColumnText}>Sale</Text>
+                                <Text style={styleCss.bottomViewColumnText}>{t("Sale")}</Text>
                             </TouchableOpacity>
                         </View>
                         <View style={styleCss.bottomViewColumn}>
@@ -307,7 +372,7 @@ class MyAdminDashboard extends Component {
                                 <Image style={styleCss.bottomViewColumnImg}
                                     source={require('../../../../images/small_refresh.png')}
                                 />
-                                <Text style={styleCss.bottomViewColumnText}>Refresh</Text>
+                                <Text style={styleCss.bottomViewColumnText}>{t("Refresh")}</Text>
                             </TouchableOpacity>
                         </View>
                     </View>
@@ -328,7 +393,7 @@ class MyAdminDashboard extends Component {
                                 <Image style={styleCss.bottomViewColumnImg}
                                     source={require('../../../../images/small_gym.png')}
                                 />
-                                <Text style={styleCss.bottomViewColumnTextActive}>Dashboard</Text>
+                                <Text style={styleCss.bottomViewColumnTextActive}>{t("Dashboard")}</Text>
                             </TouchableOpacity>
                         </View>
                         <View style={styleCss.bottomViewColumn}>
@@ -336,7 +401,7 @@ class MyAdminDashboard extends Component {
                                 <Image style={styleCss.bottomViewColumnImg}
                                     source={require('../../../../images/small_location.png')}
                                 />
-                                <Text style={styleCss.bottomViewColumnText}>Entry</Text>
+                                <Text style={styleCss.bottomViewColumnText}>{t("Entry")}</Text>
                             </TouchableOpacity>
                         </View>
                         <View style={styleCss.bottomViewColumn}>
@@ -344,7 +409,7 @@ class MyAdminDashboard extends Component {
                                 <Image style={styleCss.bottomViewColumnImg}
                                     source={require('../../../../images/small_product.png')}
                                 />
-                                <Text style={styleCss.bottomViewColumnText}>Sale</Text>
+                                <Text style={styleCss.bottomViewColumnText}>{t("Sale")}</Text>
                             </TouchableOpacity>
                         </View>
                         <View style={styleCss.bottomViewColumn}>
@@ -352,7 +417,7 @@ class MyAdminDashboard extends Component {
                                 <Image style={styleCss.bottomViewColumnImg}
                                     source={require('../../../../images/small_refresh.png')}
                                 />
-                                <Text style={styleCss.bottomViewColumnText}>Refresh</Text>
+                                <Text style={styleCss.bottomViewColumnText}>{t("Refresh")}</Text>
                             </TouchableOpacity>
                         </View>
                     </View>

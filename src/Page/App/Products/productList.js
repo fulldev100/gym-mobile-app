@@ -4,16 +4,25 @@ import { Col, Row } from 'react-native-easy-grid';
 import * as SecureStore from 'expo-secure-store';
 import { connect, useDispatch } from "react-redux";
 import { fetchProductlist, postProduct, loadingStart, viewProduct } from "../../redux/actions/productList";
-import { t } from '../../../../locals';
+import { t, setLanguage } from '../../../../locals';
 import styleCss from '../../../style';
 //import Paypal from '../../../util/Paypal';
 import { Logoutmember } from "../../redux/actions/auth";
 import * as WebBrowser from 'expo-web-browser';
 import AutoHeightWebView from 'react-native-autoheight-webview';
 import { POST_PRODUCT } from '../../redux/constant/types';
+import SelectDropdown from 'react-native-select-dropdown'
 
-// import { PayPal} from 'react-native-paypal';
-// import { WebView } from 'react-native-webview';
+const lang_region = [
+    {
+        value: "en",
+        label: t("England")
+    },
+    {
+        value: "sl",
+        label: t("Slovakia")
+    }
+  ];
 
 export const productData = (data) => {
     return {
@@ -33,6 +42,8 @@ class productList extends Component {
             ProductMember: '',
             Product_name: '',
             amount_number: '1',
+            selectedLn: 'en',
+            lang_value: 0
         };
 
     }
@@ -204,7 +215,6 @@ class productList extends Component {
                 <View style={styleCss.container}>
                     
                     <Row style={styleCss.NaveBar}>
-
                         <Col>
                             <TouchableOpacity style={styleCss.logout_image} onPress={() => this.logout() }>
                                 <Image style={styleCss.logout_image}
@@ -213,13 +223,38 @@ class productList extends Component {
                             </TouchableOpacity>
                         </Col>
                         <Col style={styleCss.nutrition_list_name_col}>
-                            <Text style={styleCss.NaveText}></Text>
-                        </Col>
-                        <Col style={styleCss.nutrition_list_name_col_1}>
                         </Col>
 
                         <Col style={styleCss.AlignRightNavbar}>
-                            <Text style={styleCss.NaveText}>en</Text>
+                            <SelectDropdown
+                                data={lang_region}
+                                defaultValueByIndex={this.state.lang_value}
+                                onSelect={(selectedItem, index) => {
+                                //   console.log(selectedItem, index)
+                                //   this.setState({ selectedLn: selectedItem.value })
+                                    this.setState({lang_value: index})
+                                    setLanguage(selectedItem.value)
+                                }}
+                                dropdownIconPosition={'left'}
+                                buttonTextAfterSelection={(selectedItem, index) => {
+                                    // text represented after item is selected
+                                    // if data array is an array of objects then return selectedItem.property to render after item is selected
+                                    return selectedItem.label
+                                }}
+                                rowTextForSelection={(item, index) => {
+                                    // text represented for each item in dropdown
+                                    // if data array is an array of objects then return item.property to represent item in dropdown
+                                    return item.label
+                                }}
+                                buttonStyle={styleCss.dropdown1BtnStyle}
+                                buttonTextStyle={styleCss.dropdown1BtnTxtStyle}
+                                renderDropdownIcon={isOpened => {
+                                    return <></>;
+                                }}
+                                dropdownStyle={styleCss.dropdown1DropdownStyle}
+                                rowStyle={styleCss.dropdown1RowStyle}
+                                rowTextStyle={styleCss.dropdown1RowTxtStyle}
+                            />
                         </Col>
                     </Row>
 
@@ -253,7 +288,7 @@ class productList extends Component {
                                         <View style={styleCss.gpwebpay_modal_view}>
                                             <Row style={styleCss.membership_modal_row}>
                                                 <Col style={styleCss.group_name_col}>
-                                                    <Text numberOfLines={1} style={styleCss.group_name_text}>Thanks for your funding.</Text>
+                                                    <Text numberOfLines={1} style={styleCss.group_name_text}>{t("Thanks for your funding")}</Text>
                                                 </Col>
                                                 <Col style={styleCss.group_back_arrow_col}>
                                                     <TouchableOpacity onPress={() => { this.isCloseWebpay() }} style={styleCss.group_back_arrow_text}>
@@ -346,7 +381,7 @@ class productList extends Component {
                                 <Image style={styleCss.bottomViewColumnImg}
                                     source={require('../../../images/small_gym.png')}
                                 />
-                                <Text style={styleCss.bottomViewColumnText}>Home</Text>
+                                <Text style={styleCss.bottomViewColumnText}>{t("Home")}</Text>
                             </TouchableOpacity>
                         </View>
                         <View style={styleCss.bottomViewColumn}>
@@ -354,7 +389,7 @@ class productList extends Component {
                                 <Image style={styleCss.bottomViewColumnImg}
                                     source={require('../../../images/small_location.png')}
                                 />
-                                <Text style={styleCss.bottomViewColumnText}>Location</Text>
+                                <Text style={styleCss.bottomViewColumnText}>{t("Location")}</Text>
                             </TouchableOpacity>
                         </View>
                         <View style={styleCss.bottomViewColumn}>
@@ -362,7 +397,7 @@ class productList extends Component {
                                 <Image style={styleCss.bottomViewColumnImg}
                                     source={require('../../../images/small_product.png')}
                                 />
-                                <Text style={styleCss.bottomViewColumnTextActive}>Product</Text>
+                                <Text style={styleCss.bottomViewColumnTextActive}>{t("Product")}</Text>
                             </TouchableOpacity>
                         </View>
                         <View style={styleCss.bottomViewColumn}>
@@ -370,7 +405,7 @@ class productList extends Component {
                                 <Image style={styleCss.bottomViewColumnImg}
                                     source={require('../../../images/small_refresh.png')}
                                 />
-                                <Text style={styleCss.bottomViewColumnText}>Refresh</Text>
+                                <Text style={styleCss.bottomViewColumnText}>{t("Refresh")}</Text>
                             </TouchableOpacity>
                         </View>
                     </View>
@@ -393,7 +428,7 @@ class productList extends Component {
                                 <Image style={styleCss.bottomViewColumnImg}
                                     source={require('../../../images/small_gym.png')}
                                 />
-                                <Text style={styleCss.bottomViewColumnText}>Home</Text>
+                                <Text style={styleCss.bottomViewColumnText}>{t("Home")}</Text>
                             </TouchableOpacity>
                         </View>
                         <View style={styleCss.bottomViewColumn}>
@@ -401,7 +436,7 @@ class productList extends Component {
                                 <Image style={styleCss.bottomViewColumnImg}
                                     source={require('../../../images/small_location.png')}
                                 />
-                                <Text style={styleCss.bottomViewColumnText}>Location</Text>
+                                <Text style={styleCss.bottomViewColumnText}>{t("Location")}</Text>
                             </TouchableOpacity>
                         </View>
                         <View style={styleCss.bottomViewColumn}>
@@ -409,7 +444,7 @@ class productList extends Component {
                                 <Image style={styleCss.bottomViewColumnImg}
                                     source={require('../../../images/small_product.png')}
                                 />
-                                <Text style={styleCss.bottomViewColumnTextActive}>Product</Text>
+                                <Text style={styleCss.bottomViewColumnTextActive}>{t("Product")}</Text>
                             </TouchableOpacity>
                         </View>
                         <View style={styleCss.bottomViewColumn}>
@@ -417,7 +452,7 @@ class productList extends Component {
                                 <Image style={styleCss.bottomViewColumnImg}
                                     source={require('../../../images/small_refresh.png')}
                                 />
-                                <Text style={styleCss.bottomViewColumnText}>Refresh</Text>
+                                <Text style={styleCss.bottomViewColumnText}>{t("Refresh")}</Text>
                             </TouchableOpacity>
                         </View>
                     </View>
