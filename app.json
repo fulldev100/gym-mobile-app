@@ -17,7 +17,7 @@
       "android",
       "web"
     ],
-    "version": "3.0.1",
+    "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
@@ -42,14 +42,14 @@
         "READ_EXTERNAL_STORAGE",
         "WRITE_EXTERNAL_STORAGE"
       ],
-      "package": "com.pushnifty.gymapp"
+      "package": "com.twentyforehrfitness.eu"
     },
     "ios": {
       "buildNumber": "14",
       "infoPlist": {
         "NSCameraUsageDescription": "Allow 24hr-fitness App to access carema to scan QR code."
       },
-      "bundleIdentifier": "com.pushnifty.gymapp",
+      "bundleIdentifier": "com.twentyforehrfitness.eu",
       "supportsTablet": false
     },
     "web": {

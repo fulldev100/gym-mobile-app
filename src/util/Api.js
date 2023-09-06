@@ -4,7 +4,7 @@ export const BASE_URL = "http://24hr-fitness.eu/gym/?gmgt_json_api"; // 24hr-fit
 
 export const ACCESSRIGTHS = "menu_accessrigths";
 
-export const LOGIN = "user_login";
+export const LOGIN = "mobile_user_login";
 
 export const STAFFMEMBERLOGIN = "staff_member_web_view";
 
@@ -96,7 +96,7 @@ export const BUY_MEMBERSHIP = "buy_membership_in_mobile";
 
 export const BUY_PRODUCT = "buy_product_in_mobile";
 
-export const PRODUCTLIST = "sales_product_list";
+export const PRODUCTLIST = "mobile_sales_product_list";
 
 export const PRODUCTGROUPLIST = "product_list";
 
