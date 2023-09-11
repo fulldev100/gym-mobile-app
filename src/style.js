@@ -3155,14 +3155,14 @@ export default StyleSheet.create({
                 flexDirection: 'row',
                 justifyContent: 'flex-start',
                 textAlign: "left",
-                width: normalize(150)
+                width: normalize(250)
             },
             android: {
                 flexDirection: 'row',
                 justifyContent: 'flex-start',
                 color: '#656565',
                 textAlign: "left",
-                width: normalize(150),
+                width: normalize(250),
             }
         })
     },

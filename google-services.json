@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "155915444292",
-    "project_id": "wpgym-1e6e5",
-    "storage_bucket": "wpgym-1e6e5.appspot.com"
+    "project_number": "456375293729",
+    "project_id": "gym-mobileapp",
+    "storage_bucket": "gym-mobileapp.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:155915444292:android:ff14cd33080538980f5c11",
+        "mobilesdk_app_id": "1:456375293729:android:381f817f2fa61b59b11060",
         "android_client_info": {
-          "package_name": "com.pushnifty.gymapp"
+          "package_name": "com.twentyforehrfitness.eu"
         }
       },
       "oauth_client": [
         {
-          "client_id": "155915444292-ees02kb5v1mgt2habqgtch6u1equ0iog.apps.googleusercontent.com",
+          "client_id": "456375293729-p55mea7f5933g2ljjkepg9i6fd58p1jg.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAXVWv_UbVVtkyx0pF5w_zrl7Z86Y--9yQ"
+          "current_key": "AIzaSyBtcks_Uw2ptTlMDolmDAEhRi8ZXg6jAnk"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "155915444292-ees02kb5v1mgt2habqgtch6u1equ0iog.apps.googleusercontent.com",
+              "client_id": "456375293729-p55mea7f5933g2ljjkepg9i6fd58p1jg.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

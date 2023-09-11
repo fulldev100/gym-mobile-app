@@ -34,6 +34,7 @@ export const fetchAdminDashboardlist = (data) => dispatch => {
                 console.log("///// success |||||||||||")
                 dispatch(adminDashboardData(responseJson));
             } else {
+                console.log(responseJson.error)
                 dispatch(endLoading());
                 AlertHelper.show('warn', t('Warning'), responseJson.error);
             }
