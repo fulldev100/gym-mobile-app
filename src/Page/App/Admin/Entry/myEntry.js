@@ -105,6 +105,8 @@ class MyEntry extends Component {
         const Id = await SecureStore.getItemAsync("id");
         const Token = await SecureStore.getItemAsync("access_token");
 
+        console.log(this.state.date_region)
+
         const dashboard_data = {
             "current_user_id": Id,
             "access_token": Token,
@@ -414,6 +416,8 @@ const EmptyComponent = ({ title }) => (
 );
 
 const mapStateToProps = (state) => {
+    console.log("-------------------\n")
+    //console.log(state.adminDashboard.adminDashboardData[0].total_entry_in_list)
     return {
         Data: state.adminDashboard.adminDashboardData,
         loading: state.adminDashboard.loading,

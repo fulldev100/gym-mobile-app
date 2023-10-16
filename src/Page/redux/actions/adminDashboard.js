@@ -28,7 +28,8 @@ export const fetchAdminDashboardlist = (data) => dispatch => {
             dispatch(endLoading());
             AlertHelper.show('warn', t('Warning'), "Network error");
         } else {
-         //   console.log(responseJson.result[0].total_membership_list)
+            console.log(responseJson.data_region)
+            console.log(responseJson.date)
             if (responseJson.status == 1) {
                 
                 console.log("///// success |||||||||||")
