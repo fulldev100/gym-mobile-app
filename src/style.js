@@ -1422,7 +1422,8 @@ export default StyleSheet.create({
     SubProductImage: {
         height: '100%',
         maxHeight: 400,
-        width: '100%'
+        width: '100%',
+        margin: 10
     },
     ZoomProductImage: {
         height: '80%',
@@ -1503,8 +1504,8 @@ export default StyleSheet.create({
     zoomQRCode: {
         alignItems: 'center',
         justifyContent: 'center',
-        width: 550,
-        height: 550,
+        width: 500,
+        height: 500,
     },
     group_modal_view: {
         height: normalize(300),

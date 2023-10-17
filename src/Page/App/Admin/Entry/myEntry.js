@@ -45,6 +45,7 @@ class MyEntry extends Component {
             ImageLoading: false,
             modalVisible: false,
             cardNumber: '',
+            memberName: '',
             isTicketView: false,
             date_region: 1,
             selectedLn: 'en',
@@ -64,8 +65,8 @@ class MyEntry extends Component {
         this.setState({ modalVisible: false });
     }
 
-    async setModalVisible(cardNumber) {
-        this.setState({ cardNumber: cardNumber,modalVisible: true });
+    async setModalVisible(cardNumber, memberName) {
+        this.setState({ cardNumber: cardNumber,modalVisible: true, memberName: memberName });
     }
 
     logout = async () => {
@@ -140,6 +141,7 @@ class MyEntry extends Component {
     _handleBackButtonClick = () => this.props.navigation.navigate('myAdminDashboard')
 
     renderItem = ({ item }) => {
+        const { modalVisible, cardNumber, memberName } = this.state;
         return (
             <View style={styleCss.MembershipView}>
                 <Row style={styleCss.NaveBar}>
@@ -218,7 +220,7 @@ class MyEntry extends Component {
                         item.total_entry_in_list.map((prop, key) => {
                             if (prop.card_num != "0")
                             return (
-                                <Row style={styleCss.product_list_row}>
+                                <Row style={styleCss.product_list_row} onPress={() => this.setModalVisible(prop.pic_path, prop.name)}>
                                     <Col style={styleCss.nutrition_list_col}>
                                         <Col style={styleCss.product_list_image_col}>
                                             <Image style={styleCss.product_list_image}
@@ -248,8 +250,55 @@ class MyEntry extends Component {
                         })
                     }
                     
-
                 </TouchableOpacity>
+
+                <Modal
+                    animationType="slide"
+                    transparent={true}
+                    visible={modalVisible}>
+
+                    <View style={styleCss.qr_modal_main_view}>
+
+                        <View style={styleCss.SubImageContainer}>
+
+                            <Row style={styleCss.membership_modal_row}>
+                                <Col style={styleCss.group_name_col}>
+                                    <Text numberOfLines={1} style={styleCss.group_name_text}>{memberName}</Text>
+                                </Col>
+                                <Col style={styleCss.group_back_arrow_col}>
+                                    
+                                    <TouchableOpacity onPress={() => { this.Visible(false) }} style={styleCss.group_back_arrow_text}>
+                                        <Text>{t("Close")}</Text>
+                                        {/* <Image
+                                            style={styleCss.group_close_image}
+                                            source={require('../../../../images/Close-blue-512.png')} /> */}
+                                    </TouchableOpacity>
+                                </Col>
+                            </Row>
+
+                            <View key={[1]} style={styleCss.SubImageContainer}>
+                                
+                                <TouchableOpacity onPress={() => { this.Visible(false) }} style={styleCss.zoomQRCode}>
+                                    <Image onLoadStart={(e) => this.setState({ ImageLoading: true })}
+                                        onLoadEnd={(e) => this.setState({ ImageLoading: false })}
+                                        source={
+                                            cardNumber
+                                            ? { uri: cardNumber }
+                                            : null
+                                        }
+                                        style={styleCss.ZoomProductImage} />
+                                </TouchableOpacity>
+                                
+                                <ActivityIndicator
+                                    style={styleCss.loading}
+                                    animating={this.state.ImageLoading}
+                                    // size="small"
+                                    color="#102b46"
+                                />
+                            </View>
+                        </View>
+                    </View>
+                </Modal>
             </View>
         )
     }

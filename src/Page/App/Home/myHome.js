@@ -72,7 +72,7 @@ class Home extends Component {
     }
 
     async setModalVisible(cardNumber) {
-        this.setState({ cardNumber: cardNumber,modalVisible: true });
+        this.setState({ cardNumber: cardNumber, modalVisible: true });
     }
 
     logout = async () => {
