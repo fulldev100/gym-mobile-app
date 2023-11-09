@@ -10,6 +10,7 @@ import {
     TouchableOpacity,
     Alert,
     Modal, 
+    ScrollView
 } from 'react-native';
 import * as SecureStore from 'expo-secure-store';
 import { Col, Row } from 'react-native-easy-grid';
@@ -49,7 +50,10 @@ class MyEntry extends Component {
             isTicketView: false,
             date_region: 1,
             selectedLn: 'en',
-            lang_value: 0
+            history_list: [],
+            lang_value: 0,
+            start_time: '',
+            end_time: ''
         }
     }
     static navigationOptions = ({ navigation }) => {
@@ -65,8 +69,8 @@ class MyEntry extends Component {
         this.setState({ modalVisible: false });
     }
 
-    async setModalVisible(cardNumber, memberName) {
-        this.setState({ cardNumber: cardNumber,modalVisible: true, memberName: memberName });
+    async setModalVisible(cardNumber, memberName, history_list, start_time, end_time) {
+        this.setState({ cardNumber: cardNumber,modalVisible: true, memberName: memberName, history_list: history_list, start_time: start_time, end_time: end_time });
     }
 
     logout = async () => {
@@ -141,7 +145,7 @@ class MyEntry extends Component {
     _handleBackButtonClick = () => this.props.navigation.navigate('myAdminDashboard')
 
     renderItem = ({ item }) => {
-        const { modalVisible, cardNumber, memberName } = this.state;
+        const { modalVisible, cardNumber, memberName, history_list, start_time, end_time } = this.state;
         return (
             <View style={styleCss.MembershipView}>
                 <Row style={styleCss.NaveBar}>
@@ -220,7 +224,7 @@ class MyEntry extends Component {
                         item.total_entry_in_list.map((prop, key) => {
                             if (prop.card_num != "0")
                             return (
-                                <Row style={styleCss.product_list_row} onPress={() => this.setModalVisible(prop.pic_path, prop.name)}>
+                                <Row style={styleCss.product_list_row} onPress={() => this.setModalVisible(prop.pic_path, prop.name, prop.history_list, prop.start_time, prop.end_time)}>
                                     <Col style={styleCss.nutrition_list_col}>
                                         <Col style={styleCss.product_list_image_col}>
                                             <Image style={styleCss.product_list_image}
@@ -233,11 +237,11 @@ class MyEntry extends Component {
                                     <Col style={styleCss.history_list_details_col}>
                                         
                                         <Row style={styleCss.history_list_details_row}>
-                                            <Text>{prop.name}, {prop.gender == "M" ? t("Male") : t("Female") }</Text>
+                                            <Text>{prop.name},{"("}{prop.guest_role == "guest" ? t("Ticket") : t("Membership")}{")"}</Text>
                                         </Row>
 
                                         <Row style={styleCss.history_list_details_row}>
-                                            <Text style={styleCss.nutrition_list_details_label}>00{prop.card_num}, €{prop.paid_amount}{"("}{prop.guest_role == "guest" ? t("Ticket") : t("Membership")}{")"}</Text>
+                                            <Text>{prop.card_num}, {"("}{prop.start_time} {"~"} {prop.end_time}{")"}</Text>
                                         </Row>
 
 
@@ -257,28 +261,11 @@ class MyEntry extends Component {
                     transparent={true}
                     visible={modalVisible}>
 
-                    <View style={styleCss.qr_modal_main_view}>
+                    <View style={styleCss.history_modal_main_view}>
 
-                        <View style={styleCss.SubImageContainer}>
-
-                            <Row style={styleCss.membership_modal_row}>
-                                <Col style={styleCss.group_name_col}>
-                                    <Text numberOfLines={1} style={styleCss.group_name_text}>{memberName}</Text>
-                                </Col>
-                                <Col style={styleCss.group_back_arrow_col}>
-                                    
-                                    <TouchableOpacity onPress={() => { this.Visible(false) }} style={styleCss.group_back_arrow_text}>
-                                        <Text>{t("Close")}</Text>
-                                        {/* <Image
-                                            style={styleCss.group_close_image}
-                                            source={require('../../../../images/Close-blue-512.png')} /> */}
-                                    </TouchableOpacity>
-                                </Col>
-                            </Row>
-
-                            <View key={[1]} style={styleCss.SubImageContainer}>
+                        <View style={styleCss.HisSubImageContainer}>
                                 
-                                <TouchableOpacity onPress={() => { this.Visible(false) }} style={styleCss.zoomQRCode}>
+                                <TouchableOpacity onPress={() => { this.Visible(false) }} style={styleCss.HistoryDetailHeaderImage}>
                                     <Image onLoadStart={(e) => this.setState({ ImageLoading: true })}
                                         onLoadEnd={(e) => this.setState({ ImageLoading: false })}
                                         source={
@@ -286,17 +273,42 @@ class MyEntry extends Component {
                                             ? { uri: cardNumber }
                                             : null
                                         }
-                                        style={styleCss.ZoomProductImage} />
+                                        style={styleCss.ZoomProductImageHeader} />
+                                    <Text numberOfLines={1} style={styleCss.his_group_name_text}>{memberName}</Text>
+                                    <Text numberOfLines={1}>{start_time} {"~"} {end_time}</Text>
                                 </TouchableOpacity>
-                                
-                                <ActivityIndicator
-                                    style={styleCss.loading}
-                                    animating={this.state.ImageLoading}
-                                    // size="small"
-                                    color="#102b46"
-                                />
+
+                                <ScrollView style={styleCss.HisScrollView}>
+                                    <View >
+                                    { 
+                                        history_list.map((his_item, key) => {
+                                            return (
+                                                <Row style={styleCss.his_product_list_row}>
+                                                    <Col style={styleCss.nutrition_list_col}>
+                                                        <Col style={styleCss.product_list_image_col}>
+                                                            <Image style={styleCss.product_list_image}
+                                                                // source={require('../../../images/Date-blue-512.png')}
+                                                                source={{uri: his_item.image}}
+                                                            />
+                                                        </Col>
+                                                    </Col>
+                                                    <Col style={styleCss.history_list_details_col}>
+                                                        
+                                                        <Row style={styleCss.history_list_details_row}>
+                                                            <Text>{his_item.status}</Text>
+                                                        </Row>
+
+                                                        <Row style={styleCss.history_list_details_row}>
+                                                            <Text style={styleCss.nutrition_list_details_label}>{his_item.datetime}</Text>
+                                                        </Row>
+                                                    </Col>
+                                                </Row>
+                                            )
+                                        })
+                                    }
+                                    </View>
+                                </ScrollView>
                             </View>
-                        </View>
                     </View>
                 </Modal>
             </View>

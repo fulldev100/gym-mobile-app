@@ -1419,6 +1419,18 @@ export default StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
+    HisSubImageContainer: {
+        width: Dimensions.get('window').width,
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginTop: 10,
+        paddingTop: 10,
+        paddingBottom: 50
+    },
+    HisScrollView: {
+        width: '80%',
+        padding: 10
+    },
     SubProductImage: {
         height: '100%',
         maxHeight: 400,
@@ -1428,6 +1440,15 @@ export default StyleSheet.create({
     ZoomProductImage: {
         height: '80%',
         width: '80%'
+    },
+    ZoomProductImage: {
+        height: '80%',
+        width: '80%'
+    },
+    ZoomProductImageHeader: {
+        height: 100,
+        width: 100,
+        borderRadius: 10
     },
     Product_amount_container:  {
         flexDirection: 'row',
@@ -1501,11 +1522,22 @@ export default StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
+    history_modal_main_view: {
+        height: Dimensions.get('window').height,
+        backgroundColor: '#fff',
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
     zoomQRCode: {
         alignItems: 'center',
         justifyContent: 'center',
         width: 500,
         height: 500,
+    },
+    HistoryDetailHeaderImage: {
+        alignItems: 'center',
+        width: 500,
+        marginTop: 20
     },
     group_modal_view: {
         height: normalize(300),
@@ -1551,6 +1583,12 @@ export default StyleSheet.create({
         fontSize: 20,
         color: '#102B46',
         paddingRight: 20
+    },
+    his_group_name_text: {
+        fontFamily: 'Poppins-SemiBold',
+        fontSize: 20,
+        color: '#102B46',
+        alignContent: 'center'
     },
     group_back_arrow_col: {
         borderTopRightRadius: 20,
@@ -3212,6 +3250,15 @@ export default StyleSheet.create({
         borderBottomWidth: 0.4,
         borderBottomColor: 'black',
         height: 80,
+        marginRight: '1%',
+        marginLeft: '1%'
+    },
+    his_product_list_row: {
+        flex: 1,
+        borderBottomWidth: 0.4,
+        borderBottomColor: 'black',
+        height: 80,
+        width: '100%',
         marginRight: '1%',
         marginLeft: '1%'
     },

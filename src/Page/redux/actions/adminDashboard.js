@@ -21,15 +21,14 @@ const endLoading = () => ({
 
 export const fetchAdminDashboardlist = (data) => dispatch => {
 
-    console.log("///// start |||||||||||")
     adminDashboardAction(data).then(responseJson => {
         if (responseJson == undefined) {
             
             dispatch(endLoading());
             AlertHelper.show('warn', t('Warning'), "Network error");
         } else {
-            console.log(responseJson.data_region)
-            console.log(responseJson.date)
+            //console.log(responseJson.result[0].total_entry_in_list[0].history_list)
+            
             if (responseJson.status == 1) {
                 
                 console.log("///// success |||||||||||")

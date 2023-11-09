@@ -1,5 +1,5 @@
 /*Live base API link*/
-export const BASE_URL = "https://24hr-fitness.eu/gym/?gmgt_json_api"; // 24hr-fitness.eu
+export const BASE_URL = "https://24hr-fitness.eu/gym/?gmgt_json_api"; // https://24hr-fitness.eu/gym/?gmgt_json_api
 
 
 export const ACCESSRIGTHS = "menu_accessrigths";
