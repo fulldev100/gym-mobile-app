@@ -1,6 +1,6 @@
 {
-    "England": "En",
-    "Slovakia": "SL",
+    "England": "EN",
+    "Slovakia": "SK",
     "Price": "Price",
     "Virtual Card no": "Virtual Card no.",
     "Buy new membership": "Buy new membership",
@@ -71,7 +71,7 @@
     "Centimeter":"Centimeter",
     "Hold on!":"Hold on!",
     "Are you sure you want to exit app?":"Are you sure you want to exit app?",
-    "Gym App":"Gym App",
+    "Gym App":"24hr Fitness s.r.o",
     "Are you sure you want to Logout?":"Are you sure you want to Logout?",
     "No":"No",
     "Yes":"Yes",
@@ -295,7 +295,14 @@
     "Please select class":"Please select class",
 
     "Tap to Scan Again":"Tap to Scan Again",
-    "This is a wrong QR code Please scan members QR code":"This is a wrong QR code Please scan members QR code"
-
-
+    "This is a wrong QR code Please scan members QR code":"This is a wrong QR code Please scan members QR code",
+    "Fail": "Fail",
+    "Membership Amount": "Membership Amount",
+    "Ticket Amount": "Ticket Amount",
+    "Count of Paid Memberships": "Count of Paid Memberships",
+    "Count of Paid Tickets": "Count of Paid Tickets",
+    "Count of Entry in Gym": "Count of Entry in Gym",
+    "Member Usage amount it": "Member Usage amount it",
+    "Signup in": "Signup in",
+    "Purchase": "Purchase"
 }

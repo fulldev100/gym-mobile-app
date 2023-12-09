@@ -359,6 +359,7 @@ class Attendances extends Component {
                                         <View style={styleCss.attendance_details_radio}>
                                             <RadioButton style={{ borderWidth: Platform.OS === 'ios' ? '#fffff' : '#fffff', uncheckedColor: Platform.OS === 'ios' ? '#fffff' : '#fffff' }}
                                                 value="Present"
+                                                accessibilityLabel = "Present"
                                                 color='green'
                                                 uncheckedColor='green'
                                                 status={attendancestatus === 'Present' ? 'checked' : 'unchecked'}
@@ -374,6 +375,7 @@ class Attendances extends Component {
                                         <View style={styleCss.attendance_details_radio}>
                                             <RadioButton style={{ borderWidth: Platform.OS === 'ios' ? '#fffff' : '#fffff', uncheckedColor: Platform.OS === 'ios' ? '#fffff' : '#fffff' }}
                                                 value="Absent"
+                                                accessibilityLabel = "Absent"
                                                 color='red'
                                                 uncheckedColor='red'
                                                 status={attendancestatus === 'Absent' ? 'checked' : 'unchecked'}

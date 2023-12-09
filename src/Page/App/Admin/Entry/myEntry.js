@@ -15,7 +15,7 @@ import {
 import * as SecureStore from 'expo-secure-store';
 import { Col, Row } from 'react-native-easy-grid';
 import { connect } from "react-redux";
-import { fetchAdminDashboardlist, loadingStart } from "../../../redux/actions/adminDashboard";
+import { fetchAdminDashboardEntrylist, loadingStart } from "../../../redux/actions/adminDashboard";
 import { Logoutmember } from "../../../redux/actions/auth";
 import { t, setLanguage, getLanguageLocal } from '../../../../../locals';
 import styleCss from '../../../../style.js';
@@ -55,7 +55,24 @@ class MyEntry extends Component {
             start_time: '',
             end_time: ''
         }
+        this.setLocalLang()
     }
+
+    setLocalLang = async () => {
+        const lang = await SecureStore.getItemAsync("lang");
+
+        if (lang)
+        {
+            setLanguage(lang)
+            if (lang == 'en') this.setState({lang_value: 0})
+            else this.setState({lang_value: 1})
+        }
+
+        const date_region_index = await SecureStore.getItemAsync("date_region");
+        if (date_region_index)
+        this.setState({date_region: date_region_index})
+    }
+
     static navigationOptions = ({ navigation }) => {
         return {
             headerShown: false,
@@ -100,24 +117,23 @@ class MyEntry extends Component {
     }
 
     componentDidMount() {
+        this.setLocalLang()
         this.myAdmindata();
     }
 
     async myAdmindata() {
-        const { fetchAdminDashboardlist, loadingStart } = this.props;
+        const { fetchAdminDashboardEntrylist, loadingStart } = this.props;
         loadingStart();
 
         const Id = await SecureStore.getItemAsync("id");
         const Token = await SecureStore.getItemAsync("access_token");
-
-        console.log(this.state.date_region)
 
         const dashboard_data = {
             "current_user_id": Id,
             "access_token": Token,
             "date_region": this.state.date_region
         };
-        fetchAdminDashboardlist(dashboard_data);
+        fetchAdminDashboardEntrylist(dashboard_data);
     }
 
     _onBlurr = () => {
@@ -157,7 +173,7 @@ class MyEntry extends Component {
                         </TouchableOpacity>
                     </Col>
                     <Col style={styleCss.nutrition_list_name_col}>
-                        <Text style={styleCss.NaveText}>24hr-fitness.eu</Text>
+                        <Text style={styleCss.NaveText}>24hr Fitness s.r.o</Text>
                     </Col>
 
                     <Col style={styleCss.AlignRightNavbar}>
@@ -200,6 +216,9 @@ class MyEntry extends Component {
                             onSelect={(selectedItem, index) => {
                                 this.setState({date_region: index})
                                 this.myAdmindata()
+
+                                SecureStore.setItemAsync("date_region", index)
+                                this.setLocalLang()
                             }}
                             buttonTextAfterSelection={(selectedItem, index) => {
                                 return selectedItem;
@@ -335,7 +354,7 @@ class MyEntry extends Component {
                                     </TouchableOpacity>
                                 </Col>
                                 <Col style={styleCss.nutrition_list_name_col}>
-                                    <Text style={styleCss.NaveText}>24hr-fitness.eu</Text>
+                                    <Text style={styleCss.NaveText}>24hr Fitness s.r.o</Text>
                                 </Col>
 
                                 <Col style={styleCss.AlignRightNavbar}>
@@ -387,7 +406,7 @@ class MyEntry extends Component {
                         <View style={styleCss.bottomViewColumn}>
                             <TouchableOpacity onPress={() => this.props.navigation.navigate('myAdminDashboard')} style={styleCss.message_col}>
                                 <Image style={styleCss.bottomViewColumnImg}
-                                    source={require('../../../../images/small_gym.png')}
+                                    source={require('../../../../images/icons8-dashboard-inactive.png')}
                                 />
                                 <Text style={styleCss.bottomViewColumnText}>{t("Dashboard")}</Text>
                             </TouchableOpacity>
@@ -395,15 +414,23 @@ class MyEntry extends Component {
                         <View style={styleCss.bottomViewColumn}>
                             <TouchableOpacity onPress={() => this.props.navigation.navigate('myEntry')} style={styleCss.message_col}>
                                 <Image style={styleCss.bottomViewColumnImg}
-                                    source={require('../../../../images/small_location.png')}
+                                    source={require('../../../../images/icons8-door-sensor-checked-active.png')}
                                 />
                                 <Text style={styleCss.bottomViewColumnTextActive}>{t("Entry")}</Text>
                             </TouchableOpacity>
                         </View>
                         <View style={styleCss.bottomViewColumn}>
+                            <TouchableOpacity onPress={() => this.props.navigation.navigate('failEntry')} style={styleCss.message_col}>
+                                <Image style={styleCss.bottomViewColumnImg}
+                                    source={require('../../../../images/icons8-door-sensor-error-inactive.png')}
+                                />
+                                <Text style={styleCss.bottomViewColumnText}>{t("Fail")}</Text>
+                            </TouchableOpacity>
+                        </View>
+                        <View style={styleCss.bottomViewColumn}>
                             <TouchableOpacity onPress={() => this.props.navigation.navigate('mySale')} style={styleCss.message_col}>
                                 <Image style={styleCss.bottomViewColumnImg}
-                                    source={require('../../../../images/small_product.png')}
+                                    source={require('../../../../images/icons8-sale-inactive.png')}
                                 />
                                 <Text style={styleCss.bottomViewColumnText}>{t("Sale")}</Text>
                             </TouchableOpacity>
@@ -411,7 +438,7 @@ class MyEntry extends Component {
                         <View style={styleCss.bottomViewColumn}>
                             <TouchableOpacity onPress={() => this.myAdmindata()} style={styleCss.message_col}>
                                 <Image style={styleCss.bottomViewColumnImg}
-                                    source={require('../../../../images/small_refresh.png')}
+                                    source={require('../../../../images/icons8-refresh-inactive.png')}
                                 />
                                 <Text style={styleCss.bottomViewColumnText}>{t("Refresh")}</Text>
                             </TouchableOpacity>
@@ -429,10 +456,10 @@ class MyEntry extends Component {
                         color="#102b46"
                     />
                     <View style={styleCss.bottomView}>
-                        <View style={styleCss.bottomViewColumn}>
+                    <View style={styleCss.bottomViewColumn}>
                             <TouchableOpacity onPress={() => this.props.navigation.navigate('myAdminDashboard')} style={styleCss.message_col}>
                                 <Image style={styleCss.bottomViewColumnImg}
-                                    source={require('../../../../images/small_gym.png')}
+                                    source={require('../../../../images/icons8-dashboard-inactive.png')}
                                 />
                                 <Text style={styleCss.bottomViewColumnText}>{t("Dashboard")}</Text>
                             </TouchableOpacity>
@@ -440,23 +467,31 @@ class MyEntry extends Component {
                         <View style={styleCss.bottomViewColumn}>
                             <TouchableOpacity onPress={() => this.props.navigation.navigate('myEntry')} style={styleCss.message_col}>
                                 <Image style={styleCss.bottomViewColumnImg}
-                                    source={require('../../../../images/small_location.png')}
+                                    source={require('../../../../images/icons8-door-sensor-checked-active.png')}
                                 />
                                 <Text style={styleCss.bottomViewColumnTextActive}>{t("Entry")}</Text>
                             </TouchableOpacity>
                         </View>
                         <View style={styleCss.bottomViewColumn}>
+                            <TouchableOpacity onPress={() => this.props.navigation.navigate('failEntry')} style={styleCss.message_col}>
+                                <Image style={styleCss.bottomViewColumnImg}
+                                    source={require('../../../../images/icons8-door-sensor-error-inactive.png')}
+                                />
+                                <Text style={styleCss.bottomViewColumnText}>{t("Fail")}</Text>
+                            </TouchableOpacity>
+                        </View>
+                        <View style={styleCss.bottomViewColumn}>
                             <TouchableOpacity onPress={() => this.props.navigation.navigate('mySale')} style={styleCss.message_col}>
                                 <Image style={styleCss.bottomViewColumnImg}
-                                    source={require('../../../../images/small_product.png')}
+                                    source={require('../../../../images/icons8-sale-inactive.png')}
                                 />
                                 <Text style={styleCss.bottomViewColumnText}>{t("Sale")}</Text>
                             </TouchableOpacity>
                         </View>
                         <View style={styleCss.bottomViewColumn}>
-                            <TouchableOpacity onPress={() => this.myAdmindata() } style={styleCss.message_col}>
+                            <TouchableOpacity onPress={() => this.myAdmindata()} style={styleCss.message_col}>
                                 <Image style={styleCss.bottomViewColumnImg}
-                                    source={require('../../../../images/small_refresh.png')}
+                                    source={require('../../../../images/icons8-refresh-inactive.png')}
                                 />
                                 <Text style={styleCss.bottomViewColumnText}>{t("Refresh")}</Text>
                             </TouchableOpacity>
@@ -486,7 +521,7 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = {
-    fetchAdminDashboardlist,
+    fetchAdminDashboardEntrylist,
     Logoutmember,
     loadingStart,
 };

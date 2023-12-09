@@ -7,9 +7,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:456375293729:android:381f817f2fa61b59b11060",
+        "mobilesdk_app_id": "1:456375293729:android:14d5b71b66fd214cb11060",
         "android_client_info": {
-          "package_name": "com.twentyforehrfitness.eu"
+          "package_name": "com.xtfhrfitness.gymaccess"
         }
       },
       "oauth_client": [

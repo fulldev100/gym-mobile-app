@@ -9,7 +9,7 @@
         }
       ]
     ],
-    "name": "Fitness Owner",
+    "name": "Gym Access",
     "slug": "gym-app",
     "privacy": "public",
     "platforms": [
@@ -17,22 +17,22 @@
       "android",
       "web"
     ],
-    "version": "1.0.0",
+    "version": "2.8.4",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
-    "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "cover",
-      "backgroundColor": "#ffffff"
-    },
     "updates": {
       "fallbackToCacheTimeout": 0
     },
     "assetBundlePatterns": [
       "**/*"
     ],
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "cover",
+      "backgroundColor": "#FFFFFF"
+    },
     "android": {
-      "versionCode": 1,
+      "versionCode": 16,
       "googleServicesFile": "./google-services.json",
       "permissions": [
         "CAMERA",
@@ -42,14 +42,14 @@
         "READ_EXTERNAL_STORAGE",
         "WRITE_EXTERNAL_STORAGE"
       ],
-      "package": "com.twentyforehrfitness.eu"
+      "package": "com.xtfhrfitness.gymaccess"
     },
     "ios": {
-      "buildNumber": "14",
+      "buildNumber": "1",
       "infoPlist": {
         "NSCameraUsageDescription": "Allow 24hr-fitness App to access carema to scan QR code."
       },
-      "bundleIdentifier": "com.twentyforehrfitness.eu",
+      "bundleIdentifier": "com.xtfhrfitness.gymaccess",
       "supportsTablet": false
     },
     "web": {
@@ -59,7 +59,6 @@
       "eas": {
         "projectId": "2fd5391b-2fcd-48af-9399-104117b628f2"
       }
-    },
-    "owner": "alexivanovic1001"
+    }
   }
 }

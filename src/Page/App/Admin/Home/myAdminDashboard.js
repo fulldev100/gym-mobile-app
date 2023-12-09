@@ -52,12 +52,30 @@ class MyAdminDashboard extends Component {
             selectedLn: 'en',
             lang_value: 0
         }
+
+        this.setLocalLang()
     }
     static navigationOptions = ({ navigation }) => {
         return {
             headerShown: false,
         };
     };
+
+    setLocalLang = async () => {
+        const lang = await SecureStore.getItemAsync("lang");
+
+        if (lang)
+        {
+            setLanguage(lang)
+            if (lang == 'en') this.setState({lang_value: 0})
+            else this.setState({lang_value: 1})
+        }
+
+        const date_region_index = await SecureStore.getItemAsync("date_region");
+        if (date_region_index)
+        this.setState({date_region: date_region_index})
+    }
+
     toggleDrawer = ({ navigation }) => {
         this.props.navigation.toggleDrawer();
     };
@@ -74,7 +92,7 @@ class MyAdminDashboard extends Component {
         Alert.alert(t("Gym App"), t("Are you sure you want to exit app?"), [
           {
             text: t("No"),
-            onPress: () => this.myAdmindata(),
+            onPress: () => {},
             style: "cancel",
           },
           { text: t("Yes"), onPress: () => this.memberLogout()},
@@ -97,6 +115,7 @@ class MyAdminDashboard extends Component {
     }
 
     componentDidMount() {
+        this.setLocalLang()
         this.myAdmindata();
     }
 
@@ -154,7 +173,7 @@ class MyAdminDashboard extends Component {
                         </TouchableOpacity>
                     </Col>
                     <Col style={styleCss.nutrition_list_name_col}>
-                        <Text style={styleCss.NaveText}>24hr-fitness.eu</Text>
+                        <Text style={styleCss.NaveText}>24hr Fitness s.r.o</Text>
                     </Col>
 
                     <Col style={styleCss.AlignRightNavbar}>
@@ -194,6 +213,7 @@ class MyAdminDashboard extends Component {
                     <View style={styleCss.ImageLogoContainer}>
                         <Image style={styleCss.nutrition_list_image}
                             source={require('../../../../images/Logo.png')}
+                            alt='Logo'
                         />
 
                     <SelectDropdown
@@ -203,6 +223,10 @@ class MyAdminDashboard extends Component {
                         onSelect={(selectedItem, index) => {
                             this.setState({date_region: index})
                             this.myAdmindata()
+
+                            SecureStore.setItemAsync("date_region", index)
+
+                            this.setLocalLang()
                         }}
                         buttonTextAfterSelection={(selectedItem, index) => {
                             return selectedItem;
@@ -226,48 +250,41 @@ class MyAdminDashboard extends Component {
                     <View style={styleCss.MembershipCardView}></View>
 
                     <View style={styleCss.AdminDashboardRowView}>
-                        <View style={styleCss.AdminDashboardColumn}><Text style={styleCss.AdminDashboardSmallLabel}>{t("Membership price")}:</Text></View> 
+                        <View style={styleCss.AdminDashboardColumn}><Text style={styleCss.AdminDashboardSmallLabel}>{t("Membership Amount")}:</Text></View> 
                         <View><Text style={styleCss.MembershipMemberEmail}>€{item.total_membership_price}  </Text></View>
                     </View>
 
                     <View style={styleCss.AdminDashboardRowView}>
-                        <View style={styleCss.AdminDashboardColumn}><Text style={styleCss.AdminDashboardSmallLabel}>{t("Ticket price")}:</Text></View>
-                        <View><Text style={styleCss.MembershipMemberEmail}>€{item.total_guest_price}  </Text></View>
-                    </View>
-
-                    <View style={styleCss.AdminDashboardRowView}>
-                        <View style={styleCss.AdminDashboardColumn}><Text style={styleCss.AdminDashboardSmallLabel}>{t("Number of Membership Sales")}:</Text></View> 
+                        <View style={styleCss.AdminDashboardColumn}><Text style={styleCss.AdminDashboardSmallLabel}>{t("Count of Paid Memberships")}:</Text></View> 
                         <View><Text style={styleCss.MembershipMemberEmail}>{item.total_membership_count}  </Text></View>
-                    </View>
-
-                    <View style={styleCss.AdminDashboardRowView}>
-                        <View style={styleCss.AdminDashboardColumn}><Text style={styleCss.AdminDashboardSmallLabel}>{t("Number of Ticket Sales")}:</Text></View>
-                        <View><Text style={styleCss.MembershipMemberEmail}>{item.total_guest_count}  </Text></View>
-                    </View>
-
-                    <View style={styleCss.AdminDashboardRowView}>
-                        <View style={styleCss.AdminDashboardColumn}><Text style={styleCss.AdminDashboardSmallLabel}>{t("Number of Membership Usage")}:</Text></View> 
-                        <View><Text style={styleCss.MembershipMemberEmail}>{item.total_member_in}  </Text></View>
-                    </View>
-
-                    <View style={styleCss.AdminDashboardRowView}>
-                        <View style={styleCss.AdminDashboardColumn}><Text style={styleCss.AdminDashboardSmallLabel}>{t("Number of Ticket Usage")}:</Text></View>
-                        <View><Text style={styleCss.MembershipMemberEmail}>{item.total_guest_in}  </Text></View>
-                    </View>
-
-                    <View style={styleCss.AdminDashboardRowView}>
-                        <View style={styleCss.AdminDashboardColumn}><Text style={styleCss.AdminDashboardSmallLabel}>{t("Number of Free Ticket Usage")}:</Text></View> 
-                        <View><Text style={styleCss.MembershipMemberEmail}>{item.total_freeticket_in}  </Text></View>
                     </View>
 
                     <View style={styleCss.MembershipCardView}></View>
 
                     <View style={styleCss.AdminDashboardRowView}>
-                        <View style={styleCss.AdminDashboardColumn}><Text style={styleCss.AdminDashboardSmallLabel}>{t("Today IN")}:</Text></View> 
-                        <View><Text style={styleCss.MembershipMemberEmail}>{item.day_entry_in}  </Text></View>
-                        <View style={styleCss.AdminDashboardColumn}><Text style={styleCss.AdminDashboardSmallLabel}>{t("Today OUT")}:</Text></View>
-                        <View><Text style={styleCss.MembershipMemberEmail}>{item.day_entry_out}  </Text></View>
+                        <View style={styleCss.AdminDashboardColumn}><Text style={styleCss.AdminDashboardSmallLabel}>{t("Ticket Amount")}:</Text></View>
+                        <View><Text style={styleCss.MembershipMemberEmail}>€{item.total_guest_price}  </Text></View>
                     </View>
+
+                    <View style={styleCss.AdminDashboardRowView}>
+                        <View style={styleCss.AdminDashboardColumn}><Text style={styleCss.AdminDashboardSmallLabel}>{t("Count of Paid Tickets")}:</Text></View>
+                        <View><Text style={styleCss.MembershipMemberEmail}>{item.total_guest_count}  </Text></View>
+                    </View>
+
+                    <View style={styleCss.MembershipCardView}></View>
+
+                    <View style={styleCss.AdminDashboardRowView}>
+                        <View style={styleCss.AdminDashboardColumn}><Text style={styleCss.AdminDashboardSmallLabel}>{t("Count of Entry in Gym")}:</Text></View>
+                        <View><Text style={styleCss.MembershipMemberEmail}>{item.total_entry_in}  </Text></View>
+                    </View>
+
+                    <View style={styleCss.AdminDashboardRowView}>
+                        <View style={styleCss.AdminDashboardColumn}><Text style={styleCss.AdminDashboardSmallLabel}>{t("Member Usage amount it")}:</Text></View> 
+                        <View><Text style={styleCss.MembershipMemberEmail}>{item.total_member_in}  </Text></View>
+                    </View>
+
+
+                    <View style={styleCss.MembershipCardView}></View>
 
                 </TouchableOpacity>
             </View>
@@ -294,7 +311,7 @@ class MyAdminDashboard extends Component {
                                     </TouchableOpacity>
                                 </Col>
                                 <Col style={styleCss.nutrition_list_name_col}>
-                                    <Text style={styleCss.NaveText}>24hr-fitness.eu</Text>
+                                    <Text style={styleCss.NaveText}>24hr Fitness s.r.o</Text>
                                 </Col>
 
                                 <Col style={styleCss.AlignRightNavbar}>
@@ -346,7 +363,7 @@ class MyAdminDashboard extends Component {
                         <View style={styleCss.bottomViewColumn}>
                             <TouchableOpacity onPress={() => this.props.navigation.navigate('myAdminDashboard')} style={styleCss.message_col}>
                                 <Image style={styleCss.bottomViewColumnImg}
-                                    source={require('../../../../images/small_gym.png')}
+                                    source={require('../../../../images/icons8-dashboard-active.png')}
                                 />
                                 <Text style={styleCss.bottomViewColumnTextActive}>{t("Dashboard")}</Text>
                             </TouchableOpacity>
@@ -354,15 +371,23 @@ class MyAdminDashboard extends Component {
                         <View style={styleCss.bottomViewColumn}>
                             <TouchableOpacity onPress={() => this.props.navigation.navigate('myEntry')} style={styleCss.message_col}>
                                 <Image style={styleCss.bottomViewColumnImg}
-                                    source={require('../../../../images/small_location.png')}
+                                    source={require('../../../../images/icons8-door-sensor-checked-inactive.png')}
                                 />
                                 <Text style={styleCss.bottomViewColumnText}>{t("Entry")}</Text>
                             </TouchableOpacity>
                         </View>
                         <View style={styleCss.bottomViewColumn}>
+                            <TouchableOpacity onPress={() => this.props.navigation.navigate('failEntry')} style={styleCss.message_col}>
+                                <Image style={styleCss.bottomViewColumnImg}
+                                    source={require('../../../../images/icons8-door-sensor-error-inactive.png')}
+                                />
+                                <Text style={styleCss.bottomViewColumnText}>{t("Fail")}</Text>
+                            </TouchableOpacity>
+                        </View>
+                        <View style={styleCss.bottomViewColumn}>
                             <TouchableOpacity onPress={() => this.props.navigation.navigate('mySale')} style={styleCss.message_col}>
                                 <Image style={styleCss.bottomViewColumnImg}
-                                    source={require('../../../../images/small_product.png')}
+                                    source={require('../../../../images/icons8-sale-inactive.png')}
                                 />
                                 <Text style={styleCss.bottomViewColumnText}>{t("Sale")}</Text>
                             </TouchableOpacity>
@@ -370,7 +395,7 @@ class MyAdminDashboard extends Component {
                         <View style={styleCss.bottomViewColumn}>
                             <TouchableOpacity onPress={() => this.myAdmindata()} style={styleCss.message_col}>
                                 <Image style={styleCss.bottomViewColumnImg}
-                                    source={require('../../../../images/small_refresh.png')}
+                                    source={require('../../../../images/icons8-refresh-inactive.png')}
                                 />
                                 <Text style={styleCss.bottomViewColumnText}>{t("Refresh")}</Text>
                             </TouchableOpacity>
@@ -388,10 +413,10 @@ class MyAdminDashboard extends Component {
                         color="#102b46"
                     />
                     <View style={styleCss.bottomView}>
-                        <View style={styleCss.bottomViewColumn}>
-                            <TouchableOpacity onPress={() => this.props.navigation.navigate('myAdminDashboard')} style={styleCss.message_col}>
+                    <View style={styleCss.bottomViewColumn}>
+                        <TouchableOpacity onPress={() => this.props.navigation.navigate('myAdminDashboard')} style={styleCss.message_col}>
                                 <Image style={styleCss.bottomViewColumnImg}
-                                    source={require('../../../../images/small_gym.png')}
+                                    source={require('../../../../images/icons8-dashboard-active.png')}
                                 />
                                 <Text style={styleCss.bottomViewColumnTextActive}>{t("Dashboard")}</Text>
                             </TouchableOpacity>
@@ -399,23 +424,31 @@ class MyAdminDashboard extends Component {
                         <View style={styleCss.bottomViewColumn}>
                             <TouchableOpacity onPress={() => this.props.navigation.navigate('myEntry')} style={styleCss.message_col}>
                                 <Image style={styleCss.bottomViewColumnImg}
-                                    source={require('../../../../images/small_location.png')}
+                                    source={require('../../../../images/icons8-door-sensor-checked-inactive.png')}
                                 />
                                 <Text style={styleCss.bottomViewColumnText}>{t("Entry")}</Text>
                             </TouchableOpacity>
                         </View>
                         <View style={styleCss.bottomViewColumn}>
+                            <TouchableOpacity onPress={() => this.props.navigation.navigate('failEntry')} style={styleCss.message_col}>
+                                <Image style={styleCss.bottomViewColumnImg}
+                                    source={require('../../../../images/icons8-door-sensor-error-inactive.png')}
+                                />
+                                <Text style={styleCss.bottomViewColumnText}>{t("Fail")}</Text>
+                            </TouchableOpacity>
+                        </View>
+                        <View style={styleCss.bottomViewColumn}>
                             <TouchableOpacity onPress={() => this.props.navigation.navigate('mySale')} style={styleCss.message_col}>
                                 <Image style={styleCss.bottomViewColumnImg}
-                                    source={require('../../../../images/small_product.png')}
+                                    source={require('../../../../images/icons8-sale-inactive.png')}
                                 />
                                 <Text style={styleCss.bottomViewColumnText}>{t("Sale")}</Text>
                             </TouchableOpacity>
                         </View>
                         <View style={styleCss.bottomViewColumn}>
-                            <TouchableOpacity onPress={() => this.myAdmindata() } style={styleCss.message_col}>
+                            <TouchableOpacity onPress={() => this.myAdmindata()} style={styleCss.message_col}>
                                 <Image style={styleCss.bottomViewColumnImg}
-                                    source={require('../../../../images/small_refresh.png')}
+                                    source={require('../../../../images/icons8-refresh-inactive.png')}
                                 />
                                 <Text style={styleCss.bottomViewColumnText}>{t("Refresh")}</Text>
                             </TouchableOpacity>

@@ -1,5 +1,8 @@
 import {
-    adminDashboardAction
+    adminDashboardAction,
+    adminDashboardEntryAction,
+    adminDashboardSailAction,
+    personalEntryAction
 } from '../../../util/action.js';
 import { AlertHelper } from '../../App/AlertHelper';
 import { t } from '../../../../locals';
@@ -22,6 +25,80 @@ const endLoading = () => ({
 export const fetchAdminDashboardlist = (data) => dispatch => {
 
     adminDashboardAction(data).then(responseJson => {
+        console.log("Result:", responseJson)
+        if (responseJson == undefined) {
+            
+            dispatch(endLoading());
+            AlertHelper.show('warn', t('Warning'), "Network error");
+        } else {
+            //console.log(responseJson.result[0].total_entry_in_list[0].history_list)
+            
+            if (responseJson.status == 1) {
+                
+                console.log("///// success |||||||||||")
+                dispatch(adminDashboardData(responseJson));
+            } else {
+                console.log(responseJson.error)
+                dispatch(endLoading());
+                AlertHelper.show('warn', t('Warning'), responseJson.error);
+            }
+        }
+    });
+
+}
+
+export const fetchAdminDashboardEntrylist = (data) => dispatch => {
+
+    adminDashboardEntryAction(data).then(responseJson => {
+        console.log("Result:", responseJson)
+        if (responseJson == undefined) {
+            
+            dispatch(endLoading());
+            AlertHelper.show('warn', t('Warning'), "Network error");
+        } else {
+            //console.log(responseJson.result[0].total_entry_in_list[0].history_list)
+            
+            if (responseJson.status == 1) {
+                
+                console.log("///// success |||||||||||")
+                dispatch(adminDashboardData(responseJson));
+            } else {
+                console.log(responseJson.error)
+                dispatch(endLoading());
+                AlertHelper.show('warn', t('Warning'), responseJson.error);
+            }
+        }
+    });
+}
+
+export const fetchPersonalEntrylist = (data) => dispatch => {
+
+    personalEntryAction(data).then(responseJson => {
+        console.log("Result:", responseJson)
+        if (responseJson == undefined) {
+            
+            dispatch(endLoading());
+            AlertHelper.show('warn', t('Warning'), "Network error");
+        } else {
+            //console.log(responseJson.result[0].total_entry_in_list[0].history_list)
+            
+            if (responseJson.status == 1) {
+                
+                console.log("///// success |||||||||||")
+                dispatch(adminDashboardData(responseJson));
+            } else {
+                console.log(responseJson.error)
+                dispatch(endLoading());
+                AlertHelper.show('warn', t('Warning'), responseJson.error);
+            }
+        }
+    });
+}
+
+export const fetchAdminDashboardSaillist = (data) => dispatch => {
+
+    adminDashboardSailAction(data).then(responseJson => {
+        console.log("Result:", responseJson)
         if (responseJson == undefined) {
             
             dispatch(endLoading());

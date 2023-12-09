@@ -1,0 +1,18 @@
+- Install the react-native env
+
+- Install the following packages to insert assets
+npm i -g react-native-asset
+npx react-native-asset
+
+- Create the android folder
+npx expo run:android
+
+- Confirm the keystore, (username: 1, password: 2)
+expo fetch:android:keystore
+
+- Create the apk release version (android\app\build\outputs\apk)
+npx react-native run-android --variant=Release
+
+
+- We have to get aab (Android bundle) to publish it to play google store.
+Please open Android Studio and import the android folder..

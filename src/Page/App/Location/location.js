@@ -46,6 +46,18 @@ class MyLocation extends Component {
             lang_value: 0
         }
     }
+
+    setLocalLang = async () => {
+        const lang = await SecureStore.getItemAsync("lang");
+
+        if (lang)
+        {
+            setLanguage(lang)
+            if (lang == 'en') this.setState({lang_value: 0})
+            else this.setState({lang_value: 1})
+        }
+    }
+
     static navigationOptions = ({ navigation }) => {
         return {
             headerShown: false,
@@ -81,6 +93,7 @@ class MyLocation extends Component {
     };
 
     componentDidMount() {
+        this.setLocalLang()
         this.myhomedata();
     }
 
@@ -121,6 +134,7 @@ class MyLocation extends Component {
                         <TouchableOpacity style={styleCss.logout_image} onPress={() => this.logout() }>
                             <Image style={styleCss.logout_image}
                                 source={require('../../../images/Logout-white.png')}
+                                alt='Logout'
                             />
                         </TouchableOpacity>
                     </Col>
@@ -209,6 +223,7 @@ class MyLocation extends Component {
                                         <TouchableOpacity style={styleCss.logout_image} onPress={() => this.logout() }>
                                             <Image style={styleCss.logout_image}
                                                 source={require('../../../images/Logout-white.png')}
+                                                alt='Logout'
                                             />
                                         </TouchableOpacity>
                                     </Col>
@@ -288,33 +303,41 @@ class MyLocation extends Component {
                         <View style={styleCss.bottomViewColumn}>
                             <TouchableOpacity onPress={() => this.props.navigation.navigate('myHome')} style={styleCss.message_col}>
                                 <Image style={styleCss.bottomViewColumnImg}
-                                    source={require('../../../images/small_gym.png')}
+                                    source={require('../../../images/icons8-qrcode-inactive.png')}
                                 />
-                                <Text style={styleCss.bottomViewColumnText}>Home</Text>
+                                <Text style={styleCss.bottomViewColumnText}>{t("Scan QR")}</Text>
                             </TouchableOpacity>
                         </View>
                         <View style={styleCss.bottomViewColumn}>
-                            <TouchableOpacity style={styleCss.message_col}>
+                            <TouchableOpacity onPress={() => this.props.navigation.navigate('location')} style={styleCss.message_col}>
                                 <Image style={styleCss.bottomViewColumnImg}
-                                    source={require('../../../images/small_location.png')}
+                                    source={require('../../../images/icons8-location-active.png')}
                                 />
-                                <Text style={styleCss.bottomViewColumnTextActive}>Location</Text>
+                                <Text style={styleCss.bottomViewColumnTextActive}>{t("Location")}</Text>
+                            </TouchableOpacity>
+                        </View>
+                        <View style={styleCss.bottomViewColumn}>
+                            <TouchableOpacity onPress={() => this.props.navigation.navigate('personalEntry')} style={styleCss.message_col}>
+                                <Image style={styleCss.bottomViewColumnImg}
+                                    source={require('../../../images/icons8-door-sensor-checked-inactive.png')}
+                                />
+                                <Text style={styleCss.bottomViewColumnText}>{t("Entry")}</Text>
                             </TouchableOpacity>
                         </View>
                         <View style={styleCss.bottomViewColumn}>
                             <TouchableOpacity onPress={() => this.props.navigation.navigate('products')} style={styleCss.message_col}>
                                 <Image style={styleCss.bottomViewColumnImg}
-                                    source={require('../../../images/small_product.png')}
+                                    source={require('../../../images/icons8-purchase-inactive.png')}
                                 />
-                                <Text style={styleCss.bottomViewColumnText}>Product</Text>
+                                <Text style={styleCss.bottomViewColumnText}>{t("Purchase")}</Text>
                             </TouchableOpacity>
                         </View>
                         <View style={styleCss.bottomViewColumn}>
                             <TouchableOpacity onPress={() => this.myhomedata()} style={styleCss.message_col}>
                                 <Image style={styleCss.bottomViewColumnImg}
-                                    source={require('../../../images/small_refresh.png')}
+                                    source={require('../../../images/icons8-refresh-inactive.png')}
                                 />
-                                <Text style={styleCss.bottomViewColumnText}>Refresh</Text>
+                                <Text style={styleCss.bottomViewColumnText}>{t("Refresh")}</Text>
                             </TouchableOpacity>
                         </View>
                     </View>
@@ -333,31 +356,39 @@ class MyLocation extends Component {
                         <View style={styleCss.bottomViewColumn}>
                             <TouchableOpacity onPress={() => this.props.navigation.navigate('myHome')} style={styleCss.message_col}>
                                 <Image style={styleCss.bottomViewColumnImg}
-                                    source={require('../../../images/small_gym.png')}
+                                    source={require('../../../images/icons8-qrcode-inactive.png')}
                                 />
-                                <Text style={styleCss.bottomViewColumnText}>{t("Home")}</Text>
+                                <Text style={styleCss.bottomViewColumnText}>{t("Scan QR")}</Text>
                             </TouchableOpacity>
                         </View>
                         <View style={styleCss.bottomViewColumn}>
-                            <TouchableOpacity style={styleCss.message_col}>
+                            <TouchableOpacity onPress={() => this.props.navigation.navigate('location')} style={styleCss.message_col}>
                                 <Image style={styleCss.bottomViewColumnImg}
-                                    source={require('../../../images/small_location.png')}
+                                    source={require('../../../images/icons8-location-active.png')}
                                 />
                                 <Text style={styleCss.bottomViewColumnTextActive}>{t("Location")}</Text>
                             </TouchableOpacity>
                         </View>
                         <View style={styleCss.bottomViewColumn}>
-                            <TouchableOpacity onPress={() => this.props.navigation.navigate('products')} style={styleCss.message_col}>
+                            <TouchableOpacity onPress={() => this.props.navigation.navigate('personalEntry')} style={styleCss.message_col}>
                                 <Image style={styleCss.bottomViewColumnImg}
-                                    source={require('../../../images/small_product.png')}
+                                    source={require('../../../images/icons8-door-sensor-checked-inactive.png')}
                                 />
-                                <Text style={styleCss.bottomViewColumnText}>{t("Product")}</Text>
+                                <Text style={styleCss.bottomViewColumnText}>{t("Entry")}</Text>
                             </TouchableOpacity>
                         </View>
                         <View style={styleCss.bottomViewColumn}>
-                            <TouchableOpacity onPress={() => this.myhomedata() } style={styleCss.message_col}>
+                            <TouchableOpacity onPress={() => this.props.navigation.navigate('products')} style={styleCss.message_col}>
                                 <Image style={styleCss.bottomViewColumnImg}
-                                    source={require('../../../images/small_refresh.png')}
+                                    source={require('../../../images/icons8-purchase-inactive.png')}
+                                />
+                                <Text style={styleCss.bottomViewColumnText}>{t("Purchase")}</Text>
+                            </TouchableOpacity>
+                        </View>
+                        <View style={styleCss.bottomViewColumn}>
+                            <TouchableOpacity onPress={() => this.myhomedata()} style={styleCss.message_col}>
+                                <Image style={styleCss.bottomViewColumnImg}
+                                    source={require('../../../images/icons8-refresh-inactive.png')}
                                 />
                                 <Text style={styleCss.bottomViewColumnText}>{t("Refresh")}</Text>
                             </TouchableOpacity>

@@ -167,17 +167,17 @@ export default StyleSheet.create({
     bottomViewColumnActive: {
         flex: 1,
         alignItems: 'center',
-        backgroundColor: '#fff',
+        backgroundColor: '#ff0',
     },
     bottomViewColumnText: {
         width: 70,
         textAlign: 'center',
-        color: '#ff0',
+        color: '#fff',
     },
     bottomViewColumnTextActive: {
         width: 70,
         textAlign: 'center',
-        color: '#fff',
+        color: '#ff0',
     },
     bottomViewColumnImg:
     {
@@ -301,7 +301,8 @@ export default StyleSheet.create({
     // login screen page css start
 
     loign_container: {
-        flex: 1
+        flex: 1,
+        alignContent: 'center'
     },
     loign_page: {
         flexGrow: 1
@@ -325,7 +326,7 @@ export default StyleSheet.create({
         borderBottomColor: "#848485",
         borderBottomWidth: 1,
         marginRight: "5%",
-        marginLeft: "5%",
+        marginLeft: "5%"
     },
     login_input_col: {
         width: "15%",
@@ -334,7 +335,7 @@ export default StyleSheet.create({
     login_input_email: {
         color: "#ffffff",
         width: normalize(310),
-        height: normalize(50),
+        height: normalize(60),
         paddingRight: "4%",
         paddingLeft: "2%",
         fontSize: 16,
@@ -352,20 +353,20 @@ export default StyleSheet.create({
     },
     login_input_password: {
         color: "#ffffff",
-        height: normalize(50),
+        height: normalize(60),
         paddingRight: "4%",
         paddingLeft: "2%",
         fontSize: 16,
         fontFamily: 'Poppins-Medium'
     },
     login_input_password_show: {
-        width: 30,
+        width: 50,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
     },
     password_eye_image: {
-        height: 25,
-        width: 25
+        height: 48,
+        width: 48
     },
     login_bg_image: {
         flex: 1,
@@ -374,6 +375,7 @@ export default StyleSheet.create({
         top: 0,
         width: Dimensions.get("window").width,
         height: Dimensions.get("window").height,
+        backgroundColor: '#0c0d0d'
     },
     login_image_col: {
         justifyContent: "center",
@@ -381,8 +383,8 @@ export default StyleSheet.create({
         marginBottom: "4%",
     },
     login_image: {
-        height: 140,
-        width: 140,
+        height: 74,
+        width: 120,
         alignSelf: "center",
     },
     login_btn: {
@@ -391,12 +393,12 @@ export default StyleSheet.create({
         borderRadius: 20,
         marginTop: "8%",
         alignItems: "center",
-        marginRight: "5%",
-        marginLeft: "5%",
+        alignSelf: "center",
+        width: normalize(220)
     },
     login_btn_container: {
         alignItems: "center",
-        height: 40,
+        height: 50,
     },
     login_btn_text: {
         color: "#102b46",
@@ -411,13 +413,13 @@ export default StyleSheet.create({
     },
     login_signup_button: {
         width: normalize(220),
-        height: normalize(40),
+        height: 50,
         justifyContent: 'center',
         alignItems: 'center'
     },
     login_signup_text: {
         color: "#ffffff",
-        fontSize: 17,
+        fontSize: 15,
         fontFamily: 'Poppins-Medium'
     },
     login_container: {
@@ -442,7 +444,7 @@ export default StyleSheet.create({
         shadowOffset: { width: 0, height: 1, },
         elevation: 300,
         height: Dimensions.get('window').height,
-        backgroundColor: 'rgba(0,0,0,0.8)',
+        backgroundColor: 'rgba(255,255,255, 1)',
         position: "absolute",
         left: 0,
         right: 0,
@@ -498,7 +500,8 @@ export default StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         marginTop: '3%',
-        zIndex: 9
+        zIndex: 9,
+        display: 'none'
     },
     signup_class_dropdown_col: {
         marginRight: '3%',
@@ -539,7 +542,7 @@ export default StyleSheet.create({
     },
     signup_image:
     {
-        height: 120,
+        height: 74,
         width: 120,
         alignSelf: 'center',
         justifyContent: 'center',
@@ -571,6 +574,7 @@ export default StyleSheet.create({
         top: 0,
         width: Dimensions.get('window').width,
         height: Dimensions.get('window').height,
+        backgroundColor: '#0c0d0d'
     },
     signup_headercontainer:
     {
@@ -627,7 +631,8 @@ export default StyleSheet.create({
         width: normalize(20),
     },
     signup_image_col: {
-        marginBottom: '3%'
+        marginBottom: '3%',
+        marginTop: 30
     },
     signup_image_row: {
         height: '14%',
@@ -652,9 +657,9 @@ export default StyleSheet.create({
     signup_camera_button: {
         backgroundColor: '#ffffff',
         borderWidth: 1,
-        width: 50,
-        height: 50,
-        borderRadius: 50,
+        width: 60,
+        height: 60,
+        borderRadius: 60,
         marginLeft: '70%',
         marginTop: '70%',
         position: 'absolute'
@@ -679,7 +684,7 @@ export default StyleSheet.create({
         marginBottom: '5%'
     },
     signup_personal_collapse_row: {
-        height: 35,
+        height: 55,
         borderBottomWidth: 1,
         borderColor: '#ffffff',
         justifyContent: 'center',
@@ -699,25 +704,69 @@ export default StyleSheet.create({
     },
     signup_personal_image_css: {
         height: 20,
-        width: 20
+        width: 20,
+        color: 'white'
     },
     signup_personal_list_item: {
-        height: 45,
+        height: 60,
+        flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
         borderBottomWidth: 1,
         borderColor: '#848485',
-        marginRight: '3%',
-        marginLeft: '3%',
+        paddingHorizontal: 20
     },
     signup_personal_list_item_col: {
-        width: '15%',
+        width: '10%',
         alignItems: 'center',
         justifyContent: 'center'
     },
+
+    radioContainer: {
+        height: 50,
+        marginTop: 5,
+        marginBottom: 5,
+        marginLeft: 10,
+        marginRight: 10,
+        justifyContent: "center",
+        paddingLeft: 10,
+        paddingRight: 10,
+        flexDirection: "row",
+        alignItems: "center",
+      },
+      radioButtonIcon: {
+        backgroundColor: "transparent",
+        borderWidth: 3,
+        borderColor: "white",
+        height: 30,
+        width: 30,
+        borderRadius: 30 / 2,
+        marginRight: 5,
+        alignItems: "center",
+        justifyContent: "center",
+      },
+      radioButtonIconInnerIcon: {
+        height: 16,
+        width: 16,
+        backgroundColor: "white",
+        borderRadius: 16 / 2,
+        borderWidth: 3,
+        borderColor: "white",
+      },
+      radioButtonTextContainer: {
+        height: 50,
+        justifyContent: "center",
+        paddingLeft: 10,
+      },
+      radioButtonText: {
+        fontSize: 18,
+      },
+
+
     signup_personal_list_item_image: {
         height: 22,
-        width: 22
+        width: 22,
+        color: 'white'
     },
     signup_required_col: {
         width: '85%'
@@ -729,7 +778,7 @@ export default StyleSheet.create({
         fontSize: 16,
         fontFamily: 'Poppins-Medium',
         color: '#ffffff',
-        height: normalize(45),
+        height: 48,
         width: normalize(310)
     },
     signup_required_second_col: {
@@ -766,7 +815,7 @@ export default StyleSheet.create({
     signup_btn_container:
     {
         alignItems: 'center',
-        height: 40,
+        height: 50,
     },
     signup_signup_text:
     {
@@ -795,7 +844,7 @@ export default StyleSheet.create({
         width: '20%'
     },
     signup_login_button: {
-        height: normalize(30),
+        height: 50,
         width: normalize(80),
         justifyContent: 'center',
         alignItems: 'center'
@@ -821,13 +870,13 @@ export default StyleSheet.create({
     signup_radio: {
         ...Platform.select({
             ios: {
-                width: normalize(35),
+                width: 48,
                 borderWidth: 1,
                 marginRight: normalize(10),
-                borderRadius: normalize(35),
-                height: normalize(35),
+                borderRadius: 48,
+                height: 48,
                 borderColor: '#ffffff',
-            }
+            },
         })
     },
     signup_radio_text: {
@@ -840,10 +889,12 @@ export default StyleSheet.create({
             ios: {
                 flexDirection: 'row',
                 alignItems: 'center',
+                height: 55
             },
             android: {
                 flexDirection: 'row',
                 alignItems: 'center',
+                height: 65
             },
         })
     },
@@ -1517,7 +1568,7 @@ export default StyleSheet.create({
         shadowOffset: { width: 0, height: 1, },
         elevation: 300,
         height: Dimensions.get('window').height,
-        backgroundColor: "rgba(100,100,100, 0.1)",
+        backgroundColor: "white",
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
@@ -1568,7 +1619,7 @@ export default StyleSheet.create({
         borderBottomColor: '#8A8B8B',
     },
     membership_modal_row: {
-        height: '5%',
+        height: '7%',
         borderBottomWidth: 0.5,
         backgroundColor: 'white'
     },
@@ -1674,6 +1725,7 @@ export default StyleSheet.create({
         backgroundColor: '#102b46',
     },
     attendance_body_list: {
+        flexDirection: 'row',
         borderBottomWidth: 2,
         marginLeft: '5%',
         marginRight: '5%'
@@ -3293,15 +3345,14 @@ export default StyleSheet.create({
         width: 60,
     },
     nutrition_list_image: {
-        height: 120,
+        height: 74,
         width: 120,
-        padding: 30,
-        marginBottom: 20
+        marginBottom: 10
     },
     Membership_card_image: {
         marginTop: 5,
-        height: 210,
-        width: 210
+        height: 250,
+        width: 250
     },
     dropdown2BtnStyle: {
         width: '80%',
@@ -3376,15 +3427,12 @@ export default StyleSheet.create({
     MembershipTitle: {
         color: '#656565',
         fontWeight: 'bold',
-        fontSize: 22,
-        marginBottom: 15
+        fontSize: 16,
+        marginBottom: 10
     },
     MembershipValidDate: {
         color: '#656565',
-        fontSize: 20,
-        fontWeight: 'bold',
-        marginTop: 15,
-        marginBottom: 15
+        fontSize: 18,
     },
     HTMLViewContainer: {
         flex: 1,
@@ -3400,20 +3448,20 @@ export default StyleSheet.create({
         height: '100%'
     },
     MembershipMemberName: {
-        marginTop: 15,
-        color: '#00A6F5',
+        marginTop: 10,
         fontWeight: 'bold',
-        fontSize: 22,
+        color: '#656565',
+        fontSize: 16,
     },
     AdminDashboarLabel: {
-        marginTop: 25,
+        marginTop: 20,
         color: 'black',
         fontWeight: 'bold',
-        fontSize: 22,
+        fontSize: 20,
     },
     MembershipMemberEmail: {
-        color: '#00A6F5',
-        fontSize: 20,
+        color: '#656565',
+        fontSize: 16,
     },
     AdminDashboardSmallLabel: {
         color: 'gray',
@@ -3450,7 +3498,7 @@ export default StyleSheet.create({
         textAlign: 'right'
     },
     MembershipCardView: {
-        marginTop: 30,
+        marginTop: 20,
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
@@ -3479,7 +3527,8 @@ export default StyleSheet.create({
         flex: 1,
         justifyContent: 'flex-end',
         alignItems: 'flex-end',
-        marginTop: 10
+        marginTop: 10,
+        display: 'none'
     },
     button: {
         backgroundColor: 'lightgray',

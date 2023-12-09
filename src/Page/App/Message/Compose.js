@@ -13,7 +13,6 @@ import * as SecureStore from "expo-secure-store";
 import validate from "validate.js";
 import { Row } from "react-native-easy-grid";
 import DropdownAlert from "react-native-dropdownalert";
-import { Textarea } from "native-base";
 import DropDownPicker from "react-native-dropdown-picker";
 import { t } from "../../../../locals";
 import styleCss from "../../../style.js";
@@ -250,7 +249,7 @@ class compose extends Component {
 
                   <Row style={styleCss.compose_message_row}>
                     <TouchableOpacity style={styleCss.compose_message_text}>
-                      <Textarea
+                      <TextInput
                         style={styleCss.compose_message_input}
                         placeholder={t("Add Message")}
                         placeholderTextColor={"#BAB9B9"}

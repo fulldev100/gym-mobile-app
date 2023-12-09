@@ -8,52 +8,7 @@ import RegistrationPage from "./Page/Auth/RegistrationPage";
 // import Workouts from "./Page/App/StaffMember/staffmemberlist.js";
 import Dashboard from "./Page/App/Dashboard";
 
-import MemberShipList from "./Page/App/Membership/MemberShipList.js";
-import ActivityList from "./Page/App/Activity/ActivityList";
-import activityvideo from "./Page/App/Activity/activityvideo.js";
-import Workouts from "./Page/App/Workout/Workouts.js";
-import Schedule from "./Page/App/ClassSchedule/schedule.js";
-import Booking from "./Page/App/ClassBooking/Booking.js";
-import Nutritionplan from "./Page/App/NutritionPlan/nutritionplan.js";
-import StaffMemberList from "./Page/App/StaffMember/staffmemberlist.js";
-import Message from "./Page/App/Message/message.js";
-import groupList from "./Page/App/Group/groupList.js";
-import AssignWorkoutsList from "./Page/App/AssignWorkouts/AssignWorkoutsList.js";
-import WorkoutsList from "./Page/App/AssignWorkouts/WorkoutsList.js";
-import memberArea from "./Page/App/Member/memberArea.js";
-import addmeasurement from "./Page/App/Measurement/addmeasurement.js";
-import Feespayment from "./Page/App/FeesPayment/feespayment.js";
-import viewpayment from "./Page/App/FeesPayment/viewpayment.js";
-import viewinvoice from "./Page/App/FeesPayment/viewinvoice.js";
-import Account from "./Page/App/Account/account.js";
-import SubscriptionHistory from "./Page/App/SubscriptionHistory/subscriptionhistory.js";
-import nutritionschudule from "./Page/App/NutritionPlan/nutritionschudule.js";
-import Notice from "./Page/App/Notice/showNotices.js";
-import CustomSideBar from "./Page/App/CustomSideBar";
-
 import staffDashboard from "./Page/App/Staff/staffDashboard";
-import MemberReport from "./Page/App/Staff/MemberReport/Member_Report";
-import Attendance_Scanner from "./Page/App/Staff/Staff_Attendance_Scanner/Attendance_Scanner";
-import Attendance from "./Page/App/Staff/Staff_Attendance/Attendance";
-import Attendancedetails from "./Page/App/Staff/Staff_Attendance_Scanner/AttendanceDetails";
-import Addstaffmemberlist from "./Page/App/Staff/Staff_staffMember/staffmemberlist";
-import AddMembership from "./Page/App/Staff/Staff_membership/AddMembership";
-import AddGroup from "./Page/App/Staff/Staff_group/AddGroup";
-import AddMember from "./Page/App/Staff/Staff_member/AddMember";
-import AddActivity from "./Page/App/Staff/Staff_activity/AddActivity";
-import AddClass from "./Page/App/Staff/Staff_classSchedule/AddClass";
-import AddAssignWorkout from "./Page/App/Staff/Staff_assignWorkout/AddAssignWorkout";
-import AddnutritionSchedule from "./Page/App/Staff/Staff_nutritionSchedule/AddnutritionSchedule";
-import Addworkout from "./Page/App/Staff/Staff_workout/Addworkout";
-import Accountant from "./Page/App/Staff/Staff_Accountant/Accountant";
-import AddProduct from "./Page/App/Staff/Staff_Product/AddProduct";
-import AddStore from "./Page/App/Staff/Staff_Store/AddStore";
-import StaffMessage from "./Page/App/Staff/Staff_Message/Message";
-import StaffNotice from "./Page/App/Staff/Staff_Notice/Notice";
-import AddReservation from "./Page/App/Staff/Staff_Reservation/AddReservation";
-import staffaccount from "./Page/App/Staff/Staff_account/staffaccount";
-import StaffSubscriptionHistory from "./Page/App/Staff/Staff_subscriptionHistory/SubscriptionHistory";
-import StaffCustomSideBar from "./Page/App/Staff/StaffCustomSideBar";
 
 // import staffDrawer from "./Page/App/Staff/StaffdrawerStack";
 import DropdownAlert from "react-native-dropdownalert";
@@ -62,6 +17,7 @@ import NetInfo from "@react-native-community/netinfo";
 import ViewProducts from "./Page/App/Products/myProducts";
 import ProductsList from "./Page/App/Products/productList";
 import History from "./Page/App/History/history";
+import PersonalEntry from "./Page/App/Entry/myEntry";
 
 // Simplify APP
 import myHome from "./Page/App/Home/myHome";
@@ -71,6 +27,7 @@ import location from "./Page/App/Location/location";
 import myAdminDashboard from "./Page/App/Admin/Home/myAdminDashboard";
 import myEntry from "./Page/App/Admin/Entry/myEntry";
 import mySale from "./Page/App/Admin/Sale/mySale";
+import failEntry from "./Page/App/Admin/Fail/failEntry";
 
 class AuthLoadingScreen extends Component {
   constructor() {
@@ -152,33 +109,10 @@ class AuthLoadingScreen extends Component {
 
 const DrawerNavigator = createStackNavigator(
   {
-    // Dashboard: Dashboard,
-    // MemberShipList: MemberShipList,
-    // ActivityList: ActivityList,
-    // activityvideo: activityvideo,
-    // Workouts: Workouts,
-    // Schedule: Schedule,
-    // Booking: Booking,
-    // Nutritionplan: Nutritionplan,
-    // StaffMemberList: StaffMemberList,
-    // Message: Message,
-    // groupList: groupList,
-    // AssignWorkoutsList: AssignWorkoutsList,
-    // WorkoutsList: WorkoutsList,
-    // memberArea: memberArea,
-    // addmeasurement: addmeasurement,
-    // Feespayment: Feespayment,
-    // viewpayment: viewpayment,
-    // viewinvoice: viewinvoice,
-    // Account: Account,
-    // SubscriptionHistory: SubscriptionHistory,
-    // nutritionschudule: nutritionschudule,
-    // Notice: Notice,
-    // CustomSideBar: CustomSideBar,
-
     // For normal user
     products: ViewProducts,
     ProductsList: ProductsList,
+    personalEntry: PersonalEntry,
     history: History,
     myHome: myHome,
     location: location,
@@ -186,8 +120,8 @@ const DrawerNavigator = createStackNavigator(
     // Administrator
     myAdminDashboard: myAdminDashboard,
     myEntry: myEntry,
-    mySale: mySale,
-
+    failEntry: failEntry,
+    mySale: mySale
   },
   {
     headerMode: "none",
@@ -200,28 +134,6 @@ const DrawerNavigator = createStackNavigator(
 const StaffStack = createStackNavigator(
   {
      staffDashboard: staffDashboard,
-    // MemberReport: MemberReport,
-    // Attendance_Scanner: Attendance_Scanner,
-    // Attendance: Attendance,
-    // Attendancedetails: Attendancedetails,
-    // Addstaffmemberlist: Addstaffmemberlist,
-    // AddMembership: AddMembership,
-    // AddGroup: AddGroup,
-    // AddMember: AddMember,
-    // AddActivity: AddActivity,
-    // AddClass: AddClass,
-    // AddAssignWorkout: AddAssignWorkout,
-    // AddnutritionSchedule: AddnutritionSchedule,
-    // Addworkout: Addworkout,
-    // Accountant: Accountant,
-    // AddProduct: AddProduct,
-    // AddStore: AddStore,
-    // StaffMessage: StaffMessage,
-    // StaffNotice: StaffNotice,
-    // AddReservation: AddReservation,
-    // staffaccount: staffaccount,
-    // StaffSubscriptionHistory: StaffSubscriptionHistory,
-    // StaffCustomSideBar:StaffCustomSideBar,
   },
   {
     headerMode: "none",
@@ -229,16 +141,6 @@ const StaffStack = createStackNavigator(
     contentComponent: myAdminDashboard,
   }
 );
-
-// const StaffStack = createStackNavigator(
-//   { staffDrawer: { screen: staffDrawer } },
-//   {
-//     headerMode: "none",
-//     navigationOptions: {
-//       headerVisible: false,
-//     },
-//   }
-// );
 
 const AuthStack = createStackNavigator({
   LoginPage: LoginPage,

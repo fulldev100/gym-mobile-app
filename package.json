@@ -11,6 +11,7 @@
   "dependencies": {
     "@expo/config-plugins": "~6.0.0",
     "@expo/webpack-config": "^0.16.25",
+    "@react-native-community/datetimepicker": "^7.6.2",
     "@react-native-community/netinfo": "9.3.7",
     "@react-native-firebase/app": "~15.4.0",
     "@react-navigation/drawer": "^6.6.2",
@@ -40,7 +41,7 @@
     "i18n-js": "^3.8.0",
     "install": "^0.13.0",
     "multiselect-react-dropdown": "^2.0.22",
-    "native-base": "^2.13.14",
+    "native-base": "^3.4.28",
     "react": "18.2.0",
     "react-dom": "^18.2.0",
     "react-moment": "^1.0.0",
@@ -80,7 +81,8 @@
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.4.1",
     "rn-pdf-reader-js": "^4.1.1",
-    "validate.js": "^0.13.1"
+    "validate.js": "^0.13.1",
+    "watchman": "^1.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
@@ -88,6 +90,6 @@
     "react-native-clean-project": "^3.6.4"
   },
   "private": true,
-  "name": "wpgym_react_native_app",
-  "version": "1.0.0"
+  "name": "GymAccess",
+  "version": "2.8.4"
 }

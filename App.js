@@ -12,8 +12,6 @@ import { Provider } from "react-redux";
 import Store from "./src/Page/redux/reduxStore/index";
 import DropdownAlert from "react-native-dropdownalert";
 import { AlertHelper } from "./src/Page/App/AlertHelper";
-import { async } from "validate.js";
-import LoginPage from "./src/Page/Auth/LoginPage";
 
 Text.defaultProps = Text.defaultProps || {};
 Text.defaultProps.allowFontScaling = false;
@@ -22,10 +20,10 @@ export default function App() {
   // Font Family Load
 
   let [fontsLoaded] = useFonts({
-    "Poppins-Regular": require("./assets/Fonts/Poppins-Regular.ttf"),
-    "Poppins-Medium": require("./assets/Fonts/Poppins-Medium.ttf"),
-    "Poppins-SemiBold": require("./assets/Fonts/Poppins-SemiBold.ttf"),
-    "Poppins-Bold": require("./assets/Fonts/Poppins-Bold.ttf"),
+    "Poppins-Regular": require("./assets/fonts/Poppins-Regular.ttf"),
+    "Poppins-Medium": require("./assets/fonts/Poppins-Medium.ttf"),
+    "Poppins-SemiBold": require("./assets/fonts/Poppins-SemiBold.ttf"),
+    "Poppins-Bold": require("./assets/fonts/Poppins-Bold.ttf"),
   });
 
   // Get the mobile language
@@ -38,6 +36,8 @@ export default function App() {
   // 	deviceLanguage = NativeModules.SettingsManager.settings.AppleLanguages[0]
   // 	if (deviceLanguage == undefined) {
   // 		return defaultLocalization
+
+
   // 	}
 
   // }

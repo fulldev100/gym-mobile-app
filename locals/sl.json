@@ -1,8 +1,8 @@
 {
-    "England": "En",
-    "Slovakia": "SL",
+    "England": "EN",
+    "Slovakia": "SK",
     "Price": "Cena",
-    "Virtual Card no": "Virtual Card no.",
+    "Virtual Card no": "Virtuálna karta č.",
     "Buy new membership": "Kúpiť nové členstvo",
     "Click the image to zoom": "Kliknutím na obrázok priblížite.",
     "Take the image near the device": "Nasnímať obrázok v blízkosti zariadenia.",
@@ -13,7 +13,7 @@
     "Buy now": "Kúpiť teraz",
     "Close": "Zavrieť",
     "Home": "Domov",
-    "Refresh": "Refresh",
+    "Refresh": "Obnoviť",
     "Paid products": "Platené produkty",
     "View all products": "Zobraziť všetky produkty",
     "Membership price": "Cena za členstvo",
@@ -71,10 +71,10 @@
     "Centimeter":"Centimeter",
     "Hold on!":"Počkať!",
     "Are you sure you want to exit app?":"Naozaj chcete zavrieť aplikáciu?",
-    "Gym App":"Aplikácia pre telocvičňu",
+    "Gym App":"24hr Fitness s.r.o",
     "Are you sure you want to Logout?":"Naozaj sa chcete odhlásiť?",
     "No":"Nie",
-    "Yes":"Yes",
+    "Yes":"ÁNO",
     "Warning":"Upozornenie",
     "Email":"E-mail",
     "Password":"Heslo",
@@ -198,7 +198,7 @@
     "View Profile":"Zobraziť profil",
     "Name":"Meno",
     "Phone Number":"Telefónne číslo",
-    "Location":"Location",
+    "Location":"Poloha",
     "New Password":"Nové heslo",
     "Confirm Password":"Potvrdiť heslo",
     "Amount":"Suma",
@@ -297,7 +297,15 @@
     "Please select class":"Vyberte triedu",
 
     "Tap to Scan Again":"Klepnutím znova skenovať",
-    "This is a wrong QR code Please scan members QR code":"Toto je nesprávny QR kód Naskenujte QR kód členov"
+    "This is a wrong QR code Please scan members QR code":"Toto je nesprávny QR kód Naskenujte QR kód členov",
+    "Fail": "Fail",
 
-
+    "Membership Amount": "Výška členského",
+    "Ticket Amount": "Suma lístka",
+    "Count of Paid Memberships": "Počet platených členstiev",
+    "Count of Paid Tickets": "Počet platených lístkov",
+    "Count of Entry in Gym": "Počet vstupov do telocvične",
+    "Member Usage amount it": "Využitie členov",
+    "Signup in": "Registrácia v",
+    "Purchase": "Nákup"
 }

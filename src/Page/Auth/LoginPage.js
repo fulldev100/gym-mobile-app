@@ -192,13 +192,13 @@ class LoginPage extends Component {
       constraints
     );
 
-    if (result) {a
+    if (result) {
       if (result.email) {
-        AlertHelper.show("error", t("Error"), result.email);
+        AlertHelper.show("error", t("Error"), "Your email or userID is required");
         return false;
       }
       if (result.Password) {
-        AlertHelper.show("error", t("Error"), result.Password);
+        AlertHelper.show("error", t("Error"), "Password is required");
         return false;
       }
     }
@@ -300,11 +300,11 @@ class LoginPage extends Component {
                     <Col style={styleCss.login_input_password_show}>
                       {this.state.passwordshow ? (<TouchableOpacity
                         onPress={this.getPasswordshow}>
-                        <Image source={require('../../images/Eye_White.png')}
+                        <Image source={require('../../images/Eye_White.png')} alt="Show"
                           style={styleCss.password_eye_image}></Image>
                       </TouchableOpacity>) : (<TouchableOpacity
                         onPress={this.getPasswordshow}>
-                        <Image source={require('../../images/EyeClose_White.png')}
+                        <Image source={require('../../images/EyeClose_White.png')} alt="Hide"
                           style={styleCss.password_eye_image}></Image>
                       </TouchableOpacity>)}
                     </Col>
@@ -326,7 +326,7 @@ class LoginPage extends Component {
                       }
                     >
                       <Text style={styleCss.login_signup_text}>
-                        {"Signup in 24hr-fitness.eu"}
+                        {t("Signup in")} {"24hr Fitness s.r.o"}
                       </Text>
                     </TouchableOpacity>
                   </Row>

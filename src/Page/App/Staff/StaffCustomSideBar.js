@@ -399,7 +399,7 @@ class StaffCustomSidebarMenu extends Component {
                         <TouchableOpacity onPress={() => this.logout()}>
                             <Row style={styleCss.sidebar_DrawerRow}>
                                 <Col style={styleCss.sidebar_DrawerIcons}>
-                                    <Image source={require('../../../images/Logout-white.png')} style={styleCss.sidebar_Close}></Image>
+                                    <Image source={require('../../../images/Logout-white.png')} alt='Logout' style={styleCss.sidebar_Close}></Image>
                                 </Col>
                                 <Col>
                                     <Text style={styleCss.sidebar_sideNavSubText}>{t("Logout")}</Text>

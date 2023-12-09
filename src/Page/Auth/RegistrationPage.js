@@ -23,9 +23,6 @@ import {
   CollapseHeader,
   CollapseBody,
 } from "accordion-collapse-react-native";
-import { ListItem } from "native-base";
-
-import { RadioButton } from "react-native-paper";
 import * as ImageManipulator from "expo-image-manipulator";
 import DropDownPicker from "react-native-dropdown-picker";
 import { t } from "../../../locals";
@@ -538,26 +535,16 @@ class RegistrationPage extends Component {
     if (!loading) {
       return (
         <View style={styleCss.container}>
-          <StatusBar />
           <ImageBackground
             source={require("../../images/Login-BG-Image.png")}
             style={styleCss.signup_bg_image}
+            
           >
+            <StatusBar />
             <KeyboardAvoidingView
               behavior={Platform.select({ android: "height", ios: "padding" })}
             >
               <ScrollView style={styleCss.signup_page}>
-                <Row style={styleCss.signup_back_arrow}>
-                  <TouchableOpacity
-                    style={styleCss.signup_back_arrow}
-                    onPress={() => this.props.navigation.navigate("LoginPage")}
-                  >
-                    <Image
-                      style={styleCss.signup_icon_image}
-                      source={require("../../images/Back.png")}
-                    />
-                  </TouchableOpacity>
-                </Row>
 
                 <Col style={styleCss.signup_image_col}>
                   <Row style={styleCss.signup_image_row}>
@@ -567,11 +554,13 @@ class RegistrationPage extends Component {
                           <Image
                             style={styleCss.signup_image_css}
                             source={{ uri: this.state.updatedProfile }}
+                            alt="Logo"
                           />
                         ) : (
                           <Image
                             style={styleCss.signup_image}
                             source={require("../../images/Logo.png")}
+                            alt="Logo"
                           />
                         )}
                       </Col>
@@ -582,6 +571,7 @@ class RegistrationPage extends Component {
                         <Col style={styleCss.signup_camera_button_col}>
                           <Image
                             style={styleCss.signup_camera_button_image}
+                            alt="Photo"
                             source={this.state.imageSource}
                           />
                         </Col>
@@ -607,10 +597,10 @@ class RegistrationPage extends Component {
                               </Text>
                             </Col>
                             <Col style={styleCss.signup_personal_image_col}>
-                              <Image
+                              <ImageBackground
                                 style={styleCss.signup_personal_image_css}
-                                source={require("../../images/up-arrow.png")}
-                              />
+                                source={require("../../images/up-arrow.png")}>
+                              </ImageBackground>
                             </Col>
                           </Row>
                         </CollapseHeader>
@@ -623,17 +613,18 @@ class RegistrationPage extends Component {
                               </Text>
                             </Col>
                             <Col style={styleCss.signup_personal_image_col}>
-                              <Image
+                              <ImageBackground
                                 style={styleCss.signup_personal_image_css}
                                 source={require("../../images/down-arrow.png")}
-                              />
+                              >
+                                </ImageBackground>
                             </Col>
                           </Row>
                         </CollapseHeader>
                       )}
 
                       <CollapseBody>
-                        <ListItem style={styleCss.signup_personal_list_item}>
+                        <View style={styleCss.signup_personal_list_item}>
                           <Row>
                             <Col style={styleCss.signup_personal_list_item_col}>
                               <Image
@@ -665,9 +656,9 @@ class RegistrationPage extends Component {
                               )}
                             </Col>
                           </Row>
-                        </ListItem>
+                        </View>
 
-                        <ListItem style={styleCss.signup_personal_list_item}>
+                        <View style={styleCss.signup_personal_list_item}>
                           <Row>
                             <Col style={styleCss.signup_personal_list_item_col}>
                               <Image
@@ -688,9 +679,9 @@ class RegistrationPage extends Component {
                               ></TextInput>
                             </Col>
                           </Row>
-                        </ListItem>
+                        </View>
 
-                        <ListItem style={styleCss.signup_personal_list_item}>
+                        <View style={styleCss.signup_personal_list_item}>
                           <Row>
                             <Col style={styleCss.signup_personal_list_item_col}>
                               <Image
@@ -722,76 +713,48 @@ class RegistrationPage extends Component {
                               )}
                             </Col>
                           </Row>
-                        </ListItem>
+                        </View>
 
-                        <ListItem style={styleCss.signup_personal_list_item}>
+                        <View style={styleCss.signup_personal_list_item}>
                           <Row>
                             <Col style={styleCss.signup_personal_list_item_col}>
-                              <Image
+                              <ImageBackground
                                 style={styleCss.signup_personal_list_item_image}
                                 source={require("../../images/Gender.png")}
-                              />
+                              >
+                                </ImageBackground>
                             </Col>
                             <Col style={styleCss.signup_radio_col}>
-                              <View style={styleCss.signup_radio}>
-                                <RadioButton
-                                  style={{
-                                    borderWidth:
-                                      Platform.OS === "ios"
-                                        ? "#fffff"
-                                        : "#fffff",
-                                    uncheckedColor:
-                                      Platform.OS === "ios"
-                                        ? "#fffff"
-                                        : "#fffff",
-                                  }}
-                                  value="male"
-                                  color="#ffffff"
-                                  uncheckedColor="#ffffff"
-                                  status={
-                                    gender === "male" ? "checked" : "unchecked"
+                              <TouchableOpacity style={styleCss.radioContainer} onPress={() => this.setState({ gender: "male" })}>
+                                <View style={[styleCss.radioButtonIcon]}>
+                                  {
+                                    this.state.gender == 'male' ? <View style={[styleCss.radioButtonIconInnerIcon]} /> : <View></View>
                                   }
-                                  onPress={() =>
-                                    this.setState({ gender: "male" })
-                                  }
-                                />
-                              </View>
-                              <Text style={styleCss.signup_radio_text}>
-                                {t("Male")}
-                              </Text>
+                                </View>
+                                <View style={[styleCss.radioButtonTextContainer]}>
+                                  <Text style={styleCss.signup_radio_text}>
+                                    {t("Male")}
+                                  </Text>
+                                </View>
+                              </TouchableOpacity>
                             </Col>
+
                             <Col style={styleCss.signup_radio_two_col}>
-                              <View style={styleCss.signup_radio}>
-                                <RadioButton
-                                  style={{
-                                    borderWidth:
-                                      Platform.OS === "ios"
-                                        ? "#fffff"
-                                        : "#fffff",
-                                    uncheckedColor:
-                                      Platform.OS === "ios"
-                                        ? "#fffff"
-                                        : "#fffff",
-                                  }}
-                                  value="female"
-                                  color="#ffffff"
-                                  uncheckedColor="#ffffff"
-                                  status={
-                                    gender === "female"
-                                      ? "checked"
-                                      : "unchecked"
+                              <TouchableOpacity style={styleCss.radioContainer} onPress={() => this.setState({ gender: "female" })}>
+                                <View style={[styleCss.radioButtonIcon]}>
+                                  {
+                                    this.state.gender == 'female' ? <View style={[styleCss.radioButtonIconInnerIcon]} /> : <View></View>
                                   }
-                                  onPress={() =>
-                                    this.setState({ gender: "female" })
-                                  }
-                                />
-                              </View>
-                              <Text style={styleCss.signup_radio_text}>
-                                {t("Female")}
-                              </Text>
+                                </View>
+                                <View style={[styleCss.radioButtonTextContainer]}>
+                                  <Text style={styleCss.signup_radio_text}>
+                                    {t("Female")}
+                                  </Text>
+                                </View>
+                              </TouchableOpacity>
                             </Col>
                           </Row>
-                        </ListItem>
+                        </View>
                       </CollapseBody>
                     </Collapse>
                   </Col>
@@ -814,10 +777,11 @@ class RegistrationPage extends Component {
                               </Text>
                             </Col>
                             <Col style={styleCss.signup_personal_image_col}>
-                              <Image
+                              <ImageBackground
                                 style={styleCss.signup_personal_image_css}
                                 source={require("../../images/up-arrow.png")}
-                              />
+                              >
+                                </ImageBackground>
                             </Col>
                           </Row>
                         </CollapseHeader>
@@ -830,17 +794,17 @@ class RegistrationPage extends Component {
                               </Text>
                             </Col>
                             <Col style={styleCss.signup_personal_image_col}>
-                              <Image
+                              <ImageBackground
                                 style={styleCss.signup_personal_image_css}
-                                source={require("../../images/down-arrow.png")}
-                              />
+                                source={require("../../images/down-arrow.png")}>
+                                </ImageBackground>
                             </Col>
                           </Row>
                         </CollapseHeader>
                       )}
 
                       <CollapseBody>
-                        <ListItem style={styleCss.signup_personal_list_item}>
+                        <View style={styleCss.signup_personal_list_item}>
                           <Row>
                             <Col style={styleCss.signup_personal_list_item_col}>
                               <Image
@@ -872,9 +836,9 @@ class RegistrationPage extends Component {
                               )}
                             </Col>
                           </Row>
-                        </ListItem>
+                        </View>
 
-                        <ListItem style={styleCss.signup_personal_list_item}>
+                        <View style={styleCss.signup_personal_list_item}>
                           <Row>
                             <Col style={styleCss.signup_personal_list_item_col}>
                               <Image
@@ -906,13 +870,14 @@ class RegistrationPage extends Component {
                                 <View></View>
                               )}
                             </Col> */}
-                            <Col style={styleCss.signup_password_eye_col}>
+                            {/* <Col style={styleCss.signup_password_eye_col}>
                               {this.state.passwordshow ? (
                                 <TouchableOpacity
                                   onPress={this.getPasswordshow}
                                 >
                                   <Image
                                     source={require("../../images/Eye_White.png")}
+                                    alt="Show"
                                     style={styleCss.password_eye_image}
                                   ></Image>
                                 </TouchableOpacity>
@@ -922,13 +887,14 @@ class RegistrationPage extends Component {
                                 >
                                   <Image
                                     source={require("../../images/EyeClose_White.png")}
+                                    alt="Hide"
                                     style={styleCss.password_eye_image}
                                   ></Image>
                                 </TouchableOpacity>
                               )}
-                            </Col>
+                            </Col> */}
                           </Row>
-                        </ListItem>
+                        </View>
                       </CollapseBody>
                     </Collapse>
                   </Col>
@@ -951,10 +917,10 @@ class RegistrationPage extends Component {
                               </Text>
                             </Col>
                             <Col style={styleCss.signup_personal_image_col}>
-                              <Image
+                              <ImageBackground
                                 style={styleCss.signup_personal_image_css}
-                                source={require("../../images/up-arrow.png")}
-                              />
+                                source={require("../../images/up-arrow.png")}>
+                                </ImageBackground>
                             </Col>
                           </Row>
                         </CollapseHeader>
@@ -967,17 +933,18 @@ class RegistrationPage extends Component {
                               </Text>
                             </Col>
                             <Col style={styleCss.signup_personal_image_col}>
-                              <Image
+                              <ImageBackground
                                 style={styleCss.signup_personal_image_css}
                                 source={require("../../images/down-arrow.png")}
-                              />
+                              >
+                                </ImageBackground>
                             </Col>
                           </Row>
                         </CollapseHeader>
                       )}
 
                       <CollapseBody>
-                        <ListItem style={styleCss.signup_personal_list_item}>
+                        <View style={styleCss.signup_personal_list_item}>
                           <Row>
                             <Col style={styleCss.signup_personal_list_item_col}>
                               <Image
@@ -998,8 +965,8 @@ class RegistrationPage extends Component {
                               ></TextInput>
                             </Col>
                           </Row>
-                        </ListItem>
-                        <ListItem style={styleCss.signup_personal_list_item}>
+                        </View>
+                        <View style={styleCss.signup_personal_list_item}>
                           <Row>
                             <Col style={styleCss.signup_personal_list_item_col}>
                               <Image
@@ -1018,8 +985,8 @@ class RegistrationPage extends Component {
                               ></TextInput>
                             </Col>
                           </Row>
-                        </ListItem>
-                        <ListItem style={styleCss.signup_personal_list_item}>
+                        </View>
+                        <View style={styleCss.signup_personal_list_item}>
                           <Row>
                             <Col style={styleCss.signup_personal_list_item_col}>
                               <Image
@@ -1040,8 +1007,8 @@ class RegistrationPage extends Component {
                               ></TextInput>
                             </Col>
                           </Row>
-                        </ListItem>
-                        <ListItem style={styleCss.signup_personal_list_item}>
+                        </View>
+                        <View style={styleCss.signup_personal_list_item}>
                           <Row>
                             <Col style={styleCss.signup_personal_list_item_col}>
                               <Image
@@ -1063,8 +1030,8 @@ class RegistrationPage extends Component {
                               ></TextInput>
                             </Col>
                           </Row>
-                        </ListItem>
-                        <ListItem style={styleCss.signup_personal_list_item}>
+                        </View>
+                        <View style={styleCss.signup_personal_list_item}>
                           <Row>
                             <Col style={styleCss.signup_personal_list_item_col}>
                               <Image
@@ -1086,7 +1053,7 @@ class RegistrationPage extends Component {
                               ></TextInput>
                             </Col>
                           </Row>
-                        </ListItem>
+                        </View>
                       </CollapseBody>
                     </Collapse>
                   </Col>
@@ -1109,10 +1076,11 @@ class RegistrationPage extends Component {
                               </Text>
                             </Col>
                             <Col style={styleCss.signup_personal_image_col}>
-                              <Image
+                              <ImageBackground
                                 style={styleCss.signup_personal_image_css}
                                 source={require("../../images/up-arrow.png")}
-                              />
+                              >
+                              </ImageBackground>
                             </Col>
                           </Row>
                         </CollapseHeader>
@@ -1125,10 +1093,11 @@ class RegistrationPage extends Component {
                               </Text>
                             </Col>
                             <Col style={styleCss.signup_personal_image_col}>
-                              <Image
+                              <ImageBackground
                                 style={styleCss.signup_personal_image_css}
                                 source={require("../../images/down-arrow.png")}
-                              />
+                              >
+                              </ImageBackground>
                             </Col>
                           </Row>
                         </CollapseHeader>

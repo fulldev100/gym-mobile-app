@@ -16,7 +16,6 @@ import {
   CollapseHeader,
   CollapseBody,
 } from "accordion-collapse-react-native";
-import { ListItem } from "native-base";
 import {
   viewMemberAttendanceListAction,
 } from "../../../util/action.js";
@@ -126,7 +125,7 @@ class Attendances extends Component {
     return (
       <View style={styleCss.container}>
         <CollapseBody style={styleCss.attendance_collapse_body}>
-          <ListItem style={styleCss.attendance_body_list}>
+          <View style={styleCss.attendance_body_list}>
             <TouchableOpacity
               style={styleCss.attendance_body_item}
               onPress={() => {
@@ -137,7 +136,7 @@ class Attendances extends Component {
                 {item.class_name}
               </Text>
             </TouchableOpacity>
-          </ListItem>
+          </View>
         </CollapseBody>
       </View>
     );

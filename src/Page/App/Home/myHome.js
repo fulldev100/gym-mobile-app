@@ -57,6 +57,17 @@ class Home extends Component {
             lang_value: 0
         }
     }
+
+    setLocalLang = async () => {
+        const lang = await SecureStore.getItemAsync("lang");
+
+        if (lang)
+        {
+            setLanguage(lang)
+            if (lang == 'en') this.setState({lang_value: 0})
+            else this.setState({lang_value: 1})
+        }
+    }
     static navigationOptions = ({ navigation }) => {
         return {
             headerShown: false,
@@ -102,6 +113,7 @@ class Home extends Component {
     }
 
     componentDidMount() {
+        this.setLocalLang()
         this.myhomedata();
     }
 
@@ -158,7 +170,7 @@ class Home extends Component {
       };
 
     handleOpenBrowser = () => {
-        this.openBrowser('http://24hr-fitness.eu');
+        this.openBrowser('https://24hr-fitness.eu');
     };
 
     handleBuyPress = async (membership_id) => {
@@ -193,11 +205,9 @@ class Home extends Component {
                         <TouchableOpacity style={styleCss.logout_image} onPress={() => this.logout() }>
                             <Image style={styleCss.logout_image}
                                 source={require('../../../images/Logout-white.png')}
+                                alt='Logout'
                             />
                         </TouchableOpacity>
-                    </Col>
-                    <Col style={styleCss.nutrition_list_name_col}>
-                        <Text style={styleCss.NaveText}>24hr-fitness.eu</Text>
                     </Col>
 
                     <Col style={styleCss.AlignRightNavbar}>
@@ -253,14 +263,13 @@ class Home extends Component {
                     
 
                     <View style={styleCss.ImageLogoContainer}>
-                        <Image style={styleCss.nutrition_list_image}
+                        <Image style={styleCss.nutrition_list_image} alt='Logo'
                             source={require('../../../images/Logo.png')}
                         />
-                        <Text style={styleCss.MembershipValidDate}>{item.membership_valid_from} To {item.membership_valid_to}</Text>
+                        <Text style={styleCss.MembershipValidDate}>{item.membership_valid_from} to {item.membership_valid_to}</Text>
                     </View>
                     
                     <Text style={styleCss.MembershipMemberName}>{item.member_name}</Text>
-                    <Text style={styleCss.MembershipMemberEmail}>{item.member_email}</Text>
 
                     <View style={styleCss.MembershipCardView}>
                         <>
@@ -272,7 +281,7 @@ class Home extends Component {
                                     <Text style={styleCss.MembershipCardNumber}>{item.card_number}</Text>
                                 </Col>
                             </Row>
-                            <Image style={styleCss.Membership_card_image} source={
+                            <Image style={styleCss.Membership_card_image} alt='QR Code' source={
                                 item.card_number
                                 ? { uri: 'https://chart.googleapis.com/chart?cht=qr&chs=300x300&chl=' + item.card_number }
                                 : null
@@ -287,7 +296,6 @@ class Home extends Component {
 
                         <Modal
                             animationType="slide"
-                            transparent={true}
                             visible={modalVisible}>
 
                             <View style={styleCss.qr_modal_main_view}>
@@ -296,7 +304,7 @@ class Home extends Component {
 
                                     <Row style={styleCss.membership_modal_row}>
                                         <Col style={styleCss.group_name_col}>
-                                            <Text numberOfLines={1} style={styleCss.group_name_text}>{t("Take the image near the device")}</Text>
+                                            <Text numberOfLines={1} style={styleCss.group_name_text}>{t("Scan QR")}</Text>
                                         </Col>
                                         <Col style={styleCss.group_back_arrow_col}>
                                             <TouchableOpacity onPress={() => { this.Visible(false) }} style={styleCss.group_back_arrow_text}>
@@ -443,11 +451,9 @@ class Home extends Component {
                                     <TouchableOpacity style={styleCss.logout_image} onPress={() => this.logout() }>
                                         <Image style={styleCss.logout_image}
                                             source={require('../../../images/Logout-white.png')}
+                                            alt='Logout'
                                         />
                                     </TouchableOpacity>
-                                </Col>
-                                <Col style={styleCss.nutrition_list_name_col}>
-                                    <Text style={styleCss.NaveText}>24hr-fitness.eu</Text>
                                 </Col>
 
                                 <Col style={styleCss.AlignRightNavbar}>
@@ -537,7 +543,9 @@ class Home extends Component {
                                                             <TouchableOpacity onPress={() => { this.isCloseWebpay() }} style={styleCss.group_back_arrow_text}>
                                                                 <Image
                                                                     style={styleCss.group_close_image}
-                                                                    source={require('../../../images/Close-blue-512.png')} />
+                                                                    source={require('../../../images/Close-blue-512.png')} 
+                                                                    alt="Close"
+                                                                    />
                                                             </TouchableOpacity>
                                                         </Col>
                                                     </Row>
@@ -590,31 +598,39 @@ class Home extends Component {
                         <View style={styleCss.bottomViewColumn}>
                             <TouchableOpacity onPress={() => this.props.navigation.navigate('myHome')} style={styleCss.message_col}>
                                 <Image style={styleCss.bottomViewColumnImg}
-                                    source={require('../../../images/small_gym.png')}
+                                    source={require('../../../images/icons8-qrcode-active.png')}
                                 />
-                                <Text style={styleCss.bottomViewColumnTextActive}>{t("Home")}</Text>
+                                <Text style={styleCss.bottomViewColumnTextActive}>{t("Scan QR")}</Text>
                             </TouchableOpacity>
                         </View>
                         <View style={styleCss.bottomViewColumn}>
                             <TouchableOpacity onPress={() => this.props.navigation.navigate('location')} style={styleCss.message_col}>
                                 <Image style={styleCss.bottomViewColumnImg}
-                                    source={require('../../../images/small_location.png')}
+                                    source={require('../../../images/icons8-location-inactive.png')}
                                 />
                                 <Text style={styleCss.bottomViewColumnText}>{t("Location")}</Text>
                             </TouchableOpacity>
                         </View>
                         <View style={styleCss.bottomViewColumn}>
+                            <TouchableOpacity onPress={() => this.props.navigation.navigate('personalEntry')} style={styleCss.message_col}>
+                                <Image style={styleCss.bottomViewColumnImg}
+                                    source={require('../../../images/icons8-door-sensor-checked-inactive.png')}
+                                />
+                                <Text style={styleCss.bottomViewColumnText}>{t("Entry")}</Text>
+                            </TouchableOpacity>
+                        </View>
+                        <View style={styleCss.bottomViewColumn}>
                             <TouchableOpacity onPress={() => this.props.navigation.navigate('products')} style={styleCss.message_col}>
                                 <Image style={styleCss.bottomViewColumnImg}
-                                    source={require('../../../images/small_product.png')}
+                                    source={require('../../../images/icons8-purchase-inactive.png')}
                                 />
-                                <Text style={styleCss.bottomViewColumnText}>{t("Product")}</Text>
+                                <Text style={styleCss.bottomViewColumnText}>{t("Purchase")}</Text>
                             </TouchableOpacity>
                         </View>
                         <View style={styleCss.bottomViewColumn}>
                             <TouchableOpacity onPress={() => this.myhomedata()} style={styleCss.message_col}>
                                 <Image style={styleCss.bottomViewColumnImg}
-                                    source={require('../../../images/small_refresh.png')}
+                                    source={require('../../../images/icons8-refresh-inactive.png')}
                                 />
                                 <Text style={styleCss.bottomViewColumnText}>{t("Refresh")}</Text>
                             </TouchableOpacity>
@@ -632,34 +648,42 @@ class Home extends Component {
                         color="#102b46"
                     />
                     <View style={styleCss.bottomView}>
-                        <View style={styleCss.bottomViewColumn}>
+                    <View style={styleCss.bottomViewColumn}>
                             <TouchableOpacity onPress={() => this.props.navigation.navigate('myHome')} style={styleCss.message_col}>
                                 <Image style={styleCss.bottomViewColumnImg}
-                                    source={require('../../../images/small_gym.png')}
+                                    source={require('../../../images/icons8-qrcode-active.png')}
                                 />
-                                <Text style={styleCss.bottomViewColumnTextActive}>{t("Home")}</Text>
+                                <Text style={styleCss.bottomViewColumnTextActive}>{t("Scan QR")}</Text>
                             </TouchableOpacity>
                         </View>
                         <View style={styleCss.bottomViewColumn}>
                             <TouchableOpacity onPress={() => this.props.navigation.navigate('location')} style={styleCss.message_col}>
                                 <Image style={styleCss.bottomViewColumnImg}
-                                    source={require('../../../images/small_location.png')}
+                                    source={require('../../../images/icons8-location-inactive.png')}
                                 />
                                 <Text style={styleCss.bottomViewColumnText}>{t("Location")}</Text>
                             </TouchableOpacity>
                         </View>
                         <View style={styleCss.bottomViewColumn}>
-                            <TouchableOpacity onPress={() => this.props.navigation.navigate('products')} style={styleCss.message_col}>
+                            <TouchableOpacity onPress={() => this.props.navigation.navigate('personalEntry')} style={styleCss.message_col}>
                                 <Image style={styleCss.bottomViewColumnImg}
-                                    source={require('../../../images/small_product.png')}
+                                    source={require('../../../images/icons8-door-sensor-checked-inactive.png')}
                                 />
-                                <Text style={styleCss.bottomViewColumnText}>{t("Product")}</Text>
+                                <Text style={styleCss.bottomViewColumnText}>{t("Entry")}</Text>
                             </TouchableOpacity>
                         </View>
                         <View style={styleCss.bottomViewColumn}>
-                            <TouchableOpacity onPress={() => this.myhomedata() } style={styleCss.message_col}>
+                            <TouchableOpacity onPress={() => this.props.navigation.navigate('products')} style={styleCss.message_col}>
                                 <Image style={styleCss.bottomViewColumnImg}
-                                    source={require('../../../images/small_refresh.png')}
+                                    source={require('../../../images/icons8-purchase-inactive.png')}
+                                />
+                                <Text style={styleCss.bottomViewColumnText}>{t("Purchase")}</Text>
+                            </TouchableOpacity>
+                        </View>
+                        <View style={styleCss.bottomViewColumn}>
+                            <TouchableOpacity onPress={() => this.myhomedata()} style={styleCss.message_col}>
+                                <Image style={styleCss.bottomViewColumnImg}
+                                    source={require('../../../images/icons8-refresh-inactive.png')}
                                 />
                                 <Text style={styleCss.bottomViewColumnText}>{t("Refresh")}</Text>
                             </TouchableOpacity>

@@ -1,6 +1,6 @@
 import * as Localization from 'expo-localization';
 import i18n from 'i18n-js';
-
+import * as SecureStore from 'expo-secure-store';
 // localization translated text json files
 import en from './en.json';
 import it from './it.json';
@@ -83,12 +83,15 @@ getLanguage()
 export function setLanguage(locale) {
     try {
         i18n.locale = locale
+
+        SecureStore.setItemAsync("lang", locale)
+        
         i18n.initAsync();
     }  catch (error) {
     }
 }
 
-export function getLanguageLocal() {
+export async function getLanguageLocal() {
     try {
         return i18n.locale
     }  catch (error) {

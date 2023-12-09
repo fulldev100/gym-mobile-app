@@ -92,6 +92,8 @@ export const HISTORYLIST = "history_list";
 
 export const HOME_GYM = "mobile_membership_payment_list";
 
+export const PERSONAL_ENTRY = "mobile_personal_entry_list";
+
 export const BUY_MEMBERSHIP = "buy_membership_in_mobile";
 
 export const BUY_PRODUCT = "buy_product_in_mobile";
@@ -137,3 +139,7 @@ export const BOOKINGCLASS = "booking_class";
 export const USERLOGOUT = "user_logout";
 
 export const ADMIN_DASHBOARD = "admin_dashboard";
+
+export const ADMIN_DASHBOARD_ENTRY = "admin_dashboard_entry";
+
+export const ADMIN_DASHBOARD_SAIL = "admin_dashboard_sail";
