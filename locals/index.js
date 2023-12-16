@@ -30,7 +30,7 @@ import vi from './vi.json';
 import sv from './sv.json';
 import zh from './zh.json';
 import fi from './fi.json';
-import sl from './sl.json';
+import sk from './sk.json';
 
 // Bind to i18n
 i18n.translations = {
@@ -62,7 +62,7 @@ i18n.translations = {
 	tr,
 	vi,
 	sv,
-    sl,
+    sk,
 	zh
 }
 
@@ -71,7 +71,19 @@ i18n.translations = {
 const getLanguage = async() => {
     try {
         const choice = await Localization.locale
-        i18n.locale = choice.substr(0, 2)
+        
+        const lang = await SecureStore.getItemAsync("lang");
+        // if (lang) {
+        //     i18n.locale = lang
+        // } else {
+        //     const lang_local = choice.substr(0, 2)
+        //     if (lang_local == 'en' || lang_local == 'sk')
+        //         i18n.locale = choice.substr(0, 2)
+        //     else
+        //         i18n.locale = 'en'
+        // }
+        i18n.locale = 'sk'
+        
         i18n.initAsync();
     }  catch (error) {
     }

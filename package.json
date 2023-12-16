@@ -72,7 +72,7 @@
     "react-native-svg": "13.4.0",
     "react-native-tab-view": "^3.5.2",
     "react-native-web": "~0.18.7",
-    "react-native-webview": "11.26.0",
+    "react-native-webview": "^13.6.3",
     "react-navigation": "^4.4.4",
     "react-navigation-stack": "^2.10.4",
     "react-navigation-tabs": "^2.11.2",
@@ -91,5 +91,5 @@
   },
   "private": true,
   "name": "GymAccess",
-  "version": "2.8.4"
+  "version": "2.10.0"
 }

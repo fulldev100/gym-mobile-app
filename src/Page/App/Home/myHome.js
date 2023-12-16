@@ -23,8 +23,8 @@ import styleCss from '../../../style.js';
 import * as WebBrowser from 'expo-web-browser';
 import AutoHeightWebView from 'react-native-autoheight-webview';
 import { POST_MEMBERSHIP } from '../../redux/constant/types';
-
 import SelectDropdown from 'react-native-select-dropdown'
+
 
 const lang_region = [
     {
@@ -32,7 +32,7 @@ const lang_region = [
         label: t("England")
     },
     {
-        value: "sl",
+        value: "sk",
         label: t("Slovakia")
     }
   ];
@@ -51,6 +51,7 @@ class Home extends Component {
         this.state = {
             ImageLoading: false,
             modalVisible: false,
+            purchaseView: true,
             cardNumber: '',
             isBuyNewThing: true,
             selectedLn: 'en',
@@ -78,8 +79,16 @@ class Home extends Component {
     };
 
     isCloseWebpay = () => {
-        this.props.membershipData({"result": ""})
-        this.myhomedata();
+      //  this.myhomedata();
+
+        Alert.alert(t("Warning"), t("NOT_PURCHAED_MEMBERSHIP"), [
+            {
+              text: t("No"),
+              onPress: () => null,
+              style: "cancel",
+            },
+            { text: t("Yes"), onPress: () => this.props.membershipData({"result": ""})},
+          ]);
     }
 
     async setModalVisible(cardNumber) {
@@ -173,6 +182,18 @@ class Home extends Component {
         this.openBrowser('https://24hr-fitness.eu');
     };
 
+    handleResponse = data => {
+        
+        if (data.title.indexOf('No.') >= 0) {
+            this.props.membershipData({"result": ""})
+            Alert.alert(t("Congratulations"), "You have purchased new membership");
+            this.myhomedata();
+        } 
+        else if (data.title.indexOf('24hr-Fitness s.r.o') >= 0) {
+            this.props.membershipData({"result": ""})
+        }
+    };
+
     handleBuyPress = async (membership_id) => {
         
         const { postMembership, loadingStart } = this.props;
@@ -196,7 +217,7 @@ class Home extends Component {
     }
 
     renderItem = ({ item }) => {
-        const { modalVisible } = this.state;
+        const { modalVisible, purchaseView } = this.state;
         const { MembershipData, paymentURL } = this.props;
         return (
             <View style={styleCss.MembershipView}>
@@ -356,10 +377,11 @@ class Home extends Component {
                                     <Col style={styleCss.membership_list_name_col}>
                                         <Text style={styleCss.MembershipTitleText}>{r.membership_label}</Text>
                                         <Text style={styleCss.MemebshipSignupFeeText}>{t("Signp fee")}</Text>
+                                        <Text style={styleCss.MemebshipSignupFeeText}>{t("Membership Period")}({"Days"})</Text>
 
                                         {/* <Text style={styleCss.NaveText}> {r.membership_description} </Text> */}
 
-                                        <Button title={t("Pay By GP Webpay")} color={'#f4ba16'} style={styleCss.Product_buy_button} onPress={() => this.handleBuyPress(r.membership_id)} />
+                                        <Button title={t("Buy now")} color={'#f4ba16'} style={styleCss.Product_buy_button} onPress={() => this.handleBuyPress(r.membership_id)} />
                                     </Col>
                                     <Col style={styleCss.nutrition_list_name_col_1}>
                                     </Col>
@@ -367,19 +389,27 @@ class Home extends Component {
                                     <Col style={styleCss.MembershipTitleText}>
                                         <Text style={styleCss.MembershipTitleText}>€{r.membership_amount}</Text>
                                         <Text style={styleCss.MemebshipSignupFeeText}>€{r.signup_fee}</Text>
+                                        <Text style={styleCss.MemebshipSignupFeeText}>{r.membership_length_id}</Text>
 
                                         {/* <Text style={styleCss.NaveText}></Text> */}
                                         <Text style={{ border: "none", boxShadow: "none" }} ></Text>
                                     </Col>
                                 </Row>
                             </>)
-                            }    
-                    </View>
+                            }
+
+                        <View style={styleCss.BuyNewMembershipView} >
+                            <TouchableOpacity onPress={() => this.changeKIOSKView()}>
+                                <Text adjustsFontSizeToFit={true} style={styleCss.BuyNowText} >{!this.state.isBuyNewThing ? t("Buy now") : t("Close")}</Text>
+                            </TouchableOpacity>
+                        </View>   
+                        
+                    </View> 
 
                     <Modal
                         animationType="slide"
                         transparent={true}
-                        visible={paymentURL != ""}>
+                        visible={paymentURL != "" && purchaseView}>
 
                         <View style={styleCss.group_modal_main_view}>
 
@@ -413,7 +443,10 @@ class Home extends Component {
                                             type: 'text/css',
                                             rel: 'stylesheet'
                                         }]}
-                                        source={{ uri: paymentURL }}
+                                        onNavigationStateChange={data =>
+                                            this.handleResponse(data)
+                                        }
+                                        source={{ html: paymentURL }}
                                         scalesPageToFit={true}
                                         viewportContent={'width=device-width, user-scalable=yes'}
                                     />
@@ -431,8 +464,30 @@ class Home extends Component {
             </View>
         )
     }
+
+    handlePayPalPayment = async (amount, membership_name) => {
+        try {
+          const payment = await PayPal.pay({
+            price: amount,
+            currency: 'EUR',
+            description:  "Purchaase for " + membership_name,
+          });
+    
+          if (payment.success) {
+            console.log('Payment successful!');
+            // Perform necessary actions after successful payment
+          } else {
+            console.log('Payment cancelled!');
+            // Perform necessary actions if payment is cancelled
+          }
+        } catch (error) {
+          console.log('Error:', error);
+          // Handle error during payment process
+        }
+      };
+
     render() {
-        const { modalVisible, cardNumber } = this.state;
+        const { purchaseView, cardNumber } = this.state;
         const { navigate } = this.props.navigation;
         const { Data, MembershipData, paymentURL, loading } = this.props;
 
@@ -498,7 +553,7 @@ class Home extends Component {
                                 this.state.isBuyNewThing ? 
                                 <>
                                     {
-                                        MembershipData ? 
+                                        MembershipData ?
                                         <>
                                         <View style={{marginBottom: 85}}>    
                                             {MembershipData.map(r => 
@@ -507,10 +562,11 @@ class Home extends Component {
                                                         <Col style={styleCss.membership_list_name_col}>
                                                             <Text style={styleCss.MembershipTitleText}>{r.membership_label}</Text>
                                                             <Text style={styleCss.MemebshipSignupFeeText}>Signp fee</Text>
+                                                            <Text style={styleCss.MemebshipSignupFeeText}>{t("Membership Period")}({"Days"})</Text>
 
                                                             {/* <Text style={styleCss.NaveText}> {r.membership_description} </Text> */}
 
-                                                            <Button title={t("Pay By GP Webpay")} color={'#f4ba16'} style={styleCss.Product_buy_button} onPress={() => this.handleBuyPress(r.membership_id)} />
+                                                            <Button title={t("Buy now")} color={'#f4ba16'} style={styleCss.Product_buy_button} onPress={() => this.handleBuyPress(r.membership_id)} />
                                                         </Col>
                                                         <Col style={styleCss.nutrition_list_name_col_1}>
                                                         </Col>
@@ -518,6 +574,7 @@ class Home extends Component {
                                                         <Col style={styleCss.MembershipTitleText}>
                                                             <Text style={styleCss.MembershipTitleText}>€{r.membership_amount}</Text>
                                                             <Text style={styleCss.MemebshipSignupFeeText}>€{r.signup_fee}</Text>
+                                                            <Text style={styleCss.MemebshipSignupFeeText}>{r.membership_length_id}</Text>
 
                                                             {/* <Text style={styleCss.NaveText}></Text> */}
                                                             <Text style={{ border: "none", boxShadow: "none" }} ></Text>
@@ -525,12 +582,18 @@ class Home extends Component {
                                                     </Row>
                                                 </>)
                                                 }    
+
+                                            <View style={styleCss.BuyNewMembershipView} >
+                                                <TouchableOpacity onPress={() => this.changeKIOSKView()}>
+                                                    <Text adjustsFontSizeToFit={true} style={styleCss.BuyNowText} >{!this.state.isBuyNewThing ? t("Buy now") : t("Close")}</Text>
+                                                </TouchableOpacity>
+                                            </View>
                                         </View>
 
                                         <Modal
                                             animationType="slide"
                                             transparent={true}
-                                            visible={paymentURL != ""}>
+                                            visible={paymentURL != "" && purchaseView}>
 
                                             <View style={styleCss.group_modal_main_view}>
 

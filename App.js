@@ -4,8 +4,9 @@ import {
   Text,
   ActivityIndicator,
   View,
-  StatusBar,
+  StatusBar
 } from "react-native";
+
 import AppNavigator from "./src/Routes";
 import { useFonts } from "expo-font";
 import { Provider } from "react-redux";
@@ -48,6 +49,8 @@ export default function App() {
   } else {
     return (
       <View style={{ flex: 1 }}>
+        
+        
         <Provider store={Store}>
           <AppNavigator style={styles.container} />
           {/* <LoginPage /> */}

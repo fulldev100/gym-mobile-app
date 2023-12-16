@@ -19,7 +19,7 @@ const lang_region = [
         label: t("England")
     },
     {
-        value: "sl",
+        value: "sk",
         label: t("Slovakia")
     }
   ];

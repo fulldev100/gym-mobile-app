@@ -22,6 +22,7 @@ import {
   loadingStart,
   fetchMemberAndStaffAction,
 } from "../../redux/actions/message";
+import { Input } from "native-base";
 class compose extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
@@ -346,7 +347,7 @@ class compose extends Component {
 
                 <Row style={styleCss.compose_message_row}>
                   <TouchableOpacity style={styleCss.compose_message_text}>
-                    <Textarea
+                    <Input
                       style={styleCss.compose_message_input}
                       placeholder={t("Add Message")}
                       placeholderTextColor={"#BAB9B9"}

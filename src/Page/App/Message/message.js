@@ -11,7 +11,7 @@ import { Col, Row } from 'react-native-easy-grid';
 import MessageTab from './messageTab.js';
 import { t } from '../../../../locals';
 import styleCss from '../../../style.js';
-export default class Message extends Component {
+class Message extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -85,5 +85,6 @@ export default class Message extends Component {
                 </View>
             );
     }
-
 }
+
+export default Message;

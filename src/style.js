@@ -63,7 +63,7 @@ export default StyleSheet.create({
     MembershipCard: {
         ...Platform.select({
             ios: {
-                height: normalize(175),
+                height: normalize(200),
                 backgroundColor: 'transparent',
                 color: '#656565',
                 justifyContent: 'center',
@@ -78,7 +78,7 @@ export default StyleSheet.create({
                 marginTop: 10
             },
             android: {
-                height: normalize(150),
+                height: normalize(175),
                 backgroundColor: 'transparent',
                 color: '#656565',
                 alignSelf: 'center',
@@ -202,7 +202,7 @@ export default StyleSheet.create({
         fontWeight: 'bold',
         fontFamily: 'Poppins-Regular',
         textAlign: 'center',
-        marginBottom: 30
+        marginBottom: 10
     },
     MembershipTitleText: {
         color: '# ',
@@ -765,8 +765,7 @@ export default StyleSheet.create({
 
     signup_personal_list_item_image: {
         height: 22,
-        width: 22,
-        color: 'white'
+        width: 22
     },
     signup_required_col: {
         width: '85%'
@@ -826,14 +825,14 @@ export default StyleSheet.create({
         fontFamily: 'Poppins-SemiBold'
     },
     signup_account_created_row: {
-        marginRight: normalize(70),
-        marginLeft: normalize(70),
+        marginRight: normalize(60),
+        marginLeft: normalize(60),
         marginTop: '5%',
         justifyContent: 'center',
         alignItems: 'center'
     },
     signup_account_created_col: {
-        width: '80%'
+        width: '75%'
     },
     signup_account_created_text: {
         color: 'gray',
@@ -841,7 +840,7 @@ export default StyleSheet.create({
         fontFamily: 'Poppins-Regular'
     },
     signup_login_col: {
-        width: '20%'
+        width: '25%'
     },
     signup_login_button: {
         height: 50,
@@ -3527,8 +3526,7 @@ export default StyleSheet.create({
         flex: 1,
         justifyContent: 'flex-end',
         alignItems: 'flex-end',
-        marginTop: 10,
-        display: 'none'
+        marginTop: 10
     },
     button: {
         backgroundColor: 'lightgray',

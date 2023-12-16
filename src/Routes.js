@@ -9,7 +9,6 @@ import RegistrationPage from "./Page/Auth/RegistrationPage";
 import Dashboard from "./Page/App/Dashboard";
 
 import staffDashboard from "./Page/App/Staff/staffDashboard";
-
 // import staffDrawer from "./Page/App/Staff/StaffdrawerStack";
 import DropdownAlert from "react-native-dropdownalert";
 import NetInfo from "@react-native-community/netinfo";
