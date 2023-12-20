@@ -63,7 +63,6 @@ export default StyleSheet.create({
     MembershipCard: {
         ...Platform.select({
             ios: {
-                height: normalize(200),
                 backgroundColor: 'transparent',
                 color: '#656565',
                 justifyContent: 'center',
@@ -75,10 +74,11 @@ export default StyleSheet.create({
                 borderColor: 'black',
                 borderRadius: 1,
                 borderWidth: 1,
-                marginTop: 10
+                marginTop: 20,
+                paddingTop: 30,
+                paddingBottom: 30
             },
             android: {
-                height: normalize(175),
                 backgroundColor: 'transparent',
                 color: '#656565',
                 alignSelf: 'center',
@@ -89,7 +89,9 @@ export default StyleSheet.create({
                 borderColor: 'black',
                 borderRadius: 1,
                 borderWidth: 1,
-                marginTop: 10
+                paddingTop: 30,
+                paddingBottom: 30,
+                marginTop: 20,
             }
         })
     },
